@@ -8,7 +8,8 @@
         "start": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "pre-commit": "pnpm exec prettier . --write --log-level warn && pnpm exec eslint"
     },
     "dependencies": {
         "@mantine/core": "^7.13.3",

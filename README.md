@@ -44,11 +44,10 @@ pnpm start
 
 All code should conform to [Prettier](https://prettier.io/) style guidelines and the [ESLint](https://eslint.org/) specification in order to be considered for merge.
 
-There is likely a plugins for each tool in your editor, but you can also run the following commands in the root directory of the terminal:
+There is likely a plugins for each tool in your editor, but you can also run the following in the root directory in your terminal:
 
 ```bash
-pnpm exec prettier . --write
-pnpm exec eslint
+pnpm run pre-commit
 ```
 
 ## **Contributing**
