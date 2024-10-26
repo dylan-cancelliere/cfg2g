@@ -1,8 +1,6 @@
 pnpm-lock.yaml
-.pnpm-store/
-
-src/routeTree.gen.ts
 
 node_modules/
-build/
-src/gql/
+server/node_modules/
+
+dist/

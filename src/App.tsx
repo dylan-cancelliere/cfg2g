@@ -82,7 +82,7 @@ export default function App() {
                                 name: raw.values[0].formattedValue,
                                 notes: raw.values[1].formattedValue,
                                 severity: raw.values[2].formattedValue,
-                            } as Company),
+                            }) as Company,
                     ),
                 );
             })
