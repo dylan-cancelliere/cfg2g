@@ -2,12 +2,8 @@ import "./App.css";
 import { useEffect, useMemo, useState } from "react";
 import { MantineReactTable, useMantineReactTable, type MRT_ColumnDef } from "mantine-react-table";
 import { Box, Loader, Text } from "@mantine/core";
-
-type Company = {
-    name: string;
-    notes?: string;
-    severity: string;
-};
+import { getSeverityChips } from "./severity";
+import { Company, Severity, SeverityList } from "./types";
 
 type Cell = {
     values: { effectiveFormat: unknown; effectiveValue: unknown; formattedValue: string; userEnteredValue: unknown }[];
@@ -19,10 +15,6 @@ function Table({ data }: { data: Company[] }) {
         pageSize: 10,
     });
 
-    useEffect(() => {
-        console.log("PAGE SIZE", pagination.pageSize);
-    }, [pagination.pageSize]);
-
     const columns = useMemo<MRT_ColumnDef<Company>[]>(
         () => [
             {
@@ -30,12 +22,21 @@ function Table({ data }: { data: Company[] }) {
                 header: "Name",
             },
             {
-                accessorFn: (c) => c.notes,
+                accessorKey: "notes",
                 header: "Notes",
             },
             {
-                accessorFn: (c) => c.severity,
+                accessorKey: "severity",
                 header: "Severity",
+                Cell: ({ renderedCellValue }) => {
+                    return getSeverityChips(renderedCellValue as string);
+                },
+                filterVariant: "multi-select",
+                sortingFn: (a, b, colId) => {
+                    const aVal: Severity = a.getValue(colId);
+                    const bVal: Severity = b.getValue(colId);
+                    return SeverityList.indexOf(aVal) - SeverityList.indexOf(bVal);
+                },
             },
         ],
         [],
@@ -44,8 +45,10 @@ function Table({ data }: { data: Company[] }) {
     const table = useMantineReactTable({
         columns,
         data,
+        enableFacetedValues: true,
         initialState: {
             isFullScreen: true,
+            showColumnFilters: true,
         },
         mantinePaginationProps: {
             rowsPerPageOptions: ["10", "20", "50", "All"],
@@ -53,7 +56,7 @@ function Table({ data }: { data: Company[] }) {
         onPaginationChange: setPagination,
         state: {
             pagination: {
-                pageIndex: 0,
+                pageIndex: isNaN(pagination.pageSize) ? 0 : pagination.pageIndex,
                 pageSize: isNaN(pagination.pageSize) ? 999 : pagination.pageSize,
             },
         },
