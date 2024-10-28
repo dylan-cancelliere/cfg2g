@@ -70,3 +70,4 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Landing page
 -   Space to advertise community events/mutual aid efforts
 -   RSS Feed or similar of SJP@RIT socials posts
+-   Upcoming campus events/company visits, linked back to our guide
