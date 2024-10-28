@@ -1,6 +1,7 @@
+import { useMediaQuery } from "@mantine/hooks";
 import "./__root.css";
 
-import { ActionIcon, Group, Tooltip } from "@mantine/core";
+import { ActionIcon, Group, Tooltip, useMantineTheme } from "@mantine/core";
 import { IconBrandDiscord, IconBrandInstagram, IconBrandLinktree } from "@tabler/icons-react";
 import { createRootRoute, Link, Outlet, ReactNode } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
@@ -24,6 +25,9 @@ function SocialsIcon({ label, link, icon }: { label: string; link: string; icon:
 }
 
 function TopBar() {
+    const theme = useMantineTheme();
+    const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
+
     return (
         <Group
             style={{
@@ -35,12 +39,14 @@ function TopBar() {
                 width: "calc(100vw - 2 * 8px)",
             }}
         >
-            <Group>
+            <Group style={{ display: "flex", flexDirection: isBreakpoint ? "column" : undefined }}>
                 <Link to="/">Home</Link> <Link to="/about">About</Link> <Link to="/guide">Guide</Link>
             </Group>
             <Group
                 style={{
                     paddingRight: "1rem",
+                    display: "flex",
+                    flexDirection: isBreakpoint ? "column" : undefined,
                 }}
             >
                 <SocialsIcon label="Instagram" link="https://www.instagram.com/sjp.rit/" icon={<IconBrandInstagram size="3rem" />} />
