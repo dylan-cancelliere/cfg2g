@@ -5,16 +5,19 @@ import {
     IconInfoCircle,
     IconTriangleInvertedFilled,
 } from "@tabler/icons-react";
-import { Chip, Text, Tooltip } from "@mantine/core";
+import { Chip, Popover, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
 export function TableChip({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) {
     return isMobile ? (
-        <Tooltip label={text}>
-            <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
-                {" "}
-            </Chip>
-        </Tooltip>
+        <Popover>
+            <Popover.Target>
+                <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
+                    {" "}
+                </Chip>
+            </Popover.Target>
+            <Popover.Dropdown>{text}</Popover.Dropdown>
+        </Popover>
     ) : (
         <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
             <Text fw={500} pl="0.2rem">

@@ -15,14 +15,22 @@ function Table({ data }: { data: Company[] }) {
         pageIndex: 0,
         pageSize: 10,
     });
+    const [colVisibility, setColVisibility] = useState({});
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
+
+    useEffect(() => {
+        if (isMobile) {
+            setColVisibility({ notes: false });
+        }
+    }, [isMobile]);
 
     const columns = useMemo<MRT_ColumnDef<Company>[]>(
         () => [
             {
                 accessorKey: "name",
                 header: "Name",
+                minSize: 200,
             },
             {
                 accessorKey: "severity",
@@ -50,7 +58,6 @@ function Table({ data }: { data: Company[] }) {
         data,
         enableFacetedValues: true,
         enableFullScreenToggle: false,
-        // enableColumnResizing: true,
         initialState: {
             isFullScreen: false,
             showColumnFilters: true,
@@ -59,11 +66,13 @@ function Table({ data }: { data: Company[] }) {
             rowsPerPageOptions: ["10", "20", "50", "All"],
         },
         onPaginationChange: setPagination,
+        onColumnVisibilityChange: setColVisibility,
         state: {
             pagination: {
                 pageIndex: isNaN(pagination.pageSize) ? 0 : pagination.pageIndex,
                 pageSize: isNaN(pagination.pageSize) ? 999 : pagination.pageSize,
             },
+            columnVisibility: colVisibility,
         },
     });
 
