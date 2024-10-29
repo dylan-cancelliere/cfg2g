@@ -1,6 +1,6 @@
 import { Box, Group, Image, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { createFileRoute, ReactNode } from "@tanstack/react-router";
+import { createFileRoute, Link, ReactNode } from "@tanstack/react-router";
 
 function ImageFrame({ children }: ReactNode) {
     return (
@@ -13,6 +13,41 @@ function ImageFrame({ children }: ReactNode) {
             }}
         >
             {children}
+        </Box>
+    );
+}
+
+function LearnMore() {
+    return (
+        <Box
+            style={{
+                backgroundColor: "var(--mantine-color-green-0)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "4rem",
+                border: "0.5rem solid var(--mantine-color-green-8)",
+            }}
+        >
+            <Title order={2} style={{ fontFamily: "Noe Bold" }}>
+                Learn more about SJP@RIT
+            </Title>
+            <Group
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    paddingTop: "4rem",
+                    width: "100%",
+                }}
+            >
+                <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
+                    <Link to="/about">About</Link>
+                </Box>
+                <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
+                    <Link to="/guide">Career Fair Guide</Link>
+                </Box>
+            </Group>
         </Box>
     );
 }
@@ -65,6 +100,7 @@ function LandingPage() {
                     <Image src="/landing-page-3.jpg" h="auto" w={isBreakpoint ? "80vw" : 380} style={{}} />
                 </ImageFrame>
             </Box>
+            <LearnMore />
         </Box>
     );
 }

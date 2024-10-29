@@ -1,9 +1,10 @@
 import "./CareerFairTable.css";
 import { useEffect, useMemo, useState } from "react";
 import { MantineReactTable, useMantineReactTable, type MRT_ColumnDef } from "mantine-react-table";
-import { Box, Loader, Text } from "@mantine/core";
-import { getSeverityChips } from "src/severity";
+import { Box, Loader, Text, useMantineTheme } from "@mantine/core";
 import { Company, Severity, SeverityList } from "src/types";
+import { SeverityChip } from "src/severity";
+import { useMediaQuery } from "@mantine/hooks";
 
 type Cell = {
     values: { effectiveFormat: unknown; effectiveValue: unknown; formattedValue: string; userEnteredValue: unknown }[];
@@ -14,6 +15,8 @@ function Table({ data }: { data: Company[] }) {
         pageIndex: 0,
         pageSize: 10,
     });
+    const theme = useMantineTheme();
+    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
 
     const columns = useMemo<MRT_ColumnDef<Company>[]>(
         () => [
@@ -22,14 +25,10 @@ function Table({ data }: { data: Company[] }) {
                 header: "Name",
             },
             {
-                accessorKey: "notes",
-                header: "Notes",
-            },
-            {
                 accessorKey: "severity",
                 header: "Severity",
                 Cell: ({ renderedCellValue }) => {
-                    return getSeverityChips(renderedCellValue as string);
+                    return <SeverityChip severity={renderedCellValue as string} isMobile={!!isMobile} />;
                 },
                 filterVariant: "multi-select",
                 sortingFn: (a, b, colId) => {
@@ -38,16 +37,22 @@ function Table({ data }: { data: Company[] }) {
                     return SeverityList.indexOf(aVal) - SeverityList.indexOf(bVal);
                 },
             },
+            {
+                accessorKey: "notes",
+                header: "Notes",
+            },
         ],
-        [],
+        [isMobile],
     );
 
     const table = useMantineReactTable({
         columns,
         data,
         enableFacetedValues: true,
+        enableFullScreenToggle: false,
+        // enableColumnResizing: true,
         initialState: {
-            isFullScreen: true,
+            isFullScreen: false,
             showColumnFilters: true,
         },
         mantinePaginationProps: {
@@ -63,9 +68,9 @@ function Table({ data }: { data: Company[] }) {
     });
 
     return (
-        <>
+        <Box style={{ width: "100%", height: "100%" }}>
             <MantineReactTable table={table} />
-        </>
+        </Box>
     );
 }
 
@@ -99,6 +104,7 @@ export function CareerFairTable() {
                 flexDirection: "column",
                 alignItems: "center",
             }}
+            className="AHHHH"
         >
             {companies === undefined ? (
                 <>

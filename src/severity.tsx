@@ -5,50 +5,36 @@ import {
     IconInfoCircle,
     IconTriangleInvertedFilled,
 } from "@tabler/icons-react";
-import { Chip, Text } from "@mantine/core";
+import { Chip, Text, Tooltip } from "@mantine/core";
 import { ReactNode } from "react";
 
-export function getSeverityChips(severity: string): ReactNode {
+export function TableChip({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) {
+    return isMobile ? (
+        <Tooltip label={text}>
+            <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
+                {" "}
+            </Chip>
+        </Tooltip>
+    ) : (
+        <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
+            <Text fw={500} pl="0.2rem">
+                {text}
+            </Text>
+        </Chip>
+    );
+}
+
+export function SeverityChip({ severity, isMobile }: { severity: string; isMobile: boolean }) {
     switch (severity) {
         case "No Significant Investment":
-            return (
-                <Chip checked color="green" icon={<IconCircleCheck />} classNames={{ iconWrapper: "iconWrapper" }}>
-                    <Text fw={500} pl="0.2rem">
-                        {severity}
-                    </Text>
-                </Chip>
-            );
+            return <TableChip text={severity} color="green" isMobile={isMobile} icon={<IconCircleCheck />} />;
         case "Minimal Involvement":
-            return (
-                <Chip checked color="yellow" icon={<IconInfoCircle />} classNames={{ iconWrapper: "iconWrapper" }}>
-                    <Text fw={500} pl="0.2rem">
-                        {severity}
-                    </Text>
-                </Chip>
-            );
+            return <TableChip text={severity} color="yellow" isMobile={isMobile} icon={<IconInfoCircle />} />;
         case "Moderate":
-            return (
-                <Chip checked color="orange" icon={<IconAlertTriangleFilled />} classNames={{ iconWrapper: "iconWrapper" }}>
-                    <Text fw={500} pl="0.2rem">
-                        {severity}
-                    </Text>
-                </Chip>
-            );
+            return <TableChip text={severity} color="orange" isMobile={isMobile} icon={<IconAlertTriangleFilled />} />;
         case "Severe":
-            return (
-                <Chip checked color="red" icon={<IconTriangleInvertedFilled />} classNames={{ iconWrapper: "iconWrapper" }}>
-                    <Text fw={500} pl="0.2rem">
-                        {severity}
-                    </Text>
-                </Chip>
-            );
+            return <TableChip text={severity} color="red" isMobile={isMobile} icon={<IconTriangleInvertedFilled />} />;
         default:
-            return (
-                <Chip checked color="grey" icon={<IconHelpHexagonFilled />} classNames={{ iconWrapper: "iconWrapper" }}>
-                    <Text fw={500} pl="0.2rem">
-                        {severity}
-                    </Text>
-                </Chip>
-            );
+            return <TableChip text={severity} color="grey" isMobile={isMobile} icon={<IconHelpHexagonFilled />} />;
     }
 }
