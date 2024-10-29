@@ -21,7 +21,8 @@
         "noFallthroughCasesInSwitch": true,
 
         "paths": {
-            "src/*": ["./src/*"]
+            "src/*": ["./src/*"],
+            "public/*": ["./public/*"]
         }
     },
     "include": ["src"]
