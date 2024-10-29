@@ -8,7 +8,7 @@ import {
 import { Chip, Popover, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
-export function TableChip({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) {
+function TableChip({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) {
     return isMobile ? (
         <Popover>
             <Popover.Target>

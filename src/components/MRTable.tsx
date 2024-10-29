@@ -1,16 +1,11 @@
-import "./CareerFairTable.css";
-import { useEffect, useMemo, useState } from "react";
-import { MantineReactTable, useMantineReactTable, type MRT_ColumnDef } from "mantine-react-table";
-import { Box, Loader, Text, useMantineTheme } from "@mantine/core";
-import { Company, Severity, SeverityList } from "src/types";
-import { SeverityChip } from "src/severity";
+import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { MRT_ColumnDef, useMantineReactTable, MantineReactTable } from "mantine-react-table";
+import { useState, useEffect, useMemo } from "react";
+import { Company, Severity, SeverityList } from "src/types";
+import { SeverityChip } from "./SeverityChip";
 
-type Cell = {
-    values: { effectiveFormat: unknown; effectiveValue: unknown; formattedValue: string; userEnteredValue: unknown }[];
-};
-
-function Table({ data }: { data: Company[] }) {
+export function MRTable({ data }: { data: Company[] }) {
     const [pagination, setPagination] = useState({
         pageIndex: 0,
         pageSize: 10,
@@ -24,6 +19,15 @@ function Table({ data }: { data: Company[] }) {
             setColVisibility({ notes: false });
         }
     }, [isMobile]);
+
+    // Doing this to override the grid line color in the table. Surely a better way to do this???
+    // see https://www.mantine-react-table.com/docs/guides/customize-components#important-theme-values-used-by-mantine-react-table
+    const gray = theme.colors.gray;
+    const newTheme = createTheme({
+        colors: {
+            gray: [gray[0], gray[1], gray[2], theme.colors.green[8], gray[4], gray[5], gray[6], gray[7], gray[8], gray[9]],
+        },
+    });
 
     const columns = useMemo<MRT_ColumnDef<Company>[]>(
         () => [
@@ -78,51 +82,9 @@ function Table({ data }: { data: Company[] }) {
 
     return (
         <Box style={{ width: "100%", height: "100%" }}>
-            <MantineReactTable table={table} />
-        </Box>
-    );
-}
-
-export function CareerFairTable() {
-    const [companies, setCompanies] = useState<Company[] | undefined>(undefined);
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_BASE_URL}/data`)
-            .then(async (res) => {
-                const { data } = await res.json();
-                setCompanies(
-                    data?.data?.sheets[0]?.data[0]?.rowData?.map(
-                        (raw: Cell) =>
-                            ({
-                                name: raw.values[0].formattedValue,
-                                notes: raw.values[1].formattedValue,
-                                severity: raw.values[2].formattedValue,
-                            }) as Company,
-                    ),
-                );
-            })
-            .catch((e) => console.warn("Error retrieving data:", e));
-    }, []);
-
-    return (
-        <Box
-            style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-            className="AHHHH"
-        >
-            {companies === undefined ? (
-                <>
-                    <Text>Loading...</Text>
-                    <Loader />
-                </>
-            ) : (
-                <Table data={companies} />
-            )}
+            <MantineProvider theme={newTheme}>
+                <MantineReactTable table={table} />
+            </MantineProvider>
         </Box>
     );
 }

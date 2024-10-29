@@ -69,9 +69,9 @@ button:focus-visible {
 }
 
 :root[data-mantine-color-scheme="light"] {
-  --mantine-color-body: var(--mantine-color-green-2) !important;
+    --mantine-color-body: var(--mantine-color-green-2) !important;
 }
 
 :root[data-mantine-color-scheme="dark"] {
-  --mantine-color-body: var(--mantine-color-green-8) !important;
+    --mantine-color-body: var(--mantine-color-green-8) !important;
 }

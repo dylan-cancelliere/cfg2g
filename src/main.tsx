@@ -8,6 +8,7 @@ import "mantine-react-table/styles.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import { fetchData } from "./api";
 
 const theme = createTheme({
     autoContrast: true,
@@ -16,7 +17,12 @@ const theme = createTheme({
     },
 });
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+    routeTree,
+    context: {
+        fetchData,
+    },
+});
 
 declare module "@tanstack/react-router" {
     interface Register {

@@ -1,19 +1,18 @@
-a{
+a {
     font-family: "Noe";
     font-size: 3em;
     padding: 0 1rem;
     color: var(--mantine-color-green-8);
 
     &.active {
-        font-family: 'Noe Bold'
+        font-family: "Noe Bold";
     }
 
     &:hover {
         color: var(--mantine-color-green-0);
     }
-
 }
 
-.icon .mantine-focus-auto .mantine-active mantine-ActionIcon-root{
+.icon .mantine-focus-auto .mantine-active mantine-ActionIcon-root {
     border-color: var(--mantine-color-green-0);
 }
