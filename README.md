@@ -5,6 +5,7 @@
 ![TypeScript](https://badgen.net/badge/TypeScript/5.5.3/blue)
 ![Node.js](https://badgen.net/badge/Node.js/20.0.0/green)
 ![React](https://badgen.net/badge/React/18.3.1/cyan)
+![TanStackRouter](https://badgen.net/badge/TanStackRouter/1.77/yellow)
 
 </div>
 

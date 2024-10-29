@@ -6,3 +6,6 @@ export type Company = {
     notes?: string;
     severity: string;
 };
+export type Cell = {
+    values: { effectiveFormat: unknown; effectiveValue: unknown; formattedValue: string; userEnteredValue: unknown }[];
+};

@@ -5,31 +5,27 @@
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    width: 100vw;
+    width: 99vw - 1;
     height: 100vh;
 }
 
 a {
     font-weight: 500;
-    color: #646cff;
     text-decoration: inherit;
 }
 a:hover {
-    color: #535bf2;
+    color: var(--mantine-color-green-0);
 }
 
 body {
-    margin: 0;
-    display: flex;
-    place-items: center;
     min-width: 320px;
     min-height: 100vh;
+    margin: 0;
 }
 
 h1 {
@@ -44,27 +40,38 @@ button {
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
-}
-button:hover {
-    border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-    a:hover {
-        color: #747bff;
-    }
-    button {
-        background-color: #f9f9f9;
-    }
+@font-face {
+    font-family: "Noe Bold Italic";
+    src: url("/fonts/noe-display-bold-italic.ttf");
+}
+
+@font-face {
+    font-family: "Noe Bold";
+    src: url("/fonts/noe-display-bold.otf");
+}
+
+@font-face {
+    font-family: "Noe Italic";
+    src: url("/fonts/noe-display-regular-italic.ttf");
+}
+
+@font-face {
+    font-family: "Noe";
+    src: url("/fonts/noe-display-regular.ttf");
+}
+
+:root[data-mantine-color-scheme="light"] {
+    --mantine-color-body: var(--mantine-color-green-2) !important;
+}
+
+:root[data-mantine-color-scheme="dark"] {
+    --mantine-color-body: var(--mantine-color-green-8) !important;
 }
