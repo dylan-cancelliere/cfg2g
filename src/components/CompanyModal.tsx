@@ -29,7 +29,7 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             <Modal.Title>
                 <Group style={{ backgroundColor: "var(--mantine-color-green-0)" }} h={rem(100)} w="100%" p="md" justify="space-around">
                     <Title order={3}>{company.name}</Title>
-                    <SeverityChip severity={company.severity} isMobile={false} />
+                    <SeverityChip severity={company.severity} />
                 </Group>
                 <Divider mx="md" color="var(--mantine-color-green-8)" />
             </Modal.Title>
@@ -48,6 +48,7 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                             style={{
                                 backgroundColor: "var(--mantine-color-white)",
                                 border: "calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-gray-4)",
+                                borderRadius: rem(4),
                                 padding: `${rem(5.5)} ${rem(12)}`,
                                 overflowY: "auto",
                             }}

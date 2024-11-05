@@ -44,7 +44,7 @@ export function MRTable({ data }: { data: Company[] }) {
                 accessorKey: "severity",
                 header: "Severity",
                 Cell: ({ renderedCellValue }) => {
-                    return <SeverityChip severity={renderedCellValue as string} isMobile={!!isMobile} />;
+                    return <SeverityChip severity={renderedCellValue as string} />;
                 },
                 filterVariant: "multi-select",
                 sortingFn: (a, b, colId) => {
@@ -58,7 +58,7 @@ export function MRTable({ data }: { data: Company[] }) {
                 header: "Notes",
             },
         ],
-        [isMobile],
+        [],
     );
 
     const table = useMantineReactTable({
