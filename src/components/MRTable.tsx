@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Company, Severity, SeverityList } from "src/types";
 import { SeverityChip } from "./SeverityChip";
 
-export function MRTable({ data }: { data: Company[] }) {
+export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boolean }) {
     const [pagination, setPagination] = useState({
         pageIndex: 0,
         pageSize: 10,
@@ -77,6 +77,7 @@ export function MRTable({ data }: { data: Company[] }) {
                 pageSize: isNaN(pagination.pageSize) ? 999 : pagination.pageSize,
             },
             columnVisibility: colVisibility,
+            isLoading: isLoading,
         },
     });
 

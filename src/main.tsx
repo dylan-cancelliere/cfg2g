@@ -19,6 +19,7 @@ const theme = createTheme({
 
 const router = createRouter({
     routeTree,
+    defaultPreload: "intent",
     context: {
         fetchData,
     },
