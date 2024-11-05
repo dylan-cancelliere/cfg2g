@@ -1,9 +1,10 @@
 import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { MRT_ColumnDef, useMantineReactTable, MantineReactTable } from "mantine-react-table";
 import { useState, useEffect, useMemo } from "react";
 import { Company, Severity, SeverityList } from "src/types";
 import { SeverityChip } from "./SeverityChip";
+import { CompanyModal } from "./CompanyModal";
 
 export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boolean }) {
     const [pagination, setPagination] = useState({
@@ -11,6 +12,9 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
         pageSize: 10,
     });
     const [colVisibility, setColVisibility] = useState({});
+    const [modalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
+    const [company, setCompany] = useState(data[0]);
+
     const theme = useMantineTheme();
     const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
 
@@ -40,7 +44,7 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
                 accessorKey: "severity",
                 header: "Severity",
                 Cell: ({ renderedCellValue }) => {
-                    return <SeverityChip severity={renderedCellValue as string} isMobile={!!isMobile} />;
+                    return <SeverityChip severity={renderedCellValue as string} />;
                 },
                 filterVariant: "multi-select",
                 sortingFn: (a, b, colId) => {
@@ -54,7 +58,7 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
                 header: "Notes",
             },
         ],
-        [isMobile],
+        [],
     );
 
     const table = useMantineReactTable({
@@ -79,13 +83,25 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
             columnVisibility: colVisibility,
             isLoading: isLoading,
         },
+        mantineTableBodyRowProps: ({ row }) => ({
+            onClick: () => {
+                setCompany(data[parseInt(row.id)]);
+                openModal();
+            },
+            sx: {
+                cursor: "pointer",
+            },
+        }),
     });
 
     return (
-        <Box style={{ width: "100%", height: "100%" }}>
-            <MantineProvider theme={newTheme}>
-                <MantineReactTable table={table} />
-            </MantineProvider>
-        </Box>
+        <>
+            <CompanyModal company={company} opened={modalOpened} onClose={closeModal} />
+            <Box style={{ width: "100%", height: "100%" }}>
+                <MantineProvider theme={newTheme}>
+                    <MantineReactTable table={table} />
+                </MantineProvider>
+            </Box>
+        </>
     );
 }
