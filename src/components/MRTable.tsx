@@ -62,10 +62,12 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
         data,
         enableFacetedValues: true,
         enableFullScreenToggle: false,
+        enableStickyHeader: true,
         initialState: {
             isFullScreen: false,
             showColumnFilters: true,
         },
+        mantineTableContainerProps: { style: { maxHeight: "73vh" } },
         mantinePaginationProps: {
             rowsPerPageOptions: ["10", "20", "50", "All"],
         },
@@ -82,7 +84,7 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
     });
 
     return (
-        <Box style={{ width: "100%", height: "100%" }}>
+        <Box w="100%" p="0 0.5rem 0.5rem 0.5rem">
             <MantineProvider theme={newTheme}>
                 <MantineReactTable table={table} />
             </MantineProvider>
