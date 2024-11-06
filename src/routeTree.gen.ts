@@ -10,102 +10,123 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as AboutImport } from "./routes/about";
-import { Route as GuideRouteImport } from "./routes/guide/route";
-import { Route as IndexImport } from "./routes/index";
+import { Route as rootRoute } from './routes/__root'
+import { Route as ContactImport } from './routes/contact'
+import { Route as AboutImport } from './routes/about'
+import { Route as GuideRouteImport } from './routes/guide/route'
+import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
+const ContactRoute = ContactImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AboutRoute = AboutImport.update({
-    id: "/about",
-    path: "/about",
-    getParentRoute: () => rootRoute,
-} as any);
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const GuideRouteRoute = GuideRouteImport.update({
-    id: "/guide",
-    path: "/guide",
-    getParentRoute: () => rootRoute,
-} as any);
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
-    id: "/",
-    path: "/",
-    getParentRoute: () => rootRoute,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
-    interface FileRoutesByPath {
-        "/": {
-            id: "/";
-            path: "/";
-            fullPath: "/";
-            preLoaderRoute: typeof IndexImport;
-            parentRoute: typeof rootRoute;
-        };
-        "/guide": {
-            id: "/guide";
-            path: "/guide";
-            fullPath: "/guide";
-            preLoaderRoute: typeof GuideRouteImport;
-            parentRoute: typeof rootRoute;
-        };
-        "/about": {
-            id: "/about";
-            path: "/about";
-            fullPath: "/about";
-            preLoaderRoute: typeof AboutImport;
-            parentRoute: typeof rootRoute;
-        };
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
     }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactImport
+      parentRoute: typeof rootRoute
+    }
+  }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-    "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+  '/': typeof IndexRoute
+  '/guide': typeof GuideRouteRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
 }
 
 export interface FileRoutesByTo {
-    "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+  '/': typeof IndexRoute
+  '/guide': typeof GuideRouteRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
 }
 
 export interface FileRoutesById {
-    __root__: typeof rootRoute;
-    "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/guide': typeof GuideRouteRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
 }
 
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath;
-    fullPaths: "/" | "/guide" | "/about";
-    fileRoutesByTo: FileRoutesByTo;
-    to: "/" | "/guide" | "/about";
-    id: "__root__" | "/" | "/guide" | "/about";
-    fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/guide' | '/about' | '/contact'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/guide' | '/about' | '/contact'
+  id: '__root__' | '/' | '/guide' | '/about' | '/contact'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-    IndexRoute: typeof IndexRoute;
-    GuideRouteRoute: typeof GuideRouteRoute;
-    AboutRoute: typeof AboutRoute;
+  IndexRoute: typeof IndexRoute
+  GuideRouteRoute: typeof GuideRouteRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-    IndexRoute: IndexRoute,
-    GuideRouteRoute: GuideRouteRoute,
-    AboutRoute: AboutRoute,
-};
+  IndexRoute: IndexRoute,
+  GuideRouteRoute: GuideRouteRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+}
 
-export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
@@ -117,7 +138,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "children": [
         "/",
         "/guide",
-        "/about"
+        "/about",
+        "/contact"
       ]
     },
     "/": {
@@ -128,6 +150,9 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/contact": {
+      "filePath": "contact.tsx"
     }
   }
 }

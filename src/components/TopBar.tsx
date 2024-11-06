@@ -38,7 +38,7 @@ export function TopBar() {
             }}
         >
             <Group style={{ display: "flex", flexDirection: isBreakpoint ? "column" : undefined }}>
-                <Link to="/">Home</Link> <Link to="/about">About</Link> <Link to="/guide">Guide</Link>
+                <Link to="/">Home</Link> <Link to="/about">About</Link> <Link to="/guide">Guide</Link> <Link to="/contact">Contact</Link>
             </Group>
             <Group
                 style={{
