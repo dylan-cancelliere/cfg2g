@@ -11,7 +11,6 @@ const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
             style={{
                 position: "relative",
                 width: "100%",
-                height: "100%",
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
