@@ -61,7 +61,7 @@ If you're a part of a different SJP or similar organization and are interested i
 
 ## **Data Sources**
 
-All data provided by this site is exclusively the opinion of its individual author, supplemented by sources you may find linked. Any questions, concerns, or comments about the ratings should be left in the Discord, or where appropriate [sjprit@proton.me](mailto:sjprit@proton.me).
+All data provided by this site is exclusively the opinion of its individual author, supplemented by sources you may find linked. Any questions, concerns, or comments about the ratings should be left in the Discord.
 
 ## Current Planned Features
 
