@@ -1,3 +1,4 @@
+import "./index.css";
 import { Box, Group, Image, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { createFileRoute, Link, ReactNode } from "@tanstack/react-router";
@@ -42,10 +43,14 @@ function LearnMore() {
                 }}
             >
                 <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
-                    <Link to="/about">About</Link>
+                    <Link to="/about" className="link">
+                        About
+                    </Link>
                 </Box>
                 <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
-                    <Link to="/guide">Career Fair Guide</Link>
+                    <Link to="/guide" className="link">
+                        Career Fair Guide
+                    </Link>
                 </Box>
             </Group>
         </Box>

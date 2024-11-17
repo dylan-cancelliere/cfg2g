@@ -29,7 +29,7 @@ const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => 
         <Menu shadow="md" width="min-content" trigger="hover">
             <Menu.Target>
                 <Group className="textDropdown" style={{ gap: 0, cursor: "pointer" }}>
-                    <Link className="topBar" to="/guide/data" onClick={() => false}>
+                    <Link className="topBar" to="/guide" onClick={() => false}>
                         {label}
                     </Link>
                     <IconCaretDownFilled />

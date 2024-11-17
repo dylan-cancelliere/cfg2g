@@ -37,11 +37,11 @@ function ContactPage() {
                 <Text></Text>
                 <Text>
                     If you believe a correction should update our severity ranking, please indicate what the new ranking should be.
-                    Information on how we rank severity can be found on our{" "}
-                    <Link to="/about" className="inlineLink">
-                        Severity Guidelines
+                    Information on how we rank severity, as well as the rest of our methodology can be found on the{" "}
+                    <Link to="/guide/contribute" className="inlineLink">
+                        Contribute
                     </Link>{" "}
-                    document.
+                    page.
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Group>

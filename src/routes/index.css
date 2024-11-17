@@ -1,0 +1,14 @@
+.link {
+    font-family: "Noe Bold";
+    font-size: 2em;
+    padding: 0 1rem;
+    color: var(--mantine-color-green-8);
+
+    &.active {
+        font-family: "Noe Bold";
+    }
+
+    &:hover {
+        color: var(--mantine-color-green-0);
+    }
+}
