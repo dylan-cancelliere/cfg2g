@@ -8,7 +8,7 @@ import "mantine-react-table/styles.css";
 import { MantineProvider, createTheme } from "@mantine/core";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { fetchData } from "./api";
+import { fetchData } from "./shared/api";
 
 const theme = createTheme({
     autoContrast: true,

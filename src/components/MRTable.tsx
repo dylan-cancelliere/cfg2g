@@ -1,8 +1,9 @@
+import "./MRTable.css";
 import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { MRT_ColumnDef, useMantineReactTable, MantineReactTable } from "mantine-react-table";
 import { useState, useEffect, useMemo } from "react";
-import { Company, Severity, SeverityList } from "src/types";
+import { Company, Severity, SeverityList } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
 
 export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boolean }) {
@@ -84,7 +85,7 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
     });
 
     return (
-        <Box w="100%" p="0 0.5rem 0.5rem 0.5rem">
+        <Box w="100%">
             <MantineProvider theme={newTheme}>
                 <MantineReactTable table={table} />
             </MantineProvider>
