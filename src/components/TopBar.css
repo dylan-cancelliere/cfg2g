@@ -1,6 +1,6 @@
-.textDropdown{
+.textDropdown {
     color: var(--mantine-color-green-8);
-    &:hover{
+    &:hover {
         color: var(--mantine-color-green-0);
     }
 }

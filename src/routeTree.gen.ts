@@ -10,180 +10,159 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as ContactImport } from './routes/contact'
-import { Route as IndexImport } from './routes/index'
-import { Route as GuideIndexImport } from './routes/guide/index'
-import { Route as AboutIndexImport } from './routes/about/index'
-import { Route as GuideDataImport } from './routes/guide/data'
-import { Route as GuideContributeImport } from './routes/guide/contribute'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as ContactImport } from "./routes/contact";
+import { Route as AboutRouteImport } from "./routes/about/route";
+import { Route as IndexImport } from "./routes/index";
+import { Route as GuideIndexImport } from "./routes/guide/index";
+import { Route as GuideDataImport } from "./routes/guide/data";
+import { Route as GuideContributeImport } from "./routes/guide/contribute";
 
 // Create/Update Routes
 
 const ContactRoute = ContactImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/contact",
+    path: "/contact",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const AboutRouteRoute = AboutRouteImport.update({
+    id: "/about",
+    path: "/about",
+    getParentRoute: () => rootRoute,
+} as any);
 
 const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/",
+    path: "/",
+    getParentRoute: () => rootRoute,
+} as any);
 
 const GuideIndexRoute = GuideIndexImport.update({
-  id: '/guide/',
-  path: '/guide/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AboutIndexRoute = AboutIndexImport.update({
-  id: '/about/',
-  path: '/about/',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/guide/",
+    path: "/guide/",
+    getParentRoute: () => rootRoute,
+} as any);
 
 const GuideDataRoute = GuideDataImport.update({
-  id: '/guide/data',
-  path: '/guide/data',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/guide/data",
+    path: "/guide/data",
+    getParentRoute: () => rootRoute,
+} as any);
 
 const GuideContributeRoute = GuideContributeImport.update({
-  id: '/guide/contribute',
-  path: '/guide/contribute',
-  getParentRoute: () => rootRoute,
-} as any)
+    id: "/guide/contribute",
+    path: "/guide/contribute",
+    getParentRoute: () => rootRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
+declare module "@tanstack/react-router" {
+    interface FileRoutesByPath {
+        "/": {
+            id: "/";
+            path: "/";
+            fullPath: "/";
+            preLoaderRoute: typeof IndexImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/about": {
+            id: "/about";
+            path: "/about";
+            fullPath: "/about";
+            preLoaderRoute: typeof AboutRouteImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/contact": {
+            id: "/contact";
+            path: "/contact";
+            fullPath: "/contact";
+            preLoaderRoute: typeof ContactImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/contribute": {
+            id: "/guide/contribute";
+            path: "/guide/contribute";
+            fullPath: "/guide/contribute";
+            preLoaderRoute: typeof GuideContributeImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/data": {
+            id: "/guide/data";
+            path: "/guide/data";
+            fullPath: "/guide/data";
+            preLoaderRoute: typeof GuideDataImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/": {
+            id: "/guide/";
+            path: "/guide";
+            fullPath: "/guide";
+            preLoaderRoute: typeof GuideIndexImport;
+            parentRoute: typeof rootRoute;
+        };
     }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactImport
-      parentRoute: typeof rootRoute
-    }
-    '/guide/contribute': {
-      id: '/guide/contribute'
-      path: '/guide/contribute'
-      fullPath: '/guide/contribute'
-      preLoaderRoute: typeof GuideContributeImport
-      parentRoute: typeof rootRoute
-    }
-    '/guide/data': {
-      id: '/guide/data'
-      path: '/guide/data'
-      fullPath: '/guide/data'
-      preLoaderRoute: typeof GuideDataImport
-      parentRoute: typeof rootRoute
-    }
-    '/about/': {
-      id: '/about/'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/guide/': {
-      id: '/guide/'
-      path: '/guide'
-      fullPath: '/guide'
-      preLoaderRoute: typeof GuideIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/contact': typeof ContactRoute
-  '/guide/contribute': typeof GuideContributeRoute
-  '/guide/data': typeof GuideDataRoute
-  '/about': typeof AboutIndexRoute
-  '/guide': typeof GuideIndexRoute
+    "/": typeof IndexRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide": typeof GuideIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/contact': typeof ContactRoute
-  '/guide/contribute': typeof GuideContributeRoute
-  '/guide/data': typeof GuideDataRoute
-  '/about': typeof AboutIndexRoute
-  '/guide': typeof GuideIndexRoute
+    "/": typeof IndexRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide": typeof GuideIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/contact': typeof ContactRoute
-  '/guide/contribute': typeof GuideContributeRoute
-  '/guide/data': typeof GuideDataRoute
-  '/about/': typeof AboutIndexRoute
-  '/guide/': typeof GuideIndexRoute
+    __root__: typeof rootRoute;
+    "/": typeof IndexRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide/": typeof GuideIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/contact'
-    | '/guide/contribute'
-    | '/guide/data'
-    | '/about'
-    | '/guide'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/contact'
-    | '/guide/contribute'
-    | '/guide/data'
-    | '/about'
-    | '/guide'
-  id:
-    | '__root__'
-    | '/'
-    | '/contact'
-    | '/guide/contribute'
-    | '/guide/data'
-    | '/about/'
-    | '/guide/'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath;
+    fullPaths: "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide";
+    fileRoutesByTo: FileRoutesByTo;
+    to: "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide";
+    id: "__root__" | "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide/";
+    fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ContactRoute: typeof ContactRoute
-  GuideContributeRoute: typeof GuideContributeRoute
-  GuideDataRoute: typeof GuideDataRoute
-  AboutIndexRoute: typeof AboutIndexRoute
-  GuideIndexRoute: typeof GuideIndexRoute
+    IndexRoute: typeof IndexRoute;
+    AboutRouteRoute: typeof AboutRouteRoute;
+    ContactRoute: typeof ContactRoute;
+    GuideContributeRoute: typeof GuideContributeRoute;
+    GuideDataRoute: typeof GuideDataRoute;
+    GuideIndexRoute: typeof GuideIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ContactRoute: ContactRoute,
-  GuideContributeRoute: GuideContributeRoute,
-  GuideDataRoute: GuideDataRoute,
-  AboutIndexRoute: AboutIndexRoute,
-  GuideIndexRoute: GuideIndexRoute,
-}
+    IndexRoute: IndexRoute,
+    AboutRouteRoute: AboutRouteRoute,
+    ContactRoute: ContactRoute,
+    GuideContributeRoute: GuideContributeRoute,
+    GuideDataRoute: GuideDataRoute,
+    GuideIndexRoute: GuideIndexRoute,
+};
 
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
 
 /* prettier-ignore-end */
 
@@ -194,15 +173,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/about",
         "/contact",
         "/guide/contribute",
         "/guide/data",
-        "/about/",
         "/guide/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/about": {
+      "filePath": "about/route.tsx"
     },
     "/contact": {
       "filePath": "contact.tsx"
@@ -212,9 +194,6 @@ export const routeTree = rootRoute
     },
     "/guide/data": {
       "filePath": "guide/data.tsx"
-    },
-    "/about/": {
-      "filePath": "about/index.tsx"
     },
     "/guide/": {
       "filePath": "guide/index.tsx"

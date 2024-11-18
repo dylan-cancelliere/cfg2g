@@ -1,10 +1,9 @@
 import "./TopBar.css";
-import { Tooltip, ActionIcon, useMantineTheme, Group, Menu } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { Tooltip, ActionIcon, Group, Menu } from "@mantine/core";
 import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree, IconCaretDownFilled } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
-import { Margin_Full_Width } from "src/shared/hooks";
+import { Margin_Full_Width, useIsMobile } from "src/shared/hooks";
 
 const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon: ReactNode }) => {
     return (
@@ -42,8 +41,7 @@ const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => 
 };
 
 export function TopBar() {
-    const theme = useMantineTheme();
-    const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
+    const isMobile = useIsMobile();
 
     return (
         <Group
@@ -56,7 +54,7 @@ export function TopBar() {
                 width: Margin_Full_Width,
             }}
         >
-            <Group style={{ display: "flex", flexDirection: isBreakpoint ? "column" : undefined }}>
+            <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
                 <Link to="/" className="topBar">
                     Home
                 </Link>{" "}
@@ -82,7 +80,7 @@ export function TopBar() {
                 style={{
                     paddingRight: "1rem",
                     display: "flex",
-                    flexDirection: isBreakpoint ? "column" : undefined,
+                    flexDirection: isMobile ? "column" : undefined,
                 }}
             >
                 <SocialsIcon label="Instagram" link="https://www.instagram.com/sjp.rit/" icon={<IconBrandInstagram size="3rem" />} />
