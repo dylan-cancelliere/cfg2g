@@ -12,6 +12,9 @@
 .bodyLink{
     font-family: "Noe bold";
     color: var(--mantine-color-green-8);
+    background-color: var(--mantine-color-body);
+    padding: 0.1rem 0.1rem 0 0.1rem;
+    border-radius: 0.1rem;
     &:hover{   
         color: var(--mantine-color-green-3);
     }

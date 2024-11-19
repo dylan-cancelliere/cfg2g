@@ -14,7 +14,7 @@ const TableOfContents = () => {
                 borderRadius: 3,
             }}
         >
-            <Title order={4} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
+            <Title order={2} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 Table of Contents
             </Title>
             <Divider style={{ borderColor: "var(--mantine-color-text)" }} />
@@ -60,7 +60,7 @@ const TextWrapper = ({ children }: { children: ReactNode }) => {
 const AboutOurGuideText = () => {
     return (
         <TextWrapper>
-            <Title order={4} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
+            <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="aboutOurGuide" className="headerText">
                     About our guide
                 </a>
@@ -118,7 +118,7 @@ const AboutOurGuideText = () => {
 const WhatWeBelieveInText = () => {
     return (
         <TextWrapper>
-            <Title order={4} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
+            <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="whatWeBelieveIn" className="headerText">
                     What we believe in
                 </a>
@@ -149,7 +149,7 @@ const WhatWeBelieveInText = () => {
 const WhoWeAreText = () => {
     return (
         <TextWrapper>
-            <Title order={4} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
+            <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="whoWeAre" className="headerText">
                     Who we are
                 </a>
@@ -184,16 +184,17 @@ const AboutComponent = () => {
     return (
         <Stack m="0.5rem" pb="2rem" align="center">
             <Group justify="center" gap="xl">
-                <Group
-                    grow={true}
-                    maw="35rem"
-                    style={{
-                        fontSize: "3em",
-                        fontFamily: "Noe bold",
-                        color: "var(--mantine-color-green-8)",
-                    }}
-                >
-                    About Students for Justice in Palestine at RIT
+                <Group grow={true} maw="35rem">
+                    <Title
+                        order={1}
+                        style={{
+                            fontSize: "3em",
+                            fontFamily: "Noe bold",
+                            color: "var(--mantine-color-green-8)",
+                        }}
+                    >
+                        About Students for Justice in Palestine at RIT
+                    </Title>
                 </Group>
                 <Image src="/logo.png" mah="10rem" style={{ filter: "drop-shadow(0 0 0.75rem rgba(149, 157, 165, 0.2))" }} />
             </Group>

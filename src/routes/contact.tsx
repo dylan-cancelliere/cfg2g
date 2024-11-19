@@ -27,41 +27,46 @@ function ContactPage() {
                 }}
             >
                 <Group justify="center">
-                    <Title order={3}>Contact Us</Title>
+                    <Title order={2} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
+                        Contact Us
+                    </Title>
                 </Group>
-                <Text>
+                <Text className="bodyText">
                     Use this form to submit new companies to be added to the guide, additional info or corrections on existing companies, or
                     for general inquiry. When submitting new companies, please include sources backing any claims however obvious they may
                     seem.
                 </Text>
-                <Text></Text>
-                <Text>
+                <Text className="bodyText">
                     If you believe a correction should update our severity ranking, please indicate what the new ranking should be.
                     Information on how we rank severity, as well as the rest of our methodology can be found on the{" "}
-                    <Link to="/guide/contribute" className="inlineLink">
+                    <Link to="/guide/contribute" className="bodyLink">
                         Contribute
                     </Link>{" "}
                     page.
                 </Text>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Group>
-                        <TextInput {...register("contact")} label="Contact Info" placeholder="Enter email..." description="(Optional)" />
+                        <TextInput
+                            {...register("contact")}
+                            label={<Text className="bodyText">Contact Info</Text>}
+                            placeholder="Enter email..."
+                            description="(Optional)"
+                        />
                     </Group>
                     <Group w="100%" pt="md">
                         <Textarea
                             {...register("message")}
-                            label="Message"
+                            label={<Text className="bodyText">Message</Text>}
                             placeholder="Enter a message..."
                             autosize
                             w="100%"
                             minRows={4}
-                            withAsterisk
                         />
                     </Group>
                     <Group pt="md">
                         <Checkbox
                             {...register("consent")}
-                            label="I consent to share this information with SJP @ RIT"
+                            label={<Text className="bodyText">"I consent to share this information with SJP @ RIT"</Text>}
                             color="var(--mantine-color-green-8)"
                         />
                         <Tooltip label="Click the consent checkbox in order to submit" disabled={gaveConsent}>
@@ -72,7 +77,7 @@ function ContactPage() {
                                 color="var(--mantine-color-green-8)"
                                 onClick={(e) => e.preventDefault()}
                             >
-                                Submit
+                                <Text className="bodyText">Submit</Text>
                             </Button>
                         </Tooltip>
                     </Group>
