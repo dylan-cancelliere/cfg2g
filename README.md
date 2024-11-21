@@ -67,7 +67,7 @@ All data provided by this site is exclusively the opinion of its individual auth
 
 -   Public submission page
 -   Expanded view of individual companies
-    -   Could show data like inclusion in BDS, more detailed explanations of claims, a timeline of involvement, etc
+    -   Could show data like inclusion in BDS/Watermelon Index, more detailed explanations of claims, a timeline of involvement, etc
 -   Landing page
 -   Space to advertise community events/mutual aid efforts
 -   RSS Feed or similar of SJP@RIT socials posts
