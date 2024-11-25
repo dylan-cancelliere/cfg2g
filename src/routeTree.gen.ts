@@ -11,27 +11,48 @@
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
-import { Route as AboutImport } from "./routes/about";
-import { Route as GuideRouteImport } from "./routes/guide/route";
+import { Route as ContactImport } from "./routes/contact";
+import { Route as AboutRouteImport } from "./routes/about/route";
 import { Route as IndexImport } from "./routes/index";
+import { Route as GuideIndexImport } from "./routes/guide/index";
+import { Route as GuideDataImport } from "./routes/guide/data";
+import { Route as GuideContributeImport } from "./routes/guide/contribute";
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-    id: "/about",
-    path: "/about",
+const ContactRoute = ContactImport.update({
+    id: "/contact",
+    path: "/contact",
     getParentRoute: () => rootRoute,
 } as any);
 
-const GuideRouteRoute = GuideRouteImport.update({
-    id: "/guide",
-    path: "/guide",
+const AboutRouteRoute = AboutRouteImport.update({
+    id: "/about",
+    path: "/about",
     getParentRoute: () => rootRoute,
 } as any);
 
 const IndexRoute = IndexImport.update({
     id: "/",
     path: "/",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const GuideIndexRoute = GuideIndexImport.update({
+    id: "/guide/",
+    path: "/guide/",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const GuideDataRoute = GuideDataImport.update({
+    id: "/guide/data",
+    path: "/guide/data",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const GuideContributeRoute = GuideContributeImport.update({
+    id: "/guide/contribute",
+    path: "/guide/contribute",
     getParentRoute: () => rootRoute,
 } as any);
 
@@ -46,18 +67,39 @@ declare module "@tanstack/react-router" {
             preLoaderRoute: typeof IndexImport;
             parentRoute: typeof rootRoute;
         };
-        "/guide": {
-            id: "/guide";
-            path: "/guide";
-            fullPath: "/guide";
-            preLoaderRoute: typeof GuideRouteImport;
-            parentRoute: typeof rootRoute;
-        };
         "/about": {
             id: "/about";
             path: "/about";
             fullPath: "/about";
-            preLoaderRoute: typeof AboutImport;
+            preLoaderRoute: typeof AboutRouteImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/contact": {
+            id: "/contact";
+            path: "/contact";
+            fullPath: "/contact";
+            preLoaderRoute: typeof ContactImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/contribute": {
+            id: "/guide/contribute";
+            path: "/guide/contribute";
+            fullPath: "/guide/contribute";
+            preLoaderRoute: typeof GuideContributeImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/data": {
+            id: "/guide/data";
+            path: "/guide/data";
+            fullPath: "/guide/data";
+            preLoaderRoute: typeof GuideDataImport;
+            parentRoute: typeof rootRoute;
+        };
+        "/guide/": {
+            id: "/guide/";
+            path: "/guide";
+            fullPath: "/guide";
+            preLoaderRoute: typeof GuideIndexImport;
             parentRoute: typeof rootRoute;
         };
     }
@@ -67,42 +109,57 @@ declare module "@tanstack/react-router" {
 
 export interface FileRoutesByFullPath {
     "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide": typeof GuideIndexRoute;
 }
 
 export interface FileRoutesByTo {
     "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide": typeof GuideIndexRoute;
 }
 
 export interface FileRoutesById {
     __root__: typeof rootRoute;
     "/": typeof IndexRoute;
-    "/guide": typeof GuideRouteRoute;
-    "/about": typeof AboutRoute;
+    "/about": typeof AboutRouteRoute;
+    "/contact": typeof ContactRoute;
+    "/guide/contribute": typeof GuideContributeRoute;
+    "/guide/data": typeof GuideDataRoute;
+    "/guide/": typeof GuideIndexRoute;
 }
 
 export interface FileRouteTypes {
     fileRoutesByFullPath: FileRoutesByFullPath;
-    fullPaths: "/" | "/guide" | "/about";
+    fullPaths: "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide";
     fileRoutesByTo: FileRoutesByTo;
-    to: "/" | "/guide" | "/about";
-    id: "__root__" | "/" | "/guide" | "/about";
+    to: "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide";
+    id: "__root__" | "/" | "/about" | "/contact" | "/guide/contribute" | "/guide/data" | "/guide/";
     fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
     IndexRoute: typeof IndexRoute;
-    GuideRouteRoute: typeof GuideRouteRoute;
-    AboutRoute: typeof AboutRoute;
+    AboutRouteRoute: typeof AboutRouteRoute;
+    ContactRoute: typeof ContactRoute;
+    GuideContributeRoute: typeof GuideContributeRoute;
+    GuideDataRoute: typeof GuideDataRoute;
+    GuideIndexRoute: typeof GuideIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
     IndexRoute: IndexRoute,
-    GuideRouteRoute: GuideRouteRoute,
-    AboutRoute: AboutRoute,
+    AboutRouteRoute: AboutRouteRoute,
+    ContactRoute: ContactRoute,
+    GuideContributeRoute: GuideContributeRoute,
+    GuideDataRoute: GuideDataRoute,
+    GuideIndexRoute: GuideIndexRoute,
 };
 
 export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
@@ -116,18 +173,30 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/guide",
-        "/about"
+        "/about",
+        "/contact",
+        "/guide/contribute",
+        "/guide/data",
+        "/guide/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/guide": {
-      "filePath": "guide/route.tsx"
-    },
     "/about": {
-      "filePath": "about.tsx"
+      "filePath": "about/route.tsx"
+    },
+    "/contact": {
+      "filePath": "contact.tsx"
+    },
+    "/guide/contribute": {
+      "filePath": "guide/contribute.tsx"
+    },
+    "/guide/data": {
+      "filePath": "guide/data.tsx"
+    },
+    "/guide/": {
+      "filePath": "guide/index.tsx"
     }
   }
 }

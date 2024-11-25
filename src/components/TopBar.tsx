@@ -1,10 +1,11 @@
-import { Tooltip, ActionIcon, useMantineTheme, Group } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree } from "@tabler/icons-react";
+import "./TopBar.css";
+import { Tooltip, ActionIcon, Group, Menu } from "@mantine/core";
+import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree, IconCaretDownFilled } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
+import { Margin_Full_Width, useIsMobile } from "src/shared/hooks";
 
-function SocialsIcon({ label, link, icon }: { label: string; link: string; icon: ReactNode }) {
+const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon: ReactNode }) => {
     return (
         <Tooltip label={label} openDelay={200} transitionProps={{ transition: "pop", duration: 300 }}>
             <ActionIcon
@@ -20,11 +21,27 @@ function SocialsIcon({ label, link, icon }: { label: string; link: string; icon:
             </ActionIcon>
         </Tooltip>
     );
-}
+};
+
+const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => {
+    return (
+        <Menu shadow="md" width="min-content" trigger="hover">
+            <Menu.Target>
+                <Group className="textDropdown" style={{ gap: 0, cursor: "pointer" }}>
+                    <Link className="topBar" to="/guide" onClick={() => false}>
+                        {label}
+                    </Link>
+                    <IconCaretDownFilled />
+                </Group>
+            </Menu.Target>
+
+            <Menu.Dropdown style={{ display: "flex", flexDirection: "column" }}>{items}</Menu.Dropdown>
+        </Menu>
+    );
+};
 
 export function TopBar() {
-    const theme = useMantineTheme();
-    const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
+    const isMobile = useIsMobile();
 
     return (
         <Group
@@ -34,17 +51,36 @@ export function TopBar() {
                 display: "flex",
                 justifyContent: "space-between",
                 margin: ".5rem",
-                width: "calc(100vw - 2 * 8px)",
+                width: Margin_Full_Width,
             }}
         >
-            <Group style={{ display: "flex", flexDirection: isBreakpoint ? "column" : undefined }}>
-                <Link to="/">Home</Link> <Link to="/about">About</Link> <Link to="/guide">Guide</Link>
+            <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
+                <Link to="/" className="topBar">
+                    Home
+                </Link>{" "}
+                <Link to="/about" className="topBar">
+                    About
+                </Link>{" "}
+                <TextDropdown
+                    label="Guide"
+                    items={[
+                        <Link key="/guide/" className="topBar" to="/guide/data">
+                            Data
+                        </Link>,
+                        <Link key="/guide/contribute" className="topBar" to="/guide/contribute">
+                            Contribute
+                        </Link>,
+                    ]}
+                />
+                <Link to="/contact" className="topBar">
+                    Contact
+                </Link>
             </Group>
             <Group
                 style={{
                     paddingRight: "1rem",
                     display: "flex",
-                    flexDirection: isBreakpoint ? "column" : undefined,
+                    flexDirection: isMobile ? "column" : undefined,
                 }}
             >
                 <SocialsIcon label="Instagram" link="https://www.instagram.com/sjp.rit/" icon={<IconBrandInstagram size="3rem" />} />

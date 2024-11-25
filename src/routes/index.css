@@ -1,6 +1,6 @@
-.topBar {
-    font-family: "Noe";
-    font-size: 3em;
+.link {
+    font-family: "Noe Bold";
+    font-size: 2em;
     padding: 0 1rem;
     color: var(--mantine-color-green-8);
 
@@ -11,8 +11,4 @@
     &:hover {
         color: var(--mantine-color-green-0);
     }
-}
-
-.icon .mantine-focus-auto .mantine-active mantine-ActionIcon-root {
-    border-color: var(--mantine-color-green-0);
 }

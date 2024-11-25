@@ -1,0 +1,47 @@
+.headerText{
+    &:hover{
+        color: var(--mantine-color-text);
+    }
+}
+
+.bodyText {
+    font-family: "serif";
+    font-size: 1.2em;
+}
+
+.bodyLink{
+    font-family: "Noe bold";
+    color: var(--mantine-color-green-8);
+    background-color: var(--mantine-color-body);
+    padding: 0.1rem 0.1rem 0 0.1rem;
+    border-radius: 0.1rem;
+    &:hover{   
+        color: var(--mantine-color-green-3);
+    }
+    &:visited{
+        color: var(--mantine-color-green-8);
+        &:hover{   
+            color: var(--mantine-color-green-3);
+        }
+    }
+}
+
+.tableOfContentsLink {
+    color: var(--mantine-color-text);
+    font-family: "Noe";
+    font-size: 1.5em;
+    &:active {
+        font-family: "Noe Bold";
+    }
+    &:hover{
+        color: var(--mantine-color-green-8);
+    }
+    &:visited{
+        color: var(--mantine-color-text);
+        &:hover{   
+            color: var(--mantine-color-green-8);
+        }
+    }
+}
+
+
