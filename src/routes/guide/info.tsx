@@ -119,7 +119,7 @@ const NoInvolvementText = () => {
                     <a className="bodyLink" href="#limitedWork">
                         limited work
                     </a>{" "}
-                    with the department of defense, Israeli Occupying Force, defense contractors, the intelligence community (CIA, FBI,
+                    with the department of defense, Israeli occupation forces, defense contractors, the intelligence community (CIA, FBI,
                     Mossad, Shin Bet, Aman), etc
                 </List.Item>
             </List>
@@ -169,7 +169,7 @@ const MinimalText = () => {
                     <a className="bodyLink" href="#limitedWork">
                         Limited work
                     </a>{" "}
-                    with the department of defense, Israeli occupying force, defense contractors, the intelligence community (CIA, FBI,
+                    with the department of defense, Israeli occupation forces, defense contractors, the intelligence community (CIA, FBI,
                     Mossad, Shin Bet, Aman, etc)
                 </List.Item>
                 <List pl="md">
@@ -235,14 +235,14 @@ const ModerateText = () => {
                     </List.Item>
                 </List>
                 <List.Item className="bodyText">
-                    Significant revenue from subcontracts under the department of defense, Israeli occupying force, defense contractors, the
-                    intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
+                    Significant revenue from subcontracts under the department of defense, Israeli occupation forces, defense contractors,
+                    the intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
                 </List.Item>
                 <List.Item className="bodyText">Current or previous material support for apartheid, genocide, or Zionism</List.Item>
                 <List pl="md">
                     <List.Item className="bodyText">
                         ie board members who previously held high ranking positions at weapons manufacturers, public statements pledging
-                        weapons/aid to Israeli occupying force
+                        weapons/aid to Israeli occupation forces
                     </List.Item>
                 </List>
             </List>
@@ -275,7 +275,7 @@ const SevereText = () => {
                         Includes being involved indirectly through development of custom parts/materials
                     </List.Item>
                 </List>
-                <List.Item className="bodyText">Significant business or investment in Israel or the Israeli occupying force</List.Item>
+                <List.Item className="bodyText">Significant business or investment in Israel or the Israeli occupation forces</List.Item>
                 <List.Item className="bodyText">
                     Significant business with or investments in other arms manufacturers or militaries
                 </List.Item>
