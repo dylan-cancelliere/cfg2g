@@ -1,5 +1,5 @@
 import "./route.css";
-import { Divider, Group, Image, List, Stack, Text, Title } from "@mantine/core";
+import { Divider, Group, Image, List, MantineStyleProp, Stack, Text, Title } from "@mantine/core";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
 import { useIsMobile } from "src/shared/hooks";
@@ -39,17 +39,18 @@ const TableOfContents = () => {
     );
 };
 
-export const BodyTextWrapper = ({ children }: { children: ReactNode }) => {
+export const BodyTextWrapper = ({ children, style }: { children: ReactNode; style?: MantineStyleProp }) => {
     const isMobile = useIsMobile();
     return (
         <Stack
-            w={isMobile ? "100%" : "45rem"}
             mt="xl"
             p="xl"
             style={{
                 backgroundColor: "var(--mantine-color-green-0)",
                 boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                 borderRadius: 3,
+                width: isMobile ? "100%" : "45rem",
+                ...style,
             }}
         >
             {children}
