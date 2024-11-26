@@ -70,7 +70,7 @@ All data provided by this site is exclusively the opinion of its individual auth
     -   Could show data like inclusion in BDS/Watermelon Index, more detailed explanations of claims, a timeline of involvement, etc
 -   Landing page
 -   Space to advertise community events/mutual aid efforts
--   RSS Feed or similar of SJP@RIT socials posts
+-   ~~RSS Feed or similar of SJP@RIT socials posts~~ https://github.com/dylan-cancelliere/cfg2g/pull/11
 -   Upcoming campus events/company visits, linked back to our guide
 -   Pre-built filters for past/upcoming career fairs, BDS, and other notable sources
 -   Tags, show in row onClick. Maybe searchable/filterable somehow as well?
