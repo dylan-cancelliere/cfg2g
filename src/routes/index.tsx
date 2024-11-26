@@ -1,7 +1,9 @@
 import "./index.css";
-import { Box, Group, Image, Title, useMantineTheme } from "@mantine/core";
+import { Box, Button, Group, Image, Stack, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { createFileRoute, Link, ReactNode } from "@tanstack/react-router";
+import { IconArrowBigRightLinesFilled } from "@tabler/icons-react";
+import { createFileRoute, ReactNode, useNavigate } from "@tanstack/react-router";
+import { BodyTextWrapper } from "./about/route";
 
 const ImageFrame = ({ children }: ReactNode) => {
     return (
@@ -18,49 +20,11 @@ const ImageFrame = ({ children }: ReactNode) => {
     );
 };
 
-const LearnMore = () => {
-    return (
-        <Box
-            style={{
-                backgroundColor: "var(--mantine-color-green-0)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "4rem",
-                border: "0.5rem solid var(--mantine-color-green-8)",
-            }}
-        >
-            <Title order={2} style={{ fontFamily: "Noe Bold" }}>
-                Learn more about SJP@RIT
-            </Title>
-            <Group
-                style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    paddingTop: "4rem",
-                    width: "100%",
-                }}
-            >
-                <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
-                    <Link to="/about" className="link">
-                        About
-                    </Link>
-                </Box>
-                <Box style={{ border: "0.25rem solid var(--mantine-color-green-8)", backgroundColor: "var(--mantine-color-body)" }}>
-                    <Link to="/guide" className="link">
-                        Career Fair Guide
-                    </Link>
-                </Box>
-            </Group>
-        </Box>
-    );
-};
-
-const LandingPage = () => {
+function LandingPage() {
     const theme = useMantineTheme();
     const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
     const fontSizeMultiplier = isBreakpoint ? 0.5 : 1;
+    const nav = useNavigate();
 
     return (
         <Box style={{ display: "flex", flexDirection: "column", margin: "0.5rem" }}>
@@ -105,7 +69,31 @@ const LandingPage = () => {
                     <Image src="/landing-page-3.jpg" h="auto" w={isBreakpoint ? "80vw" : 380} style={{}} />
                 </ImageFrame>
             </Box>
-            <LearnMore />
+            <Group style={{ flexDirection: "column" }} pb="5rem">
+                <Button
+                    variant="white"
+                    color="var(--mantine-color-green-8)"
+                    size="xl"
+                    onClick={() => {
+                        throw nav({ to: "/guide" });
+                    }}
+                    ff="Noe Bold"
+                    fz="2em"
+                    style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+                >
+                    Check out our Career Fair Guide! <IconArrowBigRightLinesFilled style={{ marginLeft: "1rem" }} />
+                </Button>
+            </Group>
+            <Stack align="center" mb="0.5rem">
+                <BodyTextWrapper style={{ width: "100%" }}>
+                    <Title order={3} c="var(--mantine-color-green-8)">
+                        <a className="tableOfContentsLink" href="https://www.instagram.com/sjp.rit/" target="_blank">
+                            Recent Posts
+                        </a>
+                    </Title>
+                    <iframe width="100%" height="440" src="https://rss.app/embed/v1/carousel/nnhKqChcElLTMh2G"></iframe>
+                </BodyTextWrapper>
+            </Stack>
         </Box>
     );
 };
