@@ -8,7 +8,7 @@ import {
 import { Chip, Popover, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
-function TableChip({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) {
+const TableChip = ({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) => {
     return isMobile ? (
         <Popover>
             <Popover.Target>
@@ -25,9 +25,9 @@ function TableChip({ text, color, isMobile, icon }: { text: string; color: strin
             </Text>
         </Chip>
     );
-}
+};
 
-export function SeverityChip({ severity, isMobile }: { severity: string; isMobile: boolean }) {
+export const SeverityChip = ({ severity, isMobile }: { severity: string; isMobile: boolean }) => {
     switch (severity) {
         case "No Significant Investment":
             return <TableChip text={severity} color="green" isMobile={isMobile} icon={<IconCircleCheck />} />;
@@ -40,4 +40,4 @@ export function SeverityChip({ severity, isMobile }: { severity: string; isMobil
         default:
             return <TableChip text={severity} color="grey" isMobile={isMobile} icon={<IconHelpHexagonFilled />} />;
     }
-}
+};

@@ -9,7 +9,7 @@ type ContributionsFormData = {
     consent: boolean;
 };
 
-function ContactPage() {
+const ContactPage = () => {
     const { register, handleSubmit, watch } = useForm<ContributionsFormData>();
     const onSubmit = (data: ContributionsFormData) => console.log(data);
     const gaveConsent = watch("consent") && !!watch("message");
@@ -39,8 +39,8 @@ function ContactPage() {
                 <Text className="bodyText">
                     If you believe a correction should update our severity ranking, please indicate what the new ranking should be.
                     Information on how we rank severity, as well as the rest of our methodology can be found on the{" "}
-                    <Link to="/guide/contribute" className="bodyLink">
-                        Contribute
+                    <Link to="/guide/info" className="bodyLink">
+                        Info
                     </Link>{" "}
                     page.
                 </Text>
@@ -66,7 +66,7 @@ function ContactPage() {
                     <Group pt="md">
                         <Checkbox
                             {...register("consent")}
-                            label={<Text className="bodyText">"I consent to share this information with SJP @ RIT"</Text>}
+                            label={<Text className="bodyText">I consent to share this information with SJP @ RIT</Text>}
                             color="var(--mantine-color-green-8)"
                         />
                         <Tooltip label="Click the consent checkbox in order to submit" disabled={gaveConsent}>
@@ -85,7 +85,7 @@ function ContactPage() {
             </Stack>
         </Stack>
     );
-}
+};
 
 export const Route = createFileRoute("/contact")({
     component: ContactPage,

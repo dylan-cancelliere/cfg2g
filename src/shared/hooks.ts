@@ -1,7 +1,7 @@
 import { em, px, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-export function useIsMobile() {
+export const useIsMobile = () => {
     const theme = useMantineTheme();
     const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
 
@@ -16,6 +16,6 @@ export function useIsMobile() {
     }, [theme.breakpoints.sm]);
 
     return !!isMobile;
-}
+};
 
 export const Margin_Full_Width = "calc(100vw - 2 * 8px)";
