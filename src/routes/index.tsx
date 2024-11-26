@@ -3,7 +3,7 @@ import { Box, Group, Image, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { createFileRoute, Link, ReactNode } from "@tanstack/react-router";
 
-function ImageFrame({ children }: ReactNode) {
+const ImageFrame = ({ children }: ReactNode) => {
     return (
         <Box
             style={{
@@ -16,9 +16,9 @@ function ImageFrame({ children }: ReactNode) {
             {children}
         </Box>
     );
-}
+};
 
-function LearnMore() {
+const LearnMore = () => {
     return (
         <Box
             style={{
@@ -55,9 +55,9 @@ function LearnMore() {
             </Group>
         </Box>
     );
-}
+};
 
-function LandingPage() {
+const LandingPage = () => {
     const theme = useMantineTheme();
     const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
     const fontSizeMultiplier = isBreakpoint ? 0.5 : 1;
@@ -108,7 +108,7 @@ function LandingPage() {
             <LearnMore />
         </Box>
     );
-}
+};
 
 export const Route = createFileRoute("/")({
     component: LandingPage,

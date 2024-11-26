@@ -6,7 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Company, Severity, SeverityList } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
 
-export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boolean }) {
+export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boolean }) => {
     const [pagination, setPagination] = useState({
         pageIndex: 0,
         pageSize: 10,
@@ -91,4 +91,4 @@ export function MRTable({ data, isLoading }: { data: Company[]; isLoading: boole
             </MantineProvider>
         </Box>
     );
-}
+};

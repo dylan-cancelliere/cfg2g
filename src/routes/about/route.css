@@ -44,4 +44,18 @@
     }
 }
 
-
+.glossaryLink {
+    color: var(--mantine-color-text);
+    &:active {
+        font-family: "Noe Bold";
+    }
+    &:hover{
+        color: var(--mantine-color-green-8);
+    }
+    &:visited{
+        color: var(--mantine-color-text);
+        &:hover{   
+            color: var(--mantine-color-green-8);
+        }
+    }
+}

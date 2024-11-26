@@ -40,7 +40,7 @@ const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => 
     );
 };
 
-export function TopBar() {
+export const TopBar = () => {
     const isMobile = useIsMobile();
 
     return (
@@ -67,8 +67,8 @@ export function TopBar() {
                         <Link key="/guide/" className="topBar" to="/guide/data">
                             Data
                         </Link>,
-                        <Link key="/guide/contribute" className="topBar" to="/guide/contribute">
-                            Contribute
+                        <Link key="/guide/info" className="topBar" to="/guide/info">
+                            Info
                         </Link>,
                     ]}
                 />
@@ -89,4 +89,4 @@ export function TopBar() {
             </Group>
         </Group>
     );
-}
+};

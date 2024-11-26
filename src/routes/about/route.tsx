@@ -39,7 +39,7 @@ const TableOfContents = () => {
     );
 };
 
-const TextWrapper = ({ children }: { children: ReactNode }) => {
+export const BodyTextWrapper = ({ children }: { children: ReactNode }) => {
     const isMobile = useIsMobile();
     return (
         <Stack
@@ -59,7 +59,7 @@ const TextWrapper = ({ children }: { children: ReactNode }) => {
 
 const AboutOurGuideText = () => {
     return (
-        <TextWrapper>
+        <BodyTextWrapper>
             <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="aboutOurGuide" className="headerText">
                     About our guide
@@ -106,18 +106,18 @@ const AboutOurGuideText = () => {
                 <br />
                 <br />
                 To read more about our methodology, how you can contribute, and our future plans, check out the{" "}
-                <Link to="/guide/contribute" className="bodyLink">
-                    Contribute
+                <Link to="/guide/info" className="bodyLink">
+                    Guide Info
                 </Link>{" "}
                 page.
             </Text>
-        </TextWrapper>
+        </BodyTextWrapper>
     );
 };
 
 const WhatWeBelieveInText = () => {
     return (
-        <TextWrapper>
+        <BodyTextWrapper>
             <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="whatWeBelieveIn" className="headerText">
                     What we believe in
@@ -142,13 +142,13 @@ const WhatWeBelieveInText = () => {
                     Black, Hispanic, and Native Americans, queer and disabled people, workers, and oppressed peoples of every nation
                 </List.Item>
             </List>
-        </TextWrapper>
+        </BodyTextWrapper>
     );
 };
 
 const WhoWeAreText = () => {
     return (
-        <TextWrapper>
+        <BodyTextWrapper>
             <Title order={3} style={{ fontFamily: "Noe Bold", fontSize: "2em" }}>
                 <a id="whoWeAre" className="headerText">
                     Who we are
@@ -176,7 +176,7 @@ const WhoWeAreText = () => {
                     <List.Item className="bodyText">Express solidarity with members of the community that share our mission.</List.Item>
                 </List>
             </Text>
-        </TextWrapper>
+        </BodyTextWrapper>
     );
 };
 
