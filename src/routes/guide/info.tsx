@@ -23,7 +23,7 @@ const TableOfContents = () => {
                     </a>
                     <List.Item fz="sm">
                         <a href="#noInvolvement" className="tableOfContentsLink">
-                            No Involvement
+                            No Significant Involvement
                         </a>
                     </List.Item>
                     <List.Item fz="sm">
@@ -75,7 +75,7 @@ const IntroText = () => {
                 When using this guide, it's important to understand that our ratings are not an ethical judgement and in fact there are
                 several companies marked{" "}
                 <a className="bodyLink" href="#noInvolvement">
-                    No Involvement
+                    No Significant Involvement
                 </a>{" "}
                 which we the contributors to this guide find reprehensible. Rather, the goal is to provide data about one metric,
                 involvement in the genocide in Palestine, and to let the reader use the information as they see fit.
@@ -83,7 +83,7 @@ const IntroText = () => {
             <Text className="bodyText">
                 Further,{" "}
                 <a className="bodyLink" href="#armsManufacturing">
-                    No Involvement
+                    No Significant Involvement
                 </a>{" "}
                 can be more accurately read as "No Public Involvement", meaning our best research efforts could not find any reasonable
                 sources describing involvement in the genocide. If you, the reader, are in possession of info that would say otherwise,
@@ -102,7 +102,7 @@ const NoInvolvementText = () => {
         <>
             <Title order={4} style={{ fontFamily: "Noe Bold" }} fz="2em">
                 <a id="noInvolvement" className="headerText">
-                    No Involvement
+                    No Significant Involvement
                 </a>
             </Title>
             <Text className="bodyText">Criteria:</Text>
@@ -199,7 +199,7 @@ const MinimalText = () => {
                 <List.Item className="bodyText">
                     At least one primary or secondary source explaining the escalation from{" "}
                     <a className="bodyLink" href="#noInvolvement">
-                        No Involvement
+                        No Significant Involvement
                     </a>
                 </List.Item>
                 <List.Item className="bodyText">Any offending public statements</List.Item>
