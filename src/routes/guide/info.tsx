@@ -235,8 +235,8 @@ const ModerateText = () => {
                     </List.Item>
                 </List>
                 <List.Item className="bodyText">
-                    Significant revenue from subcontracts under DoD, Israeli occupying force, defense contractors, the intelligence
-                    community (CIA, FBI, Mossad, Shin Bet, Aman), etc
+                    Significant revenue from subcontracts under the department of defense, Israeli occupying force, defense contractors, the
+                    intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
                 </List.Item>
                 <List.Item className="bodyText">Current or previous material support for apartheid, genocide, or Zionism</List.Item>
                 <List pl="md">
@@ -328,7 +328,8 @@ const SeverityGuidelines = () => {
                 <br />
                 <Text className="bodyText" style={{ textDecoration: "underline" }}>
                     <a id="limitedWork" href="#limitedWork" className="glossaryLink">
-                        Limited work with DoD, defense contractors, the intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
+                        Limited work with the department of defense, defense contractors, the intelligence community (CIA, FBI, Mossad, Shin
+                        Bet, Aman), etc
                     </a>
                 </Text>
                 <List.Item className="bodyText">Explicitly “civilian” work, not a big part of the business model</List.Item>
