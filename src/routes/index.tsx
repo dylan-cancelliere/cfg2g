@@ -1,9 +1,8 @@
 import "./index.css";
-import { Box, Button, Group, Image, Stack, Title, useMantineTheme } from "@mantine/core";
+import { Box, Button, Group, Image, Title, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconArrowBigRightLinesFilled } from "@tabler/icons-react";
 import { createFileRoute, ReactNode, useNavigate } from "@tanstack/react-router";
-import { BodyTextWrapper } from "./about/route";
 
 const ImageFrame = ({ children }: ReactNode) => {
     return (
@@ -84,7 +83,7 @@ function LandingPage() {
                     Check out our Career Fair Guide! <IconArrowBigRightLinesFilled style={{ marginLeft: "1rem" }} />
                 </Button>
             </Group>
-            <Stack align="center" mb="0.5rem">
+            {/* <Stack align="center" mb="0.5rem">
                 <BodyTextWrapper style={{ width: "100%" }}>
                     <Title order={3} c="var(--mantine-color-green-8)">
                         <a className="tableOfContentsLink" href="https://www.instagram.com/sjp.rit/" target="_blank">
@@ -93,7 +92,7 @@ function LandingPage() {
                     </Title>
                     <iframe width="100%" height="440" src="https://rss.app/embed/v1/carousel/nnhKqChcElLTMh2G"></iframe>
                 </BodyTextWrapper>
-            </Stack>
+            </Stack> */}
         </Box>
     );
 };
