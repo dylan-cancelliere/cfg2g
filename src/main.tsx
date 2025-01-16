@@ -9,6 +9,7 @@ import { MantineProvider, createTheme } from "@mantine/core";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { fetchData } from "./shared/api";
+import { ModalsProvider } from "@mantine/modals";
 
 const theme = createTheme({
     autoContrast: true,
@@ -37,7 +38,9 @@ if (!rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <MantineProvider theme={theme}>
-                <RouterProvider router={router} />
+                <ModalsProvider>
+                    <RouterProvider router={router} />
+                </ModalsProvider>
             </MantineProvider>
         </StrictMode>,
     );

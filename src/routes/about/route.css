@@ -1,5 +1,5 @@
-.headerText{
-    &:hover{
+.headerText {
+    &:hover {
         color: var(--mantine-color-text);
     }
 }
@@ -9,18 +9,18 @@
     font-size: 1.2em;
 }
 
-.bodyLink{
+.bodyLink {
     font-family: "Noe bold";
     color: var(--mantine-color-green-8);
     background-color: var(--mantine-color-body);
     padding: 0.1rem 0.1rem 0 0.1rem;
     border-radius: 0.1rem;
-    &:hover{   
+    &:hover {
         color: var(--mantine-color-green-3);
     }
-    &:visited{
+    &:visited {
         color: var(--mantine-color-green-8);
-        &:hover{   
+        &:hover {
             color: var(--mantine-color-green-3);
         }
     }
@@ -33,12 +33,12 @@
     &:active {
         font-family: "Noe Bold";
     }
-    &:hover{
+    &:hover {
         color: var(--mantine-color-green-8);
     }
-    &:visited{
+    &:visited {
         color: var(--mantine-color-text);
-        &:hover{   
+        &:hover {
             color: var(--mantine-color-green-8);
         }
     }
@@ -49,12 +49,12 @@
     &:active {
         font-family: "Noe Bold";
     }
-    &:hover{
+    &:hover {
         color: var(--mantine-color-green-8);
     }
-    &:visited{
+    &:visited {
         color: var(--mantine-color-text);
-        &:hover{   
+        &:hover {
             color: var(--mantine-color-green-8);
         }
     }

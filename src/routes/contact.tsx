@@ -1,7 +1,8 @@
 import "./contact.css";
-import { Button, Checkbox, Group, rem, Stack, Text, Textarea, TextInput, Title, Tooltip } from "@mantine/core";
+import { Button, Checkbox, Group, rem, Stack, Text, Textarea, TextInput, Title, Tooltip, useMantineTheme } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { modals } from "@mantine/modals";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
 
 type ContributionsFormData = {
     contact: string;
@@ -10,9 +11,44 @@ type ContributionsFormData = {
 };
 
 const ContactPage = () => {
-    const { register, handleSubmit, watch } = useForm<ContributionsFormData>();
-    const onSubmit = (data: ContributionsFormData) => console.log(data);
-    const gaveConsent = watch("consent") && !!watch("message");
+    const theme = useMantineTheme();
+
+    const form = useForm({
+        initialValues: {
+            contact: "",
+            message: "",
+            consent: false,
+        },
+        validate: {
+            message: (v) => (v.length < 5 ? "Enter a message" : null),
+            consent: (v) => (!v ? "You must consent to sharing this information" : null),
+        },
+    });
+
+    const onSubmit = (data: ContributionsFormData) => {
+        console.log("onsubmit");
+        fetch(`${import.meta.env.VITE_BASE_URL}/contact`, {
+            method: "POST",
+            body: JSON.stringify({ from: data.contact, message: data.message }),
+            headers: { "Content-Type": "application/json" },
+        }).then(() => {
+            form.reset();
+            modals.open({
+                children: (
+                    <Stack justify="center">
+                        <Title style={{ fontFamily: "Noe Bold", fontSize: "1.5em", textAlign: "center" }}>
+                            Submission logged successfully{" "}
+                        </Title>
+                        <Button onClick={modals.closeAll} fullWidth color={theme.colors.green[8]}>
+                            Ok
+                        </Button>
+                    </Stack>
+                ),
+                centered: true,
+            });
+        });
+    };
+
     return (
         <Stack align="center" pt="xl">
             <Stack
@@ -44,18 +80,18 @@ const ContactPage = () => {
                     </Link>{" "}
                     page.
                 </Text>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={form.onSubmit(onSubmit)}>
                     <Group>
                         <TextInput
-                            {...register("contact")}
+                            {...form.getInputProps("contact")}
                             label={<Text className="bodyText">Contact Info</Text>}
-                            placeholder="Enter email..."
+                            placeholder="Enter contact info..."
                             description="(Optional)"
                         />
                     </Group>
                     <Group w="100%" pt="md">
                         <Textarea
-                            {...register("message")}
+                            {...form.getInputProps("message")}
                             label={<Text className="bodyText">Message</Text>}
                             placeholder="Enter a message..."
                             autosize
@@ -65,17 +101,16 @@ const ContactPage = () => {
                     </Group>
                     <Group pt="md">
                         <Checkbox
-                            {...register("consent")}
+                            {...form.getInputProps("consent")}
                             label={<Text className="bodyText">I consent to share this information with SJP @ RIT</Text>}
                             color="var(--mantine-color-green-8)"
                         />
-                        <Tooltip label="Click the consent checkbox in order to submit" disabled={gaveConsent}>
+                        <Tooltip label="Make sure to click the consent checkbox in order to submit" disabled={form.isValid()}>
                             <Button
                                 type="submit"
-                                data-disabled={!gaveConsent}
+                                data-disabled={!form.isValid()}
                                 className="submitButton"
                                 color="var(--mantine-color-green-8)"
-                                onClick={(e) => e.preventDefault()}
                             >
                                 <Text className="bodyText">Submit</Text>
                             </Button>

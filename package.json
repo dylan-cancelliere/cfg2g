@@ -12,17 +12,18 @@
         "pre-commit": "pnpm exec prettier . --write --log-level warn && pnpm exec eslint"
     },
     "dependencies": {
-        "@mantine/core": "^7.13.4",
-        "@mantine/dates": "^7.13.4",
-        "@mantine/hooks": "^7.13.4",
+        "@mantine/core": "^7.16.0",
+        "@mantine/dates": "^7.16.0",
+        "@mantine/form": "^7.16.0",
+        "@mantine/hooks": "^7.16.0",
+        "@mantine/modals": "^7.16.0",
         "@tabler/icons-react": "^3.20.0",
         "@tanstack/react-router": "^1.77.0",
         "clsx": "^2.1.1",
         "dayjs": "^1.11.13",
         "mantine-react-table": "2.0.0-beta.7",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "react-hook-form": "^7.53.1"
+        "react-dom": "^18.3.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.13.0",
