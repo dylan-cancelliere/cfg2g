@@ -94,3 +94,12 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Fancier landing page : )
 -   Data visualizations
     -   Mostly need proposals for what data visualizations we'd like to see
+-   CFG data table improvements
+    -   Infinite scroll on CFG table
+        -   Requires implementing pagination on the back-end
+    -   Fix table height
+        -   Should take up the full height of the page
+        -   The bottom nav bar should always be visible
+-   Submissions viewer
+    -   Addition to discord bot to be able to manage queue of submissions
+        -   options to mark submissions as accepted, important/todo, rejected, archived, reported (ban ip?), etc
