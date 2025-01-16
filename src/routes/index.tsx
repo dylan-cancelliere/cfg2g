@@ -95,7 +95,7 @@ function LandingPage() {
             </Stack> */}
         </Box>
     );
-};
+}
 
 export const Route = createFileRoute("/")({
     component: LandingPage,

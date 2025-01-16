@@ -66,29 +66,31 @@ All data provided by this site is exclusively the opinion of its individual auth
 ## Roadmap
 
 #### V2
-- ~~Data table cleanup~~ https://github.com/dylan-cancelliere/cfg2g/pull/5 https://github.com/dylan-cancelliere/cfg2g/pull/7
-- ~~About page~~ https://github.com/dylan-cancelliere/cfg2g/pull/9
-- ~~Info page~~ https://github.com/dylan-cancelliere/cfg2g/pull/10
-- ~~RSS Feed of our socials posts~~ https://github.com/dylan-cancelliere/cfg2g/pull/11
-- Migrate Guide doc and format
-- Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4
-    - Blocked by Guide migration
-- Submission page logging
-  - Bot that feeds into discord?
+
+-   ~~Data table cleanup~~ https://github.com/dylan-cancelliere/cfg2g/pull/5 https://github.com/dylan-cancelliere/cfg2g/pull/7
+-   ~~About page~~ https://github.com/dylan-cancelliere/cfg2g/pull/9
+-   ~~Info page~~ https://github.com/dylan-cancelliere/cfg2g/pull/10
+-   ~~RSS Feed of our socials posts~~ https://github.com/dylan-cancelliere/cfg2g/pull/11
+-   Migrate Guide doc and format
+-   Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4
+    -   Blocked by Guide migration
+-   Submission page logging
+    -   Bot that feeds into discord?
 
 #### Remaining Feature List
-- Event view
-    - some sort of filter that we preconfigure to select all companies at a specific career fair or curated list
-- Tagging system
-    - Need a proposal of what more specifically this would do
-    - Could potentially be used to implement the event view feature
-- Space to advertise upcoming events
-    - Unsure if this is something people are actually asking for or if it would introduce safety concerns
-    - Mabye limit to recruiting events rather than mutual aid efforts?
-- Row click modal upgrades
-    - Integrations with Watermelon index, BDS, etc
-    - Per-company Changelog?
-        - Maybe overall would be easier?
-- Fancier landing page : )
-- Data visualizations
-    - Mostly need proposals for what data visualizations we'd like to see
+
+-   Event view
+    -   some sort of filter that we preconfigure to select all companies at a specific career fair or curated list
+-   Tagging system
+    -   Need a proposal of what more specifically this would do
+    -   Could potentially be used to implement the event view feature
+-   Space to advertise upcoming events
+    -   Unsure if this is something people are actually asking for or if it would introduce safety concerns
+    -   Mabye limit to recruiting events rather than mutual aid efforts?
+-   Row click modal upgrades
+    -   Integrations with Watermelon index, BDS, etc
+    -   Per-company Changelog?
+        -   Maybe overall would be easier?
+-   Fancier landing page : )
+-   Data visualizations
+    -   Mostly need proposals for what data visualizations we'd like to see
