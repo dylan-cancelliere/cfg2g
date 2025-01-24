@@ -28,3 +28,4 @@ server/token.json
 server/.env
 
 .wrangler/*
+.env

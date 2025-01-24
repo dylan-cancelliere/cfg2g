@@ -55,7 +55,7 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 });
 
-client.login(process.env.VITE_DISCORD_BOT_TOKEN);
+!!process.env.VITE_DISCORD_BOT_TOKEN && client.login(process.env.VITE_DISCORD_BOT_TOKEN);
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
