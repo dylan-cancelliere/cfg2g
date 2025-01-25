@@ -17,6 +17,49 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
+const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
+
+const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes"];
+
+let lastSheetsFetch = Date.now();
+
+let sheetData;
+
+function parsePaginationParams(query) {
+    const { limit: queryLimit, offset: queryOffset } = query;
+    if (!!queryLimit && !isNaN(queryLimit) && !!queryOffset && !isNaN(queryOffset)) {
+        const limit = parseInt(queryLimit);
+        const offset = parseInt(queryOffset);
+        if (limit < 0 || limit > 10 || offset < 0) return false;
+        return { limit, offset };
+    }
+    return false;
+}
+
+async function refreshSheetsData() {
+    console.log("Refetching sheet data...");
+    const spreadsheetId = process.env.VITE_SHEET_ID;
+    const range = "Career Fair Fall 2024!A2:F";
+    const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
+    await sheets.spreadsheets
+        .get({ ranges: range, spreadsheetId, includeGridData: true })
+        .then((data) => {
+            sheetData = data.data.sheets[0].data[0].rowData;
+            lastSheetsFetch = Date.now();
+            console.log("Successfully fetched sheet data!");
+        })
+        .catch((e) => {
+            console.error("Error fetching sheet data:", e);
+        });
+}
+
+async function fetchSheetsData() {
+    if (!sheetData || Date.now() - lastSheetsFetch > SHEETS_CACHE_STALE_TIME) {
+        await refreshSheetsData();
+    }
+    return sheetData;
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -25,16 +68,75 @@ app.get("/", cors(corsOptions), (req, res) => {
 });
 
 app.get("/data", cors(corsOptions), async (req, res) => {
-    const spreadsheetId = process.env.VITE_SHEET_ID;
-    const range = "Career Fair Fall 2024!A2:C";
-    const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
-    await sheets.spreadsheets
-        .get({ ranges: range, spreadsheetId, includeGridData: true })
+    const queryParams = parsePaginationParams(req.query);
+    if (!queryParams) {
+        res.status(400).send({ message: "Bad request" });
+        return;
+    }
+    await fetchSheetsData()
         .then((data) => {
-            res.send({ data });
+            const { offset, limit, filters, filterModes, sorting, globalFilter } = req.query;
+
+            const parsedFilterModes = JSON.parse(filterModes ?? "{}");
+
+            let returnData = [...data];
+
+            const parsedColumnFilters = JSON.parse(filters ?? "{}");
+            if (parsedColumnFilters?.length) {
+                parsedColumnFilters.map((filter) => {
+                    const { id: columnId, value: filterValue } = filter;
+                    const filterMode = parsedFilterModes?.[COLUMN_DEF.indexOf(columnId)] ?? "contains";
+
+                    if (columnId?.toLowerCase() == "severity") {
+                        returnData = returnData.filter(({ values }) => {
+                            const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
+                            return filterValue.map((f) => f.toLowerCase()).includes(rowValue);
+                        });
+                    } else {
+                        returnData = returnData.filter(({ values }) => {
+                            const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
+                            if (filterMode === "contains") {
+                                return rowValue?.includes?.(filterValue.toLowerCase());
+                            } else if (filterMode === "startsWith") {
+                                return rowValue?.startsWith?.(filterValue.toLowerCase());
+                            } else if (filterMode === "endsWith") {
+                                return rowValue?.endsWith?.(filterValue.toLowerCase());
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (globalFilter) {
+                returnData = returnData.filter(({ values }) =>
+                    Object.keys(values).some((columnId) =>
+                        values[COLUMN_DEF.indexOf(columnId)]?.toString()?.toLowerCase()?.includes?.(globalFilter.toLowerCase()),
+                    ),
+                );
+            }
+
+            const parsedSorting = JSON.parse(sorting ?? "{}");
+            if (parsedSorting?.length) {
+                const sort = parsedSorting[0];
+                const { id, desc } = sort;
+                returnData.sort(({ values: a }, { values: b }) => {
+                    const left = a[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                    const right = b[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                    if (desc) {
+                        return left < right ? 1 : -1;
+                    }
+                    return left > right ? 1 : -1;
+                });
+            }
+
+            res.status(200).json({
+                data: returnData?.slice(parseInt(offset), parseInt(offset) + parseInt(limit)) ?? [],
+                meta: { totalRowCount: returnData.length },
+            });
         })
         .catch((e) => {
-            console.warn("ERROR WITH SHEETS", e);
+            console.error(e);
+            return res.status(500).send({ message: "Internal service error" });
         });
 });
 
@@ -55,7 +157,7 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 });
 
-client.login(process.env.VITE_DISCORD_BOT_TOKEN);
+!!process.env.VITE_DISCORD_BOT_TOKEN && client.login(process.env.VITE_DISCORD_BOT_TOKEN);
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);

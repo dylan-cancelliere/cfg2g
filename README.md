@@ -73,9 +73,8 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   ~~RSS Feed of our socials posts~~ https://github.com/dylan-cancelliere/cfg2g/pull/11
 -   ~~Submission page logging~~
     -   ~~Bot that feeds into discord?~~ https://github.com/dylan-cancelliere/cfg2g/pull/12
--   Migrate Guide doc and format
--   Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4
-    -   Blocked by Guide migration
+-   ~~Migrate Guide doc and format~~ https://github.com/dylan-cancelliere/cfg2g/pull/13
+-   ~~Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4~~ https://github.com/dylan-cancelliere/cfg2g/pull/13
 
 #### Remaining Feature List
 

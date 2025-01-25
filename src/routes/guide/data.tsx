@@ -1,32 +1,30 @@
 import "./data.css";
-import { Box, LoadingOverlay } from "@mantine/core";
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { Box } from "@mantine/core";
+import { createFileRoute } from "@tanstack/react-router";
 import { MRTable } from "src/components/MRTable";
 
-const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
-    const companies = useLoaderData({ from: "/guide/data" });
-
+const CareerFairTable = () => {
     return (
         <Box
+            h="89vh"
+            mah="89vh"
+            pos="relative"
+            mx="0.5rem"
             style={{
-                position: "relative",
                 display: "flex",
                 flex: 1,
                 justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: "0.5rem",
             }}
         >
-            <LoadingOverlay visible={!!isLoading} zIndex={1000} overlayProps={{ blur: 1 }} />
-            <MRTable data={companies ?? []} isLoading={!!isLoading} />
+            <MRTable />
         </Box>
     );
 };
 
 export const Route = createFileRoute("/guide/data")({
-    loader: ({ context: { fetchData } }) => fetchData(),
-    pendingComponent: () => <CareerFairTable isLoading />,
+    pendingComponent: () => <CareerFairTable />,
     staleTime: 600000, // Invalidate cache after 10 mins
     component: CareerFairTable,
 });
