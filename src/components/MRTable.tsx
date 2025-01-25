@@ -10,7 +10,7 @@ import {
     MRT_SortingState,
 } from "mantine-react-table";
 import { useState, useMemo, useRef, useCallback, useEffect, type UIEvent } from "react";
-import { Company, Severity, SeverityList } from "src/shared/types";
+import { Company } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
 import { CompanyModal } from "./CompanyModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -19,7 +19,6 @@ import { infiniteQueryFn, parseSheetData } from "src/shared/api";
 const TABLE_HEIGHT = "calc(86vh - 0.5rem)";
 
 export const MRTable = () => {
-    const [colVisibility, setColVisibility] = useState({});
     const [modalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
     const [company, setCompany] = useState<Company>();
 
@@ -55,26 +54,24 @@ export const MRTable = () => {
                     return <SeverityChip severity={renderedCellValue as string} />;
                 },
                 filterVariant: "multi-select",
-                sortingFn: (a, b, colId) => {
-                    const aVal: Severity = a.getValue(colId);
-                    const bVal: Severity = b.getValue(colId);
-                    return SeverityList.indexOf(aVal) - SeverityList.indexOf(bVal);
-                },
+                enableSorting: false,
             },
             {
                 accessorKey: "reason",
                 header: "Reason",
+                enableSorting: false,
             },
         ],
         [],
     );
 
-    const { data, fetchNextPage, isError, isFetching, isLoading, hasNextPage } = useInfiniteQuery({
+    const { data, fetchNextPage, isError, isFetching, isLoading } = useInfiniteQuery({
         queryKey: ["table-data", columnFilters, globalFilter, sorting],
         queryFn: ({ pageParam, signal }) => infiniteQueryFn({ pageParam, signal, columnFilters, globalFilter, sorting }),
         getNextPageParam: (_lastGroup, groups) => groups.length,
         initialPageParam: 0,
         refetchOnWindowFocus: false,
+        staleTime: 600_000, // 10 mins
     });
     const flatData = useMemo(() => data?.pages.flatMap((page) => parseSheetData(page.data)) ?? [], [data]);
     const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
@@ -130,17 +127,23 @@ export const MRTable = () => {
             color: "red",
             children: "Error loading data",
         },
-        onColumnVisibilityChange: setColVisibility,
+        onColumnFiltersChange: setColumnFilters,
+        onGlobalFilterChange: setGlobalFilter,
+        onSortingChange: setSorting,
         state: {
-            columnVisibility: colVisibility,
-            isLoading: isLoading,
+            columnFilters,
+            globalFilter,
+            isLoading,
+            showAlertBanner: isError,
+            showProgressBars: isFetching,
+            sorting,
         },
         mantineTableBodyRowProps: ({ row }) => ({
             onClick: () => {
                 setCompany(flatData[parseInt(row.id)]);
                 openModal();
             },
-            sx: {
+            style: {
                 cursor: "pointer",
             },
         }),

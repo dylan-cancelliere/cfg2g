@@ -1,11 +1,9 @@
 import "./data.css";
 import { Box } from "@mantine/core";
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { MRTable } from "src/components/MRTable";
 
-const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
-    const companies = useLoaderData({ from: "/guide/data" });
-
+const CareerFairTable = () => {
     return (
         <Box
             h="89vh"
@@ -20,13 +18,13 @@ const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
                 alignItems: "center",
             }}
         >
-            <MRTable data={companies ?? []} isLoading={!!isLoading} />
+            <MRTable />
         </Box>
     );
 };
 
 export const Route = createFileRoute("/guide/data")({
-    pendingComponent: () => <CareerFairTable isLoading />,
+    pendingComponent: () => <CareerFairTable />,
     staleTime: 600000, // Invalidate cache after 10 mins
     component: CareerFairTable,
 });
