@@ -26,6 +26,6 @@ dist-ssr
 server/credentials.json
 server/token.json
 server/.env
+.env
 
 .wrangler/*
-.env

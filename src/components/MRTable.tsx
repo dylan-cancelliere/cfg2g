@@ -14,7 +14,7 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
     });
     const [colVisibility, setColVisibility] = useState({});
     const [modalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
-    const [company, setCompany] = useState(data[0]);
+    const [company, setCompany] = useState<Company>();
 
     const theme = useMantineTheme();
 
@@ -92,7 +92,7 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
 
     return (
         <>
-            <CompanyModal company={company} opened={modalOpened} onClose={closeModal} />
+            {!!company && <CompanyModal company={company} opened={modalOpened} onClose={closeModal} />}
             <Box w="100%" h="100%">
                 <MantineProvider theme={newTheme}>
                     <MantineReactTable table={table} />

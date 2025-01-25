@@ -1,5 +1,5 @@
 import "./data.css";
-import { Box, LoadingOverlay } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { MRTable } from "src/components/MRTable";
 
@@ -18,7 +18,6 @@ const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
                 marginRight: "0.5rem",
             }}
         >
-            <LoadingOverlay visible={!!isLoading} zIndex={1000} overlayProps={{ blur: 1 }} />
             <MRTable data={companies ?? []} isLoading={!!isLoading} />
         </Box>
     );

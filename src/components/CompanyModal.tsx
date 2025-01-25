@@ -1,6 +1,6 @@
-import { Anchor, Divider, Group, Modal, rem, Stack, Textarea, Title } from "@mantine/core";
-import { Company } from "src/types";
+import { Divider, Group, Modal, rem, Stack, Textarea, Title } from "@mantine/core";
 import { SeverityChip } from "./SeverityChip";
+import { Company } from "src/shared/types";
 
 export type CompanyModalProps = {
     opened: boolean;
@@ -8,13 +8,13 @@ export type CompanyModalProps = {
     company: Company;
 };
 
-function SourceLink({ link, index }: { link: string; index: number }) {
-    return (
-        <Anchor href={link} target="_blank" c="var(--mantine-color-green-8)">
-            [{index}:] {link}
-        </Anchor>
-    );
-}
+// function SourceLink({ link, index }: { link: string; index: number }) {
+//     return (
+//         <Anchor href={link} target="_blank" c="var(--mantine-color-green-8)">
+//             [{index}:] {link}
+//         </Anchor>
+//     );
+// }
 
 export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
     return (
@@ -40,6 +40,10 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                         <Textarea readOnly value={company.notes ?? "None"} flex={10} autosize maxRows={10} maw="75%" />
                     </Group>
                     <Group w="100%" justify="space-between">
+                        <Title order={4}>Reason:</Title>
+                        <Textarea readOnly value={company.reason ?? "None"} flex={10} autosize maxRows={10} maw="75%" />
+                    </Group>
+                    <Group w="100%" justify="space-between">
                         <Title order={4}>Sources:</Title>
                         <Stack
                             flex={10}
@@ -53,13 +57,9 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                                 overflowY: "auto",
                             }}
                         >
-                            {/* TODO: Replace with actual data when we update the doc */}
-                            <SourceLink link="https://source1.com" index={1} />
-                            <SourceLink link="https://source2.com" index={2} />
-                            <SourceLink link="https://source3.com" index={3} />
-                            <SourceLink link="https://source4.com" index={4} />
-                            <SourceLink link="https://source5.com" index={5} />
-                            <SourceLink link="https://source6.com" index={6} />
+                            {/* TODO: Define consistent format for sources
+                            & write parser to utilize SourceLinks */}
+                            {company.sources ?? "No available sources"}
                         </Stack>
                     </Group>
                 </Stack>
