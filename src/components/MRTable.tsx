@@ -1,9 +1,11 @@
 import "./MRTable.css";
 import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { MRT_ColumnDef, useMantineReactTable, MantineReactTable } from "mantine-react-table";
 import { useState, useMemo } from "react";
 import { Company, Severity, SeverityList } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
+import { CompanyModal } from "./CompanyModal";
 
 export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boolean }) => {
     const [pagination, setPagination] = useState({
@@ -11,6 +13,9 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
         pageSize: 10,
     });
     const [colVisibility, setColVisibility] = useState({});
+    const [modalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
+    const [company, setCompany] = useState(data[0]);
+
     const theme = useMantineTheme();
 
     // Doing this to override the grid line color in the table. Surely a better way to do this???
@@ -74,13 +79,25 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
             columnVisibility: colVisibility,
             isLoading: isLoading,
         },
+        mantineTableBodyRowProps: ({ row }) => ({
+            onClick: () => {
+                setCompany(data[parseInt(row.id)]);
+                openModal();
+            },
+            sx: {
+                cursor: "pointer",
+            },
+        }),
     });
 
     return (
-        <Box w="100%">
-            <MantineProvider theme={newTheme}>
-                <MantineReactTable table={table} />
-            </MantineProvider>
-        </Box>
+        <>
+            <CompanyModal company={company} opened={modalOpened} onClose={closeModal} />
+            <Box w="100%" h="100%">
+                <MantineProvider theme={newTheme}>
+                    <MantineReactTable table={table} />
+                </MantineProvider>
+            </Box>
+        </>
     );
 };
