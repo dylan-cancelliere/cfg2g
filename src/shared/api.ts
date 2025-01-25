@@ -7,9 +7,11 @@ export const fetchData = async () => {
             return data?.data?.sheets[0]?.data[0]?.rowData?.map(
                 (raw: Cell) =>
                     ({
-                        name: raw.values[0].formattedValue,
-                        notes: raw.values[1].formattedValue,
+                        name: raw.values[1].formattedValue,
                         severity: raw.values[2].formattedValue,
+                        reason: raw.values[3].formattedValue,
+                        sources: raw.values[4].formattedValue,
+                        notes: raw.values[5].formattedValue,
                     }) as Company,
             );
         })

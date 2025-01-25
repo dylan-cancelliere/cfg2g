@@ -26,7 +26,7 @@ app.get("/", cors(corsOptions), (req, res) => {
 
 app.get("/data", cors(corsOptions), async (req, res) => {
     const spreadsheetId = process.env.VITE_SHEET_ID;
-    const range = "Career Fair Fall 2024!A2:C";
+    const range = "Career Fair Fall 2024!A2:F";
     const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
     await sheets.spreadsheets
         .get({ ranges: range, spreadsheetId, includeGridData: true })

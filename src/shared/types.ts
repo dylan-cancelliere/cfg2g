@@ -3,8 +3,10 @@ export type SeverityTuple = typeof SeverityList;
 export type Severity = SeverityTuple[number];
 export type Company = {
     name: string;
-    notes?: string;
     severity: string;
+    reason?: string;
+    sources?: string;
+    notes?: string;
 };
 export type Cell = {
     values: { effectiveFormat: unknown; effectiveValue: unknown; formattedValue: string; userEnteredValue: unknown }[];

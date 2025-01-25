@@ -1,8 +1,7 @@
 import "./MRTable.css";
 import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { MRT_ColumnDef, useMantineReactTable, MantineReactTable } from "mantine-react-table";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Company, Severity, SeverityList } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
 
@@ -13,13 +12,6 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
     });
     const [colVisibility, setColVisibility] = useState({});
     const theme = useMantineTheme();
-    const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
-
-    useEffect(() => {
-        if (isMobile) {
-            setColVisibility({ notes: false });
-        }
-    }, [isMobile]);
 
     // Doing this to override the grid line color in the table. Surely a better way to do this???
     // see https://www.mantine-react-table.com/docs/guides/customize-components#important-theme-values-used-by-mantine-react-table
@@ -41,7 +33,7 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
                 accessorKey: "severity",
                 header: "Severity",
                 Cell: ({ renderedCellValue }) => {
-                    return <SeverityChip severity={renderedCellValue as string} isMobile={!!isMobile} />;
+                    return <SeverityChip severity={renderedCellValue as string} />;
                 },
                 filterVariant: "multi-select",
                 sortingFn: (a, b, colId) => {
@@ -51,11 +43,11 @@ export const MRTable = ({ data, isLoading }: { data: Company[]; isLoading: boole
                 },
             },
             {
-                accessorKey: "notes",
-                header: "Notes",
+                accessorKey: "reason",
+                header: "Reason",
             },
         ],
-        [isMobile],
+        [],
     );
 
     const table = useMantineReactTable({
