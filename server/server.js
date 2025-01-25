@@ -23,6 +23,17 @@ let lastSheetsFetch = Date.now();
 
 let sheetData;
 
+function parsePaginationParams(query) {
+    const { limit: queryLimit, offset: queryOffset } = query;
+    if (!!queryLimit && !isNaN(queryLimit) && !!queryOffset && !isNaN(queryOffset)) {
+        const limit = parseInt(queryLimit);
+        const offset = parseInt(queryOffset);
+        if (limit < 0 || limit > 10 || offset < 0) return false;
+        return { limit, offset };
+    }
+    return false;
+}
+
 async function fetchSheetsData() {
     if (!sheetData || Date.now() - lastSheetsFetch > SHEETS_CACHE_STALE_TIME) {
         console.log("Refetching sheet data...");
@@ -32,7 +43,7 @@ async function fetchSheetsData() {
         await sheets.spreadsheets
             .get({ ranges: range, spreadsheetId, includeGridData: true })
             .then((data) => {
-                sheetData = data;
+                sheetData = data.data.sheets[0].data[0].rowData;
                 lastSheetsFetch = Date.now();
                 console.log("Successfully fetched sheet data!");
             })
@@ -51,7 +62,13 @@ app.get("/", cors(corsOptions), (req, res) => {
 });
 
 app.get("/data", cors(corsOptions), async (req, res) => {
-    await fetchSheetsData().then((data) => res.send({ data }));
+    const queryParams = parsePaginationParams(req.query);
+    if (!queryParams) {
+        res.status(400).send({ message: "Bad request" });
+        return;
+    }
+    const { offset, limit } = queryParams;
+    await fetchSheetsData().then((data) => res.send({ data: data.slice(offset, offset + limit), meta: { totalRowCount: data.length } }));
 });
 
 app.post("/contact", cors(corsOptions), (req, res) => {

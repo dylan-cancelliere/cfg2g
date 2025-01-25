@@ -10,7 +10,15 @@ import { ReactNode } from "react";
 
 const TableChip = ({ text, color, icon }: { text: string; color: string; icon: ReactNode }) => {
     return (
-        <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
+        <Chip
+            checked
+            color={color}
+            icon={icon}
+            classNames={{ iconWrapper: "iconWrapper" }}
+            tabIndex={-1}
+            style={{ cursor: "default" }}
+            component="div"
+        >
             <Text fw={500} pl="0.2rem">
                 {text}
             </Text>

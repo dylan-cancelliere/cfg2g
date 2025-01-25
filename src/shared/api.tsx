@@ -1,6 +1,16 @@
 import { ReactNode } from "react";
 import { Cell, Company } from "./types";
 import { Anchor, Text } from "@mantine/core";
+import { MRT_ColumnFiltersState, MRT_SortingState } from "mantine-react-table";
+
+export const paginatedChunkSize = 10;
+
+type ApiResponse = {
+    data: Cell[];
+    meta: {
+        totalRowCount: number;
+    };
+};
 
 const parseLink = (raw: Cell["values"][0]) => {
     const formattedLinks: ReactNode[] = [];
@@ -25,21 +35,42 @@ const parseLink = (raw: Cell["values"][0]) => {
     return { length: formattedLinks.length, component: <Text>{formattedLinks}</Text> };
 };
 
-export const fetchData = async () => {
-    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/data`)
-        .then(async (res) => {
-            const { data } = await res.json();
-            return data?.data?.sheets[0]?.data[0]?.rowData?.map(
-                (raw: Cell) =>
-                    ({
-                        name: raw.values[1].formattedValue,
-                        severity: raw.values[2].formattedValue,
-                        reason: raw.values[3].formattedValue,
-                        sources: parseLink(raw.values[4]),
-                        notes: raw.values[5].formattedValue,
-                    }) as Company,
-            );
-        })
-        .catch((e) => console.warn("Error retrieving data:", e));
-    return res as Company[];
+export function parseSheetData(data?: Cell[]) {
+    return (
+        data?.map(
+            (raw: Cell) =>
+                ({
+                    name: raw.values[1].formattedValue,
+                    severity: raw.values[2].formattedValue,
+                    reason: raw.values[3].formattedValue,
+                    sources: parseLink(raw.values[4]),
+                    notes: raw.values[5].formattedValue,
+                }) as Company,
+        ) ?? []
+    );
+}
+
+export const infiniteQueryFn = async ({
+    pageParam = 0,
+    signal,
+    columnFilters,
+    globalFilter,
+    sorting,
+}: {
+    pageParam: number;
+    signal: AbortSignal;
+    columnFilters: MRT_ColumnFiltersState;
+    globalFilter?: string;
+    sorting: MRT_SortingState;
+}) => {
+    const url = new URL("/data", import.meta.env.VITE_BASE_URL);
+    url.searchParams.set("offset", `${pageParam * paginatedChunkSize}`);
+    url.searchParams.set("limit", `${paginatedChunkSize}`);
+    if (columnFilters.length > 0) url.searchParams.set("filters", JSON.stringify(columnFilters));
+    if (globalFilter) url.searchParams.set("globalFilter", globalFilter);
+    if (sorting.length > 0) url.searchParams.set("sorting", JSON.stringify(sorting));
+
+    const response = await fetch(url.href, { signal });
+    const json = await response.json();
+    return json as ApiResponse;
 };

@@ -8,14 +8,16 @@ const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
 
     return (
         <Box
+            h="89vh"
+            mah="89vh"
+            pos="relative"
+            mx="0.5rem"
             style={{
-                position: "relative",
                 display: "flex",
                 flex: 1,
                 justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
-                marginRight: "0.5rem",
             }}
         >
             <MRTable data={companies ?? []} isLoading={!!isLoading} />
@@ -24,7 +26,6 @@ const CareerFairTable = ({ isLoading }: { isLoading?: boolean }) => {
 };
 
 export const Route = createFileRoute("/guide/data")({
-    loader: ({ context: { fetchData } }) => fetchData(),
     pendingComponent: () => <CareerFairTable isLoading />,
     staleTime: 600000, // Invalidate cache after 10 mins
     component: CareerFairTable,

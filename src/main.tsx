@@ -5,10 +5,10 @@ import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
 
-import { MantineProvider, createTheme } from "@mantine/core";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MantineProvider, createTheme } from "@mantine/core";
 import { routeTree } from "./routeTree.gen";
-import { fetchData } from "./shared/api";
 import { ModalsProvider } from "@mantine/modals";
 
 const theme = createTheme({
@@ -21,9 +21,6 @@ const theme = createTheme({
 const router = createRouter({
     routeTree,
     defaultPreload: "intent",
-    context: {
-        fetchData,
-    },
 });
 
 declare module "@tanstack/react-router" {
@@ -32,6 +29,8 @@ declare module "@tanstack/react-router" {
     }
 }
 
+export const queryClient = new QueryClient();
+
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
     const root = createRoot(rootElement);
@@ -39,7 +38,9 @@ if (!rootElement.innerHTML) {
         <StrictMode>
             <MantineProvider theme={theme}>
                 <ModalsProvider>
-                    <RouterProvider router={router} />
+                    <QueryClientProvider client={queryClient}>
+                        <RouterProvider router={router} />
+                    </QueryClientProvider>
                 </ModalsProvider>
             </MantineProvider>
         </StrictMode>,
