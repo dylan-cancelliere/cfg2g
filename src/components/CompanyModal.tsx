@@ -27,7 +27,14 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             centered
         >
             <Modal.Title>
-                <Group style={{ backgroundColor: "var(--mantine-color-green-0)" }} h={rem(100)} w="100%" p="md" justify="space-around">
+                <Group
+                    style={{ backgroundColor: "var(--mantine-color-green-0)", overflow: "auto" }}
+                    h={rem(100)}
+                    w="100%"
+                    p="md"
+                    justify="space-around"
+                    wrap="nowrap"
+                >
                     <Title order={3}>{company.name}</Title>
                     <SeverityChip severity={company.severity} />
                 </Group>
@@ -59,7 +66,7 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                         >
                             {/* TODO: Define consistent format for sources
                             & write parser to utilize SourceLinks */}
-                            {company.sources ?? "No available sources"}
+                            {company.sources.length > 0 ? company.sources.component : "No available sources"}
                         </Stack>
                     </Group>
                 </Stack>
