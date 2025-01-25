@@ -17,6 +17,32 @@ const corsOptions = {
     optionsSuccessStatus: 200,
 };
 
+const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
+
+let lastSheetsFetch = Date.now();
+
+let sheetData;
+
+async function fetchSheetsData() {
+    if (!sheetData || Date.now() - lastSheetsFetch > SHEETS_CACHE_STALE_TIME) {
+        console.log("Refetching sheet data...");
+        const spreadsheetId = process.env.VITE_SHEET_ID;
+        const range = "Career Fair Fall 2024!A2:F";
+        const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
+        await sheets.spreadsheets
+            .get({ ranges: range, spreadsheetId, includeGridData: true })
+            .then((data) => {
+                sheetData = data;
+                lastSheetsFetch = Date.now();
+                console.log("Successfully fetched sheet data!");
+            })
+            .catch((e) => {
+                console.error("Error fetching sheet data:", e);
+            });
+    }
+    return sheetData;
+}
+
 app.use(cors());
 app.use(express.json());
 
@@ -25,17 +51,7 @@ app.get("/", cors(corsOptions), (req, res) => {
 });
 
 app.get("/data", cors(corsOptions), async (req, res) => {
-    const spreadsheetId = process.env.VITE_SHEET_ID;
-    const range = "Career Fair Fall 2024!A2:F";
-    const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
-    await sheets.spreadsheets
-        .get({ ranges: range, spreadsheetId, includeGridData: true })
-        .then((data) => {
-            res.send({ data });
-        })
-        .catch((e) => {
-            console.warn("ERROR WITH SHEETS", e);
-        });
+    await fetchSheetsData().then((data) => res.send({ data }));
 });
 
 app.post("/contact", cors(corsOptions), (req, res) => {
