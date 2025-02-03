@@ -28,7 +28,7 @@ const TableChip = ({ text, color, icon }: { text: string; color: string; icon: R
 
 export const SeverityChip = ({ severity }: { severity: string }) => {
     switch (severity) {
-        case "No Significant Investment":
+        case "No Significant Involvement":
             return <TableChip text={severity} color="green" icon={<IconCircleCheck />} />;
         case "Minimal Involvement":
             return <TableChip text={severity} color="yellow" icon={<IconInfoCircle />} />;
