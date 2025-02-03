@@ -122,6 +122,9 @@ const NoInvolvementText = () => {
                     with the department of defense, Israeli occupation forces, defense contractors, the intelligence community (CIA, FBI,
                     Mossad, Shin Bet, Aman), etc
                 </List.Item>
+                <List.Item className="bodyText">
+                    Work with DoD or defense contractors in a regulatory capacity, the absence of which would not result in a negative impact on their operations.
+                </List.Item>
             </List>
             <Text className="bodyText">Source Requirements:</Text>
             <List>
