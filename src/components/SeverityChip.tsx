@@ -5,21 +5,20 @@ import {
     IconInfoCircle,
     IconTriangleInvertedFilled,
 } from "@tabler/icons-react";
-import { Chip, Popover, Text } from "@mantine/core";
+import { Chip, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
-const TableChip = ({ text, color, isMobile, icon }: { text: string; color: string; isMobile: boolean; icon: ReactNode }) => {
-    return isMobile ? (
-        <Popover>
-            <Popover.Target>
-                <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
-                    {" "}
-                </Chip>
-            </Popover.Target>
-            <Popover.Dropdown>{text}</Popover.Dropdown>
-        </Popover>
-    ) : (
-        <Chip checked color={color} icon={icon} classNames={{ iconWrapper: "iconWrapper" }}>
+const TableChip = ({ text, color, icon }: { text: string; color: string; icon: ReactNode }) => {
+    return (
+        <Chip
+            checked
+            color={color}
+            icon={icon}
+            classNames={{ iconWrapper: "iconWrapper" }}
+            tabIndex={-1}
+            style={{ cursor: "default" }}
+            component="div"
+        >
             <Text fw={500} pl="0.2rem">
                 {text}
             </Text>
@@ -27,17 +26,17 @@ const TableChip = ({ text, color, isMobile, icon }: { text: string; color: strin
     );
 };
 
-export const SeverityChip = ({ severity, isMobile }: { severity: string; isMobile: boolean }) => {
+export const SeverityChip = ({ severity }: { severity: string }) => {
     switch (severity) {
         case "No Significant Investment":
-            return <TableChip text={severity} color="green" isMobile={isMobile} icon={<IconCircleCheck />} />;
+            return <TableChip text={severity} color="green" icon={<IconCircleCheck />} />;
         case "Minimal Involvement":
-            return <TableChip text={severity} color="yellow" isMobile={isMobile} icon={<IconInfoCircle />} />;
+            return <TableChip text={severity} color="yellow" icon={<IconInfoCircle />} />;
         case "Moderate":
-            return <TableChip text={severity} color="orange" isMobile={isMobile} icon={<IconAlertTriangleFilled />} />;
+            return <TableChip text={severity} color="orange" icon={<IconAlertTriangleFilled />} />;
         case "Severe":
-            return <TableChip text={severity} color="red" isMobile={isMobile} icon={<IconTriangleInvertedFilled />} />;
+            return <TableChip text={severity} color="red" icon={<IconTriangleInvertedFilled />} />;
         default:
-            return <TableChip text={severity} color="grey" isMobile={isMobile} icon={<IconHelpHexagonFilled />} />;
+            return <TableChip text={severity} color="grey" icon={<IconHelpHexagonFilled />} />;
     }
 };

@@ -1,9 +1,9 @@
 import "./TopBar.css";
-import { Tooltip, ActionIcon, Group, Menu } from "@mantine/core";
+import { Tooltip, ActionIcon, Group, Menu, Box } from "@mantine/core";
 import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree, IconCaretDownFilled } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
-import { Margin_Full_Width, useIsMobile } from "src/shared/hooks";
+import { useIsMobile } from "src/shared/hooks";
 
 const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon: ReactNode }) => {
     return (
@@ -42,51 +42,54 @@ const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => 
 
 export const TopBar = () => {
     const isMobile = useIsMobile();
+    const barHeight = isMobile ? undefined : "14vh";
 
     return (
-        <Group
-            style={{
-                border: ".5rem solid var(--mantine-color-green-0)",
-                boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-                display: "flex",
-                justifyContent: "space-between",
-                margin: ".5rem",
-                width: Margin_Full_Width,
-            }}
-        >
-            <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
-                <Link to="/" className="topBar">
-                    Home
-                </Link>{" "}
-                <Link to="/about" className="topBar">
-                    About
-                </Link>{" "}
-                <TextDropdown
-                    label="Guide"
-                    items={[
-                        <Link key="/guide/" className="topBar" to="/guide/data">
-                            Data
-                        </Link>,
-                        <Link key="/guide/info" className="topBar" to="/guide/info">
-                            Info
-                        </Link>,
-                    ]}
-                />
-                <Link to="/contact" className="topBar">
-                    Contact
-                </Link>
-            </Group>
+        <Box h={barHeight} mah={barHeight} p=".5rem">
             <Group
+                mah="100%"
+                w="100%"
                 style={{
-                    paddingRight: "1rem",
+                    border: ".5rem solid var(--mantine-color-green-0)",
+                    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                     display: "flex",
-                    flexDirection: isMobile ? "column" : undefined,
+                    justifyContent: "space-between",
                 }}
             >
-                <SocialsIcon label="Instagram" link="https://www.instagram.com/sjp.rit/" icon={<IconBrandInstagram size="3rem" />} />
-                <SocialsIcon label="Discord" link="https://discord.gg/hVAYhyu326" icon={<IconBrandDiscord size="3rem" />} />
-                <SocialsIcon label="Linktree" link="https://linktr.ee/sjp.rit" icon={<IconBrandLinktree size="3rem" />} />
+                <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
+                    <Link to="/" className="topBar">
+                        Home
+                    </Link>{" "}
+                    <Link to="/about" className="topBar">
+                        About
+                    </Link>{" "}
+                    <TextDropdown
+                        label="Guide"
+                        items={[
+                            <Link key="/guide/" className="topBar" to="/guide/data">
+                                Data
+                            </Link>,
+                            <Link key="/guide/info" className="topBar" to="/guide/info">
+                                Info
+                            </Link>,
+                        ]}
+                    />
+                    <Link to="/contact" className="topBar">
+                        Contact
+                    </Link>
+                </Group>
+                <Group
+                    style={{
+                        paddingRight: "1rem",
+                        display: "flex",
+                        flexDirection: isMobile ? "column" : undefined,
+                    }}
+                >
+                    <SocialsIcon label="Instagram" link="https://www.instagram.com/sjp.rit/" icon={<IconBrandInstagram size="3rem" />} />
+                    <SocialsIcon label="Discord" link="https://discord.gg/hVAYhyu326" icon={<IconBrandDiscord size="3rem" />} />
+                    <SocialsIcon label="Linktree" link="https://linktr.ee/sjp.rit" icon={<IconBrandLinktree size="3rem" />} />
+                </Group>
             </Group>
-        </Group>
+        </Box>
     );
 };

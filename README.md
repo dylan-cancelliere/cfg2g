@@ -67,15 +67,20 @@ All data provided by this site is exclusively the opinion of its individual auth
 
 #### V2
 
--   ~~Data table cleanup~~ https://github.com/dylan-cancelliere/cfg2g/pull/5 https://github.com/dylan-cancelliere/cfg2g/pull/7
--   ~~About page~~ https://github.com/dylan-cancelliere/cfg2g/pull/9
--   ~~Info page~~ https://github.com/dylan-cancelliere/cfg2g/pull/10
--   ~~RSS Feed of our socials posts~~ https://github.com/dylan-cancelliere/cfg2g/pull/11
+-   ~~Data table cleanup~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/5 https://github.com/dylan-cancelliere/cfg2g/pull/7
+-   ~~About page~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/9
+-   ~~Info page~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/10
+-   ~~RSS Feed of our socials posts~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/11
 -   ~~Submission page logging~~
-    -   ~~Bot that feeds into discord?~~ https://github.com/dylan-cancelliere/cfg2g/pull/12
--   Migrate Guide doc and format
--   Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4
-    -   Blocked by Guide migration
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/12
+-   ~~Migrate Guide doc and format~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
+-   ~~Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
 
 #### Remaining Feature List
 
@@ -94,12 +99,10 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Fancier landing page : )
 -   Data visualizations
     -   Mostly need proposals for what data visualizations we'd like to see
--   CFG data table improvements
-    -   Infinite scroll on CFG table
-        -   Requires implementing pagination on the back-end
-    -   Fix table height
-        -   Should take up the full height of the page
-        -   The bottom nav bar should always be visible
+-   ~~CFG data table improvements~~
+    -   ~~Infinite scroll on CFG table~~
+    -   ~~Fix table height~~
+    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
 -   Submissions viewer
     -   Addition to discord bot to be able to manage queue of submissions
         -   options to mark submissions as accepted, important/todo, rejected, archived, reported (ban ip?), etc
