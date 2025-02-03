@@ -17,5 +17,3 @@ export const useIsMobile = () => {
 
     return !!isMobile;
 };
-
-export const Margin_Full_Width = "calc(100vw - 2 * 8px)";

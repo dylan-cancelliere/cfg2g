@@ -3,7 +3,7 @@ import { Tooltip, ActionIcon, Group, Menu, Box } from "@mantine/core";
 import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree, IconCaretDownFilled } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
-import { Margin_Full_Width, useIsMobile } from "src/shared/hooks";
+import { useIsMobile } from "src/shared/hooks";
 
 const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon: ReactNode }) => {
     return (
@@ -45,16 +45,15 @@ export const TopBar = () => {
     const barHeight = isMobile ? undefined : "14vh";
 
     return (
-        <Box h={barHeight} mah={barHeight}>
+        <Box h={barHeight} mah={barHeight} p=".5rem">
             <Group
                 mah="100%"
+                w="100%"
                 style={{
                     border: ".5rem solid var(--mantine-color-green-0)",
                     boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                     display: "flex",
                     justifyContent: "space-between",
-                    margin: ".5rem",
-                    width: Margin_Full_Width,
                 }}
             >
                 <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
