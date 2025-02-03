@@ -106,3 +106,4 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Submissions viewer
     -   Addition to discord bot to be able to manage queue of submissions
         -   options to mark submissions as accepted, important/todo, rejected, archived, reported (ban ip?), etc
+-   Error boundary for CFG in case server is down
