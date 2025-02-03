@@ -235,8 +235,8 @@ const ModerateText = () => {
                     </List.Item>
                 </List>
                 <List.Item className="bodyText">
-                    Significant revenue from subcontracts under the department of defense, Israeli occupation forces, defense contractors,
-                    the intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
+                    Does significant business with or has significant investments from subcontracts under the department of defense, Israeli
+                    occupation forces, defense contractors, the intelligence community (CIA, FBI, Mossad, Shin Bet, Aman), etc
                 </List.Item>
                 <List.Item className="bodyText">Current or previous material support for apartheid, genocide, or Zionism</List.Item>
                 <List pl="md">
