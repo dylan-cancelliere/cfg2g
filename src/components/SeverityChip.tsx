@@ -18,6 +18,7 @@ const TableChip = ({ text, color, icon }: { text: string; color: string; icon: R
             tabIndex={-1}
             style={{ cursor: "default" }}
             component="div"
+            w="min-content"
         >
             <Text fw={500} pl="0.2rem">
                 {text}

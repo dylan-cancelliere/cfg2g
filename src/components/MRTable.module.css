@@ -6,3 +6,8 @@
         color: var(--mantine-color-green-8);
     }
 }
+
+:root{
+
+    --indicator-text-color: purple !important;
+}

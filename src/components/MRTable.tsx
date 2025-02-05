@@ -1,4 +1,4 @@
-import "./MRTable.css";
+import classes from "./MRTable.module.css";
 import { useMantineTheme, Box, createTheme, MantineProvider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -10,7 +10,7 @@ import {
     MRT_SortingState,
 } from "mantine-react-table";
 import { useState, useMemo, useRef, useCallback, useEffect, type UIEvent } from "react";
-import { Company } from "src/shared/types";
+import { Company, SeverityList } from "src/shared/types";
 import { SeverityChip } from "./SeverityChip";
 import { CompanyModal } from "./CompanyModal";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -54,7 +54,10 @@ export const MRTable = () => {
                     return <SeverityChip severity={renderedCellValue as string} />;
                 },
                 filterVariant: "multi-select",
-                enableSorting: false,
+                mantineFilterMultiSelectProps: () => {
+                    return { data: SeverityList };
+                },
+                enableMultiSort: true,
             },
             {
                 accessorKey: "reason",
@@ -108,10 +111,11 @@ export const MRTable = () => {
         columns,
         data: flatData,
         enablePagination: false,
-        enableFacetedValues: true,
         enableStickyHeader: true,
         enableBottomToolbar: false,
         enableTopToolbar: false,
+        enableMultiSort: true,
+        isMultiSortEvent: () => true,
         manualFiltering: true,
         manualSorting: true,
         initialState: {
@@ -120,6 +124,7 @@ export const MRTable = () => {
         },
         mantineTableContainerProps: {
             ref: tableContainerRef,
+            className: classes.tableContainer,
             style: { height: TABLE_HEIGHT, maxHeight: TABLE_HEIGHT },
             onScroll: (event: UIEvent<HTMLDivElement>) => fetchMoreOnBottomReached(event.target as HTMLDivElement),
         },

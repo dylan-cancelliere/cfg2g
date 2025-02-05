@@ -117,16 +117,34 @@ app.get("/data", cors(corsOptions), async (req, res) => {
 
             const parsedSorting = JSON.parse(sorting ?? "{}");
             if (parsedSorting?.length) {
-                const sort = parsedSorting[0];
-                const { id, desc } = sort;
-                returnData.sort(({ values: a }, { values: b }) => {
-                    const left = a[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
-                    const right = b[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
-                    if (desc) {
-                        return left < right ? 1 : -1;
-                    }
-                    return left > right ? 1 : -1;
-                });
+                if (parsedSorting.length == 2) {
+                    const { id, desc } = parsedSorting[0];
+                    returnData.sort(({ values: a }, { values: b }) => {
+                        const left = a[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                        const right = b[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                        if (id == "severity") {
+                            if (sortSeverity(left, right) == 0) {
+                                const { id: secondaryId, desc: secondaryDesc } = parsedSorting[1];
+                                const secondaryLeft = a[COLUMN_DEF.indexOf(secondaryId)].formattedValue?.toLowerCase();
+                                const secondaryRight = b[COLUMN_DEF.indexOf(secondaryId)].formattedValue?.toLowerCase();
+                                secondaryLeft < secondaryRight ? (secondaryDesc ? 1 : -1) : desc ? -1 : 1;
+                            } else {
+                                return sortSeverity(left, right) < 0 ? (desc ? 1 : -1) : desc ? -1 : 1;
+                            }
+                        } else {
+                            return left < right ? (desc ? 1 : -1) : -1;
+                        }
+                    });
+                } else {
+                    const sort = parsedSorting[0];
+                    const { id, desc } = sort;
+                    returnData.sort(({ values: a }, { values: b }) => {
+                        const left = a[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                        const right = b[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
+                        if (id == "severity") return sortSeverity(left, right) < 0 ? (desc ? 1 : -1) : desc ? -1 : 1;
+                        else return left < right ? (desc ? 1 : -1) : desc ? -1 : 1;
+                    });
+                }
             }
 
             res.status(200).json({
@@ -162,3 +180,19 @@ client.once(Events.ClientReady, (readyClient) => {
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
+
+function sortSeverity(a, b) {
+    function rankSeverity(severity) {
+        switch (severity.toLowerCase()) {
+            case "no significant involvement":
+                return 0;
+            case "minimal involvement":
+                return 1;
+            case "moderate":
+                return 2;
+            case "severe":
+                return 3;
+        }
+    }
+    return rankSeverity(a) - rankSeverity(b);
+}
