@@ -24,10 +24,12 @@ const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon:
 };
 
 const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => {
+    const isMobile = useIsMobile();
+
     return (
         <Menu shadow="md" width="min-content" trigger="hover">
             <Menu.Target>
-                <Group className="textDropdown" style={{ gap: 0, cursor: "pointer" }}>
+                <Group wrap={isMobile ? "wrap" : "nowrap"} className="textDropdown" style={{ gap: 0, cursor: "pointer" }}>
                     <Link className="topBar" to="/guide" onClick={() => false}>
                         {label}
                     </Link>
@@ -47,16 +49,18 @@ export const TopBar = () => {
     return (
         <Box h={barHeight} mah={barHeight} p=".5rem">
             <Group
-                mah="100%"
                 w="100%"
+                mah="100%"
+                wrap={isMobile ? "wrap" : "nowrap"}
                 style={{
                     border: ".5rem solid var(--mantine-color-green-0)",
                     boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                     display: "flex",
                     justifyContent: "space-between",
+                    overflowX: "auto",
                 }}
             >
-                <Group style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
+                <Group wrap={isMobile ? "wrap" : "nowrap"} style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
                     <Link to="/" className="topBar">
                         Home
                     </Link>{" "}
@@ -79,6 +83,7 @@ export const TopBar = () => {
                     </Link>
                 </Group>
                 <Group
+                    wrap={isMobile ? "wrap" : "nowrap"}
                     style={{
                         paddingRight: "1rem",
                         display: "flex",
