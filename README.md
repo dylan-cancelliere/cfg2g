@@ -1,5 +1,7 @@
 <div align="center">
 
+![SJP Logo](https://sjprit.com/logo.png)
+
 # Career Fair Guide to Genocide
 
 ![TypeScript](https://badgen.net/badge/TypeScript/5.5.3/blue)
@@ -63,26 +65,7 @@ If you're a part of a different SJP or similar organization and are interested i
 
 All data provided by this site is exclusively the opinion of its individual author, supplemented by sources you may find linked. Any questions, concerns, or comments about the ratings should be left in the Discord.
 
-## Roadmap
-
-#### V2
-
--   ~~Data table cleanup~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/5 https://github.com/dylan-cancelliere/cfg2g/pull/7
--   ~~About page~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/9
--   ~~Info page~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/10
--   ~~RSS Feed of our socials posts~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/11
--   ~~Submission page logging~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/12
--   ~~Migrate Guide doc and format~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
--   ~~Finish the row click behavior started in https://github.com/dylan-cancelliere/cfg2g/pull/4~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
-
-#### Remaining Feature List
+## Planned Features
 
 -   Event view
     -   some sort of filter that we preconfigure to select all companies at a specific career fair or curated list
@@ -99,11 +82,6 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Fancier landing page : )
 -   Data visualizations
     -   Mostly need proposals for what data visualizations we'd like to see
--   ~~CFG data table improvements~~
-    -   ~~Infinite scroll on CFG table~~
-    -   ~~Fix table height~~
-    -   https://github.com/dylan-cancelliere/cfg2g/pull/13
 -   Submissions viewer
     -   Addition to discord bot to be able to manage queue of submissions
         -   options to mark submissions as accepted, important/todo, rejected, archived, reported (ban ip?), etc
--   Error boundary for CFG in case server is down

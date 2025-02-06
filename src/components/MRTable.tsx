@@ -68,13 +68,14 @@ export const MRTable = () => {
         [],
     );
 
-    const { data, fetchNextPage, isError, isFetching, isLoading } = useInfiniteQuery({
+    const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
         queryKey: ["table-data", columnFilters, globalFilter, sorting],
         queryFn: ({ pageParam, signal }) => infiniteQueryFn({ pageParam, signal, columnFilters, globalFilter, sorting }),
         getNextPageParam: (_lastGroup, groups) => groups.length,
         initialPageParam: 0,
         refetchOnWindowFocus: false,
         staleTime: 600_000, // 10 mins
+        throwOnError: true,
     });
     const flatData = useMemo(() => data?.pages.flatMap((page) => parseSheetData(page.data)) ?? [], [data]);
     const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
@@ -130,10 +131,6 @@ export const MRTable = () => {
             style: { height: TABLE_HEIGHT, maxHeight: TABLE_HEIGHT },
             onScroll: (event: UIEvent<HTMLDivElement>) => fetchMoreOnBottomReached(event.target as HTMLDivElement),
         },
-        mantineToolbarAlertBannerProps: {
-            color: "red",
-            children: "Error loading data",
-        },
         onColumnFiltersChange: setColumnFilters,
         onGlobalFilterChange: setGlobalFilter,
         onSortingChange: setSorting,
@@ -141,7 +138,6 @@ export const MRTable = () => {
             columnFilters,
             globalFilter,
             isLoading,
-            showAlertBanner: isError,
             showProgressBars: isFetching,
             sorting,
         },
