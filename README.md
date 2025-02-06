@@ -85,3 +85,5 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Submissions viewer
     -   Addition to discord bot to be able to manage queue of submissions
         -   options to mark submissions as accepted, important/todo, rejected, archived, reported (ban ip?), etc
+-   Discord bot command to force refreshing the server's cache of CFG sheet data
+-   Weekly(?) bot message that tests that the sheet data is up to date and that the submission functionality works correctly
