@@ -93,7 +93,6 @@ export const MRTable = () => {
                 mantineFilterMultiSelectProps: () => {
                     return { data: SeverityList };
                 },
-                enableMultiSort: true,
             },
             {
                 accessorKey: "reason",
@@ -154,8 +153,6 @@ export const MRTable = () => {
         enableStickyHeader: true,
         enableBottomToolbar: false,
         enableTopToolbar: false,
-        enableMultiSort: true,
-        isMultiSortEvent: () => true,
         manualFiltering: true,
         manualSorting: true,
         initialState: {
