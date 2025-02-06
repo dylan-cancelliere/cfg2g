@@ -1,6 +1,7 @@
-import { Divider, Group, Modal, rem, Stack, Textarea, Title } from "@mantine/core";
+import { Divider, Group, Modal, rem, Stack, Text, Title } from "@mantine/core";
 import { SeverityChip } from "./SeverityChip";
 import { Company } from "src/shared/types";
+import { ReactNode } from "react";
 
 export type CompanyModalProps = {
     opened: boolean;
@@ -8,13 +9,24 @@ export type CompanyModalProps = {
     company: Company;
 };
 
-// function SourceLink({ link, index }: { link: string; index: number }) {
-//     return (
-//         <Anchor href={link} target="_blank" c="var(--mantine-color-green-8)">
-//             [{index}:] {link}
-//         </Anchor>
-//     );
-// }
+const TextContainer = ({ children }: { children: ReactNode }) => {
+    return (
+        <Stack
+            flex={10}
+            maw="75%"
+            mah={rem(200)}
+            style={{
+                backgroundColor: "var(--mantine-color-white)",
+                border: "calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-gray-4)",
+                borderRadius: rem(4),
+                padding: `${rem(5.5)} ${rem(12)}`,
+                overflowY: "auto",
+            }}
+        >
+            {children}
+        </Stack>
+    );
+};
 
 export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
     return (
@@ -29,11 +41,10 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             <Modal.Title>
                 <Group
                     style={{ backgroundColor: "var(--mantine-color-green-0)", overflow: "auto" }}
-                    h={rem(100)}
+                    h="min-content"
                     w="100%"
                     p="md"
                     justify="space-around"
-                    wrap="nowrap"
                 >
                     <Title order={3}>{company.name}</Title>
                     <SeverityChip severity={company.severity} />
@@ -43,31 +54,24 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             <Modal.Body style={{ backgroundColor: "var(--mantine-color-green-0)", rowGap: "2rem", overflowY: "auto" }} pt="md">
                 <Stack>
                     <Group w="100%" justify="space-between">
-                        <Title order={4}>Notes:</Title>
-                        <Textarea readOnly value={company.notes ?? "None"} flex={10} autosize maxRows={10} maw="75%" />
+                        <Title order={4}>Reason:</Title>
+                        <TextContainer>
+                            <Text fz="sm">{company.reason ?? "None"}</Text>
+                        </TextContainer>
                     </Group>
                     <Group w="100%" justify="space-between">
-                        <Title order={4}>Reason:</Title>
-                        <Textarea readOnly value={company.reason ?? "None"} flex={10} autosize maxRows={10} maw="75%" />
+                        <Title order={4}>Notes:</Title>
+                        <TextContainer>
+                            <Text fz="sm">{company.notes ?? "None"}</Text>
+                        </TextContainer>
                     </Group>
                     <Group w="100%" justify="space-between">
                         <Title order={4}>Sources:</Title>
-                        <Stack
-                            flex={10}
-                            maw="75%"
-                            mah={rem(200)}
-                            style={{
-                                backgroundColor: "var(--mantine-color-white)",
-                                border: "calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-gray-4)",
-                                borderRadius: rem(4),
-                                padding: `${rem(5.5)} ${rem(12)}`,
-                                overflowY: "auto",
-                            }}
-                        >
+                        <TextContainer>
                             {/* TODO: Define consistent format for sources
                             & write parser to utilize SourceLinks */}
                             {company.sources.length > 0 ? company.sources.component : "No available sources"}
-                        </Stack>
+                        </TextContainer>
                     </Group>
                 </Stack>
             </Modal.Body>

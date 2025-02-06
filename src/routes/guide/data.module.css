@@ -1,0 +1,18 @@
+.contributeLink {
+    padding: 0;
+    font-size: var(--mantine-font-size-md);
+    font-family: "Noe Bold";
+    &:hover {
+        color: var(--mantine-color-green-8);
+    }
+}
+
+.root {
+    :global(.mantine-Indicator-indicator) {
+        color: var(--mantine-color-text);
+    }
+}
+
+:root {
+    --mrt-base-background-color: var(--mantine-color-green-0);
+}

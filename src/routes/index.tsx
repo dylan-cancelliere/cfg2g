@@ -3,6 +3,7 @@ import { Box, Button, Group, Image, Title, useMantineTheme } from "@mantine/core
 import { useMediaQuery } from "@mantine/hooks";
 import { IconArrowBigRightLinesFilled } from "@tabler/icons-react";
 import { createFileRoute, ReactNode, useNavigate } from "@tanstack/react-router";
+import { useIsMobile } from "src/shared/hooks";
 
 const ImageFrame = ({ children }: ReactNode) => {
     return (
@@ -21,6 +22,7 @@ const ImageFrame = ({ children }: ReactNode) => {
 
 function LandingPage() {
     const theme = useMantineTheme();
+    const isMobile = useIsMobile();
     const isBreakpoint = useMediaQuery(`(max-width: ${theme.breakpoints.lg})`);
     const fontSizeMultiplier = isBreakpoint ? 0.5 : 1;
     const nav = useNavigate();
@@ -77,7 +79,8 @@ function LandingPage() {
                         throw nav({ to: "/guide" });
                     }}
                     ff="Noe Bold"
-                    fz="2em"
+                    fz={isMobile ? "1em" : "2em"}
+                    maw="100%"
                     style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
                 >
                     Check out our Career Fair Guide! <IconArrowBigRightLinesFilled style={{ marginLeft: "1rem" }} />

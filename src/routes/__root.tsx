@@ -6,7 +6,7 @@ import { TopBar } from "src/components/TopBar";
 
 export const Route = createRootRoute({
     component: () => (
-        <Stack mah="100vh" gap={0}>
+        <Stack h="100vh" mah="100vh" gap={0}>
             <TopBar />
             <Outlet />
         </Stack>

@@ -122,10 +122,8 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                 returnData.sort(({ values: a }, { values: b }) => {
                     const left = a[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
                     const right = b[COLUMN_DEF.indexOf(id)].formattedValue?.toLowerCase();
-                    if (desc) {
-                        return left < right ? 1 : -1;
-                    }
-                    return left > right ? 1 : -1;
+                    if (id == "severity") return sortSeverity(left, right) < 0 ? (desc ? 1 : -1) : desc ? -1 : 1;
+                    else return left < right ? (desc ? 1 : -1) : desc ? -1 : 1;
                 });
             }
 
@@ -162,3 +160,19 @@ client.once(Events.ClientReady, (readyClient) => {
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
+
+function sortSeverity(a, b) {
+    function rankSeverity(severity) {
+        switch (severity.toLowerCase()) {
+            case "no significant involvement":
+                return 0;
+            case "minimal involvement":
+                return 1;
+            case "moderate":
+                return 2;
+            case "severe":
+                return 3;
+        }
+    }
+    return rankSeverity(a) - rankSeverity(b);
+}
