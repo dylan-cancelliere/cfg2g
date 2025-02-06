@@ -147,7 +147,12 @@ app.post("/contact", cors(corsOptions), (req, res) => {
         .setColor(0x225923);
 
     const channel = client.channels.cache.get(CHANNEL_ID);
-    channel.send({ embeds: [embed] });
+    try {
+        channel.send({ embeds: [embed] });
+    } catch (e) {
+        console.error("ERROR", e, "CHANNEL INFO", channel);
+        return res.status(503).send(e);
+    }
     res.sendStatus(201);
 });
 
