@@ -41,11 +41,10 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             <Modal.Title>
                 <Group
                     style={{ backgroundColor: "var(--mantine-color-green-0)", overflow: "auto" }}
-                    h={rem(100)}
+                    h="min-content"
                     w="100%"
                     p="md"
                     justify="space-around"
-                    wrap="nowrap"
                 >
                     <Title order={3}>{company.name}</Title>
                     <SeverityChip severity={company.severity} />
