@@ -12,3 +12,7 @@
         color: var(--mantine-color-text);
     }
 }
+
+:root {
+    --mrt-base-background-color: var(--mantine-color-green-0);
+}

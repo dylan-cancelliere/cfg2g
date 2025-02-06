@@ -14,7 +14,7 @@ const TableChip = ({ text, color, icon }: { text: string; color: string; icon: R
             checked
             color={color}
             icon={icon}
-            classNames={{ iconWrapper: "iconWrapper" }}
+            styles={{ iconWrapper: { padding: "1rem 0" } }}
             tabIndex={-1}
             style={{ cursor: "default" }}
             component="div"
