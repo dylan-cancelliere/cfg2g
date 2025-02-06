@@ -122,9 +122,11 @@ export const MRTable = () => {
             isFullScreen: false,
             showColumnFilters: true,
         },
+        mantinePaperProps: {
+            className: classes.root,
+        },
         mantineTableContainerProps: {
             ref: tableContainerRef,
-            className: classes.tableContainer,
             style: { height: TABLE_HEIGHT, maxHeight: TABLE_HEIGHT },
             onScroll: (event: UIEvent<HTMLDivElement>) => fetchMoreOnBottomReached(event.target as HTMLDivElement),
         },

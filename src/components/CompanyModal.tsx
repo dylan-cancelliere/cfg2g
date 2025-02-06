@@ -8,14 +8,6 @@ export type CompanyModalProps = {
     company: Company;
 };
 
-// function SourceLink({ link, index }: { link: string; index: number }) {
-//     return (
-//         <Anchor href={link} target="_blank" c="var(--mantine-color-green-8)">
-//             [{index}:] {link}
-//         </Anchor>
-//     );
-// }
-
 export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
     return (
         <Modal
