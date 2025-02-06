@@ -74,3 +74,20 @@ button:focus-visible {
 :root[data-mantine-color-scheme="dark"] {
     --mantine-color-body: var(--mantine-color-green-8) !important;
 }
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  right: 0;
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 8px;
+  width: 12px;
+  height: 12px;
+}

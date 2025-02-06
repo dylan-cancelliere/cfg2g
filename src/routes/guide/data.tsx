@@ -16,6 +16,7 @@ import { SeverityChip } from "src/components/SeverityChip";
 import { infiniteQueryFn, parseSheetData } from "src/shared/api";
 import { Company, SeverityList } from "src/shared/types";
 import classes from "./data.module.css";
+import { useIsMobile } from "src/shared/hooks";
 
 const CareerFairTable = () => {
     return (
@@ -62,6 +63,7 @@ export const MRTable = () => {
 
     const nav = useNavigate({ from: Route.fullPath });
     const theme = useMantineTheme();
+    const isMobile = useIsMobile();
     const { filters: initialFilters, sorting: initialSorting } = Route.useSearch();
 
     const [company, setCompany] = useState<Company>();
@@ -87,20 +89,24 @@ export const MRTable = () => {
                 accessorKey: "severity",
                 header: "Severity",
                 Cell: ({ renderedCellValue }) => {
-                    return <SeverityChip severity={renderedCellValue as string} />;
+                    return <SeverityChip severity={renderedCellValue as string} hideText={isMobile} />;
                 },
                 filterVariant: "multi-select",
                 mantineFilterMultiSelectProps: () => {
-                    return { data: SeverityList };
+                    return { data: SeverityList, placeholder: isMobile ? "Severity" : "Filter by Severity" };
                 },
+                size: isMobile ? 115 : 275,
+                // minSize: isMobile ? 110 : 275,
+                grow: false,
             },
             {
                 accessorKey: "reason",
                 header: "Reason",
                 enableSorting: false,
+                grow: true,
             },
         ],
-        [],
+        [isMobile],
     );
 
     const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
@@ -153,6 +159,7 @@ export const MRTable = () => {
         enableStickyHeader: true,
         enableBottomToolbar: false,
         enableTopToolbar: false,
+        enableColumnActions: false,
         manualFiltering: true,
         manualSorting: true,
         initialState: {
@@ -186,6 +193,7 @@ export const MRTable = () => {
                 cursor: "pointer",
             },
         }),
+        layoutMode: "grid",
     });
 
     return (
