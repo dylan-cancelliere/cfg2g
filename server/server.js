@@ -107,13 +107,13 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                 });
             }
 
-            if (globalFilter) {
+            if (globalFilter)
                 returnData = returnData.filter(({ values }) =>
-                    Object.keys(values).some((columnId) =>
-                        values[COLUMN_DEF.indexOf(columnId)]?.toString()?.toLowerCase()?.includes?.(globalFilter.toLowerCase()),
+                    Object.keys(values).some((_, idx) =>
+                        values[idx]?.formattedValue?.toLowerCase()?.includes?.(globalFilter.toLowerCase()),
                     ),
                 );
-            }
+            
 
             const parsedSorting = JSON.parse(sorting ?? "{}");
             if (parsedSorting?.length) {
