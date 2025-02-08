@@ -19,11 +19,13 @@ const corsOptions = {
 
 const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
 
-const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes"];
+const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes", "tags"];
 
 let lastSheetsFetch = Date.now();
 
 let sheetData;
+
+let tags = new Set();
 
 function parsePaginationParams(query) {
     const { limit: queryLimit, offset: queryOffset } = query;
@@ -39,12 +41,14 @@ function parsePaginationParams(query) {
 async function refreshSheetsData() {
     console.log("Refetching sheet data...");
     const spreadsheetId = process.env.VITE_SHEET_ID;
-    const range = "Career Fair Fall 2024!A2:F";
+    const range = "Career Fair Fall 2024!A2:G";
     const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
     await sheets.spreadsheets
         .get({ ranges: range, spreadsheetId, includeGridData: true })
         .then((data) => {
             sheetData = data.data.sheets[0].data[0].rowData;
+            tags = new Set();
+            sheetData.forEach((row) => row.values[6].formattedValue.split(", ").forEach((tag) => tags.add(tag)));
             lastSheetsFetch = Date.now();
             console.log("Successfully fetched sheet data!");
         })
@@ -92,6 +96,11 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                             const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
                             return filterValue.map((f) => f.toLowerCase()).includes(rowValue);
                         });
+                    } else if (columnId?.toLowerCase() == "tags") {
+                        returnData = returnData.filter(({ values }) => {
+                            const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
+                            return filterValue.map((f) => f.toLowerCase()).every((f) => rowValue.includes(f));
+                        });
                     } else {
                         returnData = returnData.filter(({ values }) => {
                             const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
@@ -113,7 +122,6 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                         values[idx]?.formattedValue?.toLowerCase()?.includes?.(globalFilter.toLowerCase()),
                     ),
                 );
-            
 
             const parsedSorting = JSON.parse(sorting ?? "{}");
             if (parsedSorting?.length) {
@@ -136,6 +144,11 @@ app.get("/data", cors(corsOptions), async (req, res) => {
             console.error(e);
             return res.status(500).send({ message: "Internal service error" });
         });
+});
+
+app.get("/tags", cors(corsOptions), async (req, res) => {
+    await fetchSheetsData();
+    res.status(200).json({ tags: Array.from(tags) });
 });
 
 app.post("/contact", cors(corsOptions), (req, res) => {

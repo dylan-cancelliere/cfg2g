@@ -1,4 +1,4 @@
-import { Divider, Group, Modal, rem, Stack, Text, Title } from "@mantine/core";
+import { Badge, Divider, Group, Modal, rem, Stack, Text, Title, useMantineTheme } from "@mantine/core";
 import { SeverityChip } from "./SeverityChip";
 import { Company } from "src/shared/types";
 import { ReactNode } from "react";
@@ -11,7 +11,7 @@ export type CompanyModalProps = {
 
 const TextContainer = ({ children }: { children: ReactNode }) => {
     return (
-        <Stack
+        <Group
             flex={10}
             maw="75%"
             mah={rem(200)}
@@ -24,11 +24,13 @@ const TextContainer = ({ children }: { children: ReactNode }) => {
             }}
         >
             {children}
-        </Stack>
+        </Group>
     );
 };
 
 export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
+    const theme = useMantineTheme();
+
     return (
         <Modal
             opened={opened}
@@ -71,6 +73,18 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                             {/* TODO: Define consistent format for sources
                             & write parser to utilize SourceLinks */}
                             {company.sources.length > 0 ? company.sources.component : "No available sources"}
+                        </TextContainer>
+                    </Group>
+                    <Group w="100%" justify="space-between">
+                        <Title order={4}>Tags:</Title>
+                        <TextContainer>
+                            {company.tags.length == 0
+                                ? "None"
+                                : company.tags.map((tag) => (
+                                      <Badge color={theme.colors.green[0]} key={tag}>
+                                          {tag}
+                                      </Badge>
+                                  ))}
                         </TextContainer>
                     </Group>
                 </Stack>

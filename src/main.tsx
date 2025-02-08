@@ -31,20 +31,26 @@ declare module "@tanstack/react-router" {
     }
 }
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 600_000, // 10 mins
+        },
+    },
+});
 
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
     const root = createRoot(rootElement);
     root.render(
         <StrictMode>
-            <MantineProvider theme={theme}>
-                <ModalsProvider>
-                    <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <MantineProvider theme={theme}>
+                    <ModalsProvider>
                         <RouterProvider router={router} />
-                    </QueryClientProvider>
-                </ModalsProvider>
-            </MantineProvider>
+                    </ModalsProvider>
+                </MantineProvider>
+            </QueryClientProvider>
         </StrictMode>,
     );
 }

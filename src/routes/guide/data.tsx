@@ -1,5 +1,5 @@
 import { useDebouncedState, useDisclosure } from "@mantine/hooks";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     ActionIcon,
     Anchor,
@@ -28,7 +28,7 @@ import {
 import { useState, useRef, useMemo, useCallback, useEffect, type UIEvent } from "react";
 import { CompanyModal } from "src/components/CompanyModal";
 import { SeverityChip } from "src/components/SeverityChip";
-import { infiniteQueryFn, parseSheetData } from "src/shared/api";
+import { fetchTagsQueryFn, infiniteQueryFn, parseSheetData } from "src/shared/api";
 import { Company, SeverityList } from "src/shared/types";
 import classes from "./data.module.css";
 import { useIsMobile } from "src/shared/hooks";
@@ -44,7 +44,7 @@ const ErrorComponent = () => {
         <Stack h="100%" w="100%" p="sm" align="center" justify="center">
             <Image maw={300} mah={300} src="/logo.png" style={{ filter: "drop-shadow(0 0 0.75rem rgba(149, 157, 165, 0.2))" }} />
             <Title ff="Noe Bold" c={theme.colors.green[8]}>
-                We ran into an error connecting to the server
+                You've run into an error
             </Title>
             <Text>
                 Check the website discussion channel in the <Anchor href="https://discord.gg/hVAYhyu326">Discord</Anchor> for updates on the
@@ -65,6 +65,8 @@ const FilterForm = ({
 }) => {
     const theme = useMantineTheme();
 
+    const { data, isLoading } = useQuery({ queryKey: ["tags"], queryFn: ({ signal }) => fetchTagsQueryFn(signal) });
+
     const { isDirty, getInputProps, onSubmit } = useForm({
         mode: "uncontrolled",
         initialValues: {
@@ -80,6 +82,10 @@ const FilterForm = ({
                 .filter((f) => f.id == "reason")
                 .map((f) => f.value)
                 .join(),
+            tags: filters
+                .filter((f) => f.id == "tags")
+                .map((f) => f.value)
+                .flat(),
         },
     });
 
@@ -90,6 +96,7 @@ const FilterForm = ({
                 if (data.name.length > 0) returnData.push({ id: "name", value: data.name });
                 if (data.severity.length > 0) returnData.push({ id: "severity", value: data.severity });
                 if (data.reason.length > 0) returnData.push({ id: "reason", value: data.reason });
+                if (data.tags.length > 0) returnData.push({ id: "tags", value: data.tags });
                 handleSubmit(returnData);
                 modals.closeAll();
             })}
@@ -98,6 +105,7 @@ const FilterForm = ({
                 <TextInput placeholder="Enter company name..." label="Company Name" {...getInputProps("name")} />
                 <MultiSelect data={SeverityList} placeholder="Pick severity..." label="Severity" {...getInputProps("severity")} />
                 <TextInput placeholder="Enter reason..." label="Reason" {...getInputProps("reason")} />
+                <MultiSelect data={data?.tags} disabled={isLoading} label="Tags" placeholder="Pick tags..." {...getInputProps("tags")} />
                 <Group w="100%">
                     <Button
                         variant="outline"
@@ -110,7 +118,7 @@ const FilterForm = ({
                         Cancel
                     </Button>
                     <Button disabled={!isDirty()} color={theme.colors.green[8]} type="submit" style={{ flexGrow: 1 }}>
-                        Submit
+                        Save
                     </Button>
                 </Group>
             </Stack>
@@ -188,30 +196,29 @@ const TableHeader = ({
                 </Button>
             )}
             {columnFilters.map((f) =>
-                f.id == "severity" ? (
-                    (f.value as string[]).map((sev) => (
+                f.id == "severity" || f.id == "tags" ? (
+                    (f.value as string[]).map((val) => (
                         <FilterChip
-                            label={`Severity: ${sev}`}
+                            label={`${capitalize(f.id)}: ${val}`}
                             onRemove={() => {
                                 if ((f.value as string[]).length > 1) {
-                                    // debugger;
                                     onColumnFilterChange(
                                         columnFilters.map((col) =>
-                                            col.id == "severity"
-                                                ? { id: col.id, value: (col.value as string[]).filter((c) => c != sev) }
-                                                : col,
+                                            col.id == f.id ? { id: col.id, value: (col.value as string[]).filter((c) => c != val) } : col,
                                         ),
                                     );
                                 } else {
                                     onColumnFilterChange(columnFilters.filter((col) => col.id != f.id));
                                 }
                             }}
+                            key={val}
                         />
                     ))
                 ) : (
                     <FilterChip
                         label={`${capitalize(f.id)}: ${f.value}`}
                         onRemove={() => onColumnFilterChange(columnFilters.filter((col) => col.id != f.id))}
+                        key={f.value as string}
                     />
                 ),
             )}
@@ -265,6 +272,12 @@ const CareerFairTable = () => {
                 enableSorting: false,
                 grow: true,
             },
+            {
+                accessorKey: "tags",
+                header: "Tags",
+                enableSorting: false,
+                Cell: ({ renderedCellValue }) => (renderedCellValue as string[]).join(", "),
+            },
         ],
         [isMobile],
     );
@@ -275,7 +288,6 @@ const CareerFairTable = () => {
         getNextPageParam: (_lastGroup, groups) => groups.length,
         initialPageParam: 0,
         refetchOnWindowFocus: false,
-        staleTime: 600_000, // 10 mins
         throwOnError: true,
     });
     const flatData = useMemo(() => data?.pages.flatMap((page) => parseSheetData(page.data)) ?? [], [data]);
