@@ -70,7 +70,7 @@ export const TopBar = () => {
                     <TextDropdown
                         label="Guide"
                         items={[
-                            <Link key="/guide/" className="topBar" to="/guide/data">
+                            <Link key="/guide/" className="topBar" to="/guide">
                                 Data
                             </Link>,
                             <Link key="/guide/info" className="topBar" to="/guide/info">
