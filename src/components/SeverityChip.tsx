@@ -39,7 +39,7 @@ export const SeverityChip = ({ severity, hideText }: { severity: string; hideTex
         case "Moderate":
             return <TableChip text={severity} color="orange" icon={<IconAlertTriangleFilled />} hideText={hideText} />;
         case "Severe":
-            return <TableChip text={severity} color="red" icon={<IconTriangleInvertedFilled />} hideText={hideText} />;
+            return <TableChip text={severity} color="#d8070b" icon={<IconTriangleInvertedFilled />} hideText={hideText} />;
         default:
             return <TableChip text={severity} color="grey" icon={<IconHelpHexagonFilled />} hideText={hideText} />;
     }
