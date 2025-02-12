@@ -99,7 +99,7 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                     } else if (columnId?.toLowerCase() == "tags") {
                         returnData = returnData.filter(({ values }) => {
                             const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
-                            return filterValue.map((f) => f.toLowerCase()).every((f) => rowValue.includes(f));
+                            return filterValue.map((f) => f.toLowerCase()).some((f) => rowValue.includes(f));
                         });
                     } else {
                         returnData = returnData.filter(({ values }) => {
