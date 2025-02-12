@@ -70,7 +70,7 @@ const AboutOurGuideText = () => {
                 In preparation for RIT's Fall 2024 University-Wide Career Fair, and in the wake of rapidly declining conditions for
                 Palestinian civilians in Gaza who continue to face military bombardment, SJP@RIT volunteers have performed systematic
                 research and analysis for all employers scheduled to appear at the event. This research is outlined and summarized in the{" "}
-                <Link to="/guide/data" className="bodyLink">
+                <Link to="/guide" className="bodyLink">
                     Guide
                 </Link>{" "}
                 section of this website.

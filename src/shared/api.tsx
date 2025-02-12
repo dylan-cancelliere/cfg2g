@@ -45,12 +45,20 @@ export function parseSheetData(data?: Cell[]) {
                     reason: raw.values[3].formattedValue,
                     sources: parseLink(raw.values[4]),
                     notes: raw.values[5].formattedValue,
+                    tags: raw.values[6].formattedValue.split(", "),
                 }) as Company,
         ) ?? []
     );
 }
 
-export const infiniteQueryFn = async ({
+export async function fetchTagsQueryFn(signal: AbortSignal) {
+    const url = new URL("/tags", import.meta.env.VITE_BASE_URL);
+    const res = await fetch(url.href, { signal });
+    const json = await res.json();
+    return json as { tags: string[] };
+}
+
+export async function infiniteQueryFn({
     pageParam = 0,
     signal,
     columnFilters,
@@ -62,7 +70,7 @@ export const infiniteQueryFn = async ({
     columnFilters: MRT_ColumnFiltersState;
     globalFilter?: string;
     sorting: MRT_SortingState;
-}) => {
+}) {
     const url = new URL("/data", import.meta.env.VITE_BASE_URL);
     url.searchParams.set("offset", `${pageParam * paginatedChunkSize}`);
     url.searchParams.set("limit", `${paginatedChunkSize}`);
@@ -73,4 +81,4 @@ export const infiniteQueryFn = async ({
     const response = await fetch(url.href, { signal });
     const json = await response.json();
     return json as ApiResponse;
-};
+}

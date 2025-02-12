@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import classes from "./main.module.css";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
@@ -16,6 +17,7 @@ const theme = createTheme({
     colors: {
         green: ["#E1F4E2", "#C3E9C5", "#A6DEA8", "#88D38A", "#6AC86D", "#4CBD50", "#3DA440", "#328634", "#225923", "#163B17"],
     },
+    focusClassName: classes.focusClass,
 });
 
 const router = createRouter({
@@ -29,20 +31,26 @@ declare module "@tanstack/react-router" {
     }
 }
 
-export const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 600_000, // 10 mins
+        },
+    },
+});
 
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
     const root = createRoot(rootElement);
     root.render(
         <StrictMode>
-            <MantineProvider theme={theme}>
-                <ModalsProvider>
-                    <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <MantineProvider theme={theme}>
+                    <ModalsProvider>
                         <RouterProvider router={router} />
-                    </QueryClientProvider>
-                </ModalsProvider>
-            </MantineProvider>
+                    </ModalsProvider>
+                </MantineProvider>
+            </QueryClientProvider>
         </StrictMode>,
     );
 }

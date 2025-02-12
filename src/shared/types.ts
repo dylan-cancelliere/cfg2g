@@ -9,6 +9,7 @@ export type Company = {
     reason?: string;
     sources: { length: number; component: ReactNode };
     notes?: string;
+    tags: string[];
 };
 export type Cell = {
     values: {
