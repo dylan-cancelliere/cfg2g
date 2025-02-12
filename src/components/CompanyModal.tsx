@@ -1,7 +1,8 @@
-import { Badge, Divider, Group, Modal, rem, Stack, Text, Title, useMantineTheme } from "@mantine/core";
+import { ActionIcon, Badge, Divider, Group, Modal, rem, Stack, Text, Title, useMantineTheme } from "@mantine/core";
 import { SeverityChip } from "./SeverityChip";
 import { Company } from "src/shared/types";
 import { ReactNode } from "react";
+import { IconX } from "@tabler/icons-react";
 
 export type CompanyModalProps = {
     opened: boolean;
@@ -41,15 +42,19 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
             centered
         >
             <Modal.Title>
-                <Group
-                    style={{ backgroundColor: "var(--mantine-color-green-0)", overflow: "auto" }}
-                    h="min-content"
-                    w="100%"
-                    p="md"
-                    justify="space-around"
-                >
-                    <Title order={3}>{company.name}</Title>
-                    <SeverityChip severity={company.severity} />
+                <Group p="md" style={{ backgroundColor: "var(--mantine-color-green-0)" }} h="min-content" w="100%" wrap="nowrap">
+                    <Group
+                        h="min-content"
+                        w="100%"
+                        justify="space-around"
+                        style={{ backgroundColor: "var(--mantine-color-green-0)", overflowX: "visible", overflowY: "clip", flexGrow: 10 }}
+                    >
+                        <Title order={3}>{company.name}</Title>
+                        <SeverityChip severity={company.severity} />
+                    </Group>
+                    <ActionIcon color="var(--mantine-color-text)" variant="transparent" onClick={onClose} style={{ flexShrink: 10 }}>
+                        <IconX />
+                    </ActionIcon>
                 </Group>
                 <Divider mx="md" color="var(--mantine-color-green-8)" />
             </Modal.Title>
