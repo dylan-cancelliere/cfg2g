@@ -69,9 +69,6 @@ All data provided by this site is exclusively the opinion of its individual auth
 
 -   Event view
     -   some sort of filter that we preconfigure to select all companies at a specific career fair or curated list
--   Tagging system
-    -   Need a proposal of what more specifically this would do
-    -   Could potentially be used to implement the event view feature
 -   Space to advertise upcoming events
     -   Unsure if this is something people are actually asking for or if it would introduce safety concerns
     -   Mabye limit to recruiting events rather than mutual aid efforts?
