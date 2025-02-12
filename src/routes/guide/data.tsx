@@ -1,4 +1,4 @@
-import { useDebouncedState, useDisclosure } from "@mantine/hooks";
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     ActionIcon,
@@ -8,6 +8,7 @@ import {
     Chip,
     Group,
     Image,
+    Modal,
     MultiSelect,
     Stack,
     Text,
@@ -16,7 +17,7 @@ import {
     Tooltip,
     useMantineTheme,
 } from "@mantine/core";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
     MRT_ColumnDef,
     MRT_ColumnFiltersState,
@@ -56,73 +57,113 @@ const ErrorComponent = () => {
 
 const TABLE_HEIGHT = "calc(86vh - 0.5rem)";
 
-const FilterForm = ({
-    filters,
-    handleSubmit,
-}: {
-    filters: MRT_ColumnFiltersState;
-    handleSubmit: (data: MRT_ColumnFiltersState) => void;
-}) => {
+const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void }) => {
+    const nav = Route.useNavigate();
     const theme = useMantineTheme();
+    const { filters, keyword } = Route.useSearch();
 
     const { data, isLoading } = useQuery({ queryKey: ["tags"], queryFn: ({ signal }) => fetchTagsQueryFn(signal) });
 
-    const { isDirty, getInputProps, onSubmit } = useForm({
+    const initialValues = useMemo(
+        () => ({
+            name:
+                filters
+                    ?.filter((f) => f.id == "name")
+                    .map((f) => f.value as string)
+                    .join() ?? "",
+            severity:
+                filters
+                    ?.filter((f) => f.id == "severity")
+                    .map((f) => f.value as string[])
+                    .flat() ?? [],
+            reason:
+                filters
+                    ?.filter((f) => f.id == "reason")
+                    .map((f) => f.value as string)
+                    .join() ?? "",
+            tags:
+                filters
+                    ?.filter((f) => f.id == "tags")
+                    .map((f) => f.value as string[])
+                    .flat() ?? [],
+            keyword: keyword ?? "",
+        }),
+        [filters, keyword],
+    );
+
+    const { isDirty, getInputProps, onSubmit, setValues, setInitialValues } = useForm({
         mode: "uncontrolled",
-        initialValues: {
-            name: filters
-                .filter((f) => f.id == "name")
-                .map((f) => f.value)
-                .join(),
-            severity: filters
-                .filter((f) => f.id == "severity")
-                .map((f) => f.value)
-                .flat(),
-            reason: filters
-                .filter((f) => f.id == "reason")
-                .map((f) => f.value)
-                .join(),
-            tags: filters
-                .filter((f) => f.id == "tags")
-                .map((f) => f.value)
-                .flat(),
-        },
+        initialValues,
     });
 
+    useEffect(() => {
+        setInitialValues(initialValues);
+        setValues(initialValues);
+    }, [filters, keyword, initialValues, setValues, setInitialValues]);
+
     return (
-        <form
-            onSubmit={onSubmit((data) => {
-                const returnData = [];
-                if (data.name.length > 0) returnData.push({ id: "name", value: data.name });
-                if (data.severity.length > 0) returnData.push({ id: "severity", value: data.severity });
-                if (data.reason.length > 0) returnData.push({ id: "reason", value: data.reason });
-                if (data.tags.length > 0) returnData.push({ id: "tags", value: data.tags });
-                handleSubmit(returnData);
-                modals.closeAll();
-            })}
+        <Modal
+            opened={opened}
+            onClose={() => {
+                onClose();
+            }}
+            withCloseButton={false}
+            centered
+            styles={{ body: { backgroundColor: theme.colors.green[0] } }}
         >
-            <Stack>
-                <TextInput placeholder="Enter company name..." label="Company Name" {...getInputProps("name")} />
-                <MultiSelect data={SeverityList} placeholder="Pick severity..." label="Severity" {...getInputProps("severity")} />
-                <TextInput placeholder="Enter reason..." label="Reason" {...getInputProps("reason")} />
-                <MultiSelect data={data?.tags} disabled={isLoading} label="Tags" placeholder="Pick tags..." {...getInputProps("tags")} />
-                <Group w="100%">
-                    <Button
-                        variant="outline"
-                        color={theme.colors.green[8]}
-                        onClick={() => {
-                            modals.closeAll();
-                        }}
-                        style={{ flexGrow: 1 }}
-                    >
-                        Cancel
-                    </Button>
-                    <Button disabled={!isDirty()} color={theme.colors.green[8]} type="submit" style={{ flexGrow: 1 }}>
-                        Save
-                    </Button>
-                </Group>
-            </Stack>
-        </form>
+            <form
+                onSubmit={onSubmit((data) => {
+                    const returnFilters: MRT_ColumnFiltersState = [];
+
+                    if (data.name.length > 0) returnFilters.push({ id: "name", value: data.name });
+                    if (data.severity.length > 0) returnFilters.push({ id: "severity", value: data.severity });
+                    if (data.reason.length > 0) returnFilters.push({ id: "reason", value: data.reason });
+                    if (data.tags.length > 0) returnFilters.push({ id: "tags", value: data.tags });
+                    nav({
+                        search: (prev) => ({
+                            ...prev,
+                            filters: returnFilters.length > 0 ? returnFilters : undefined,
+                            keyword: data.keyword.length > 0 ? data.keyword : undefined,
+                        }),
+                    });
+                    onClose();
+                })}
+            >
+                <Stack>
+                    <TextInput placeholder="Enter company name..." label="Company Name" {...getInputProps("name")} />
+                    <MultiSelect data={SeverityList} placeholder="Pick severity..." label="Severity" {...getInputProps("severity")} />
+                    <TextInput placeholder="Enter reason..." label="Reason" {...getInputProps("reason")} />
+                    <MultiSelect
+                        data={data?.tags}
+                        disabled={isLoading}
+                        label="Tags"
+                        placeholder="Pick tags..."
+                        {...getInputProps("tags")}
+                    />
+                    <TextInput
+                        placeholder="Enter keyword"
+                        label="Keyword"
+                        description="Searches all columns and tags"
+                        {...getInputProps("keyword")}
+                    />
+                    <Group w="100%">
+                        <Button
+                            variant="outline"
+                            color={theme.colors.green[8]}
+                            onClick={() => {
+                                modals.closeAll();
+                            }}
+                            style={{ flexGrow: 1 }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button disabled={!isDirty()} color={theme.colors.green[8]} type="submit" style={{ flexGrow: 1 }}>
+                            Save
+                        </Button>
+                    </Group>
+                </Stack>
+            </form>
+        </Modal>
     );
 };
 
@@ -136,93 +177,133 @@ const FilterChip = ({ label, onRemove }: { label: string; onRemove: () => void }
     );
 };
 
-const TableHeader = ({
-    columnFilters,
-    initialGlobalFilter,
-    onColumnFilterChange,
-    onGlobalFilterChange,
-}: {
-    columnFilters: MRT_ColumnFiltersState;
-    initialGlobalFilter: string;
-    onColumnFilterChange: (filters: MRT_ColumnFiltersState) => void;
-    onGlobalFilterChange: (filter: string) => void;
-}) => {
+const TableHeader = () => {
+    const nav = Route.useNavigate();
     const theme = useMantineTheme();
+    const { filters, keyword } = Route.useSearch();
+    const [nameFilter, setNameFilter] = useState((filters?.find((filter) => filter.id == "name")?.value as string | undefined) ?? "");
+    const [debouncedName] = useDebouncedValue(nameFilter, 500);
+    const [opened, { open, close }] = useDisclosure();
 
-    function openModal() {
-        modals.open({
-            children: <FilterForm filters={columnFilters} handleSubmit={onColumnFilterChange} />,
-            withCloseButton: false,
-            styles: { body: { backgroundColor: theme.colors.green[0] } },
-            centered: true,
+    useEffect(() => {
+        const maybeNameFilter = filters?.find((f) => f.id == "name")?.value as string | undefined;
+        if ((maybeNameFilter ?? "") == debouncedName) return;
+
+        nav({
+            search: (prev) => {
+                const newName = debouncedName.length ? debouncedName : undefined;
+                const hasNameFilter = prev.filters?.some((f) => f.id == "name");
+                const newFilters: MRT_ColumnFiltersState = [];
+                if (prev?.filters) newFilters.concat(prev.filters);
+                return {
+                    ...prev,
+                    filters: newName
+                        ? hasNameFilter
+                            ? newFilters.map((f) => (f.id == "name" ? { id: "name", value: newName } : f))
+                            : newFilters.concat({ id: "name", value: newName })
+                        : newFilters.filter((f) => f.id == "name"),
+                };
+            },
         });
-    }
+    }, [nav, debouncedName, filters]);
+
+    useEffect(() => {
+        const maybeNameFilter = filters?.find((f) => f.id == "name")?.value as string | undefined;
+        setNameFilter(maybeNameFilter ?? "");
+    }, [filters]);
 
     return (
-        <Group
-            p="sm"
-            pb="5px"
-            wrap="nowrap"
-            style={{
-                backgroundColor: theme.colors.green[0],
-                borderRadius: "var(--mantine-radius-default)",
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
-                overflowX: "auto",
-            }}
-        >
-            <Tooltip label="Show Filters">
-                <ActionIcon variant="transparent" color="var(--mantine-color-text)" onClick={openModal}>
-                    <IconFilter />
-                </ActionIcon>
-            </Tooltip>
-            <TextInput
-                leftSection={<IconSearch />}
-                placeholder="Search..."
-                defaultValue={initialGlobalFilter}
-                onChange={(e) => onGlobalFilterChange(e.currentTarget.value)}
-                miw={100}
-            />
-            {columnFilters.length > 0 && (
-                <Button
-                    variant="subtle"
-                    w="min-content"
-                    style={{ flexShrink: 0 }}
-                    leftSection={<IconX size={16} />}
-                    color={theme.colors.green[8]}
-                    onClick={() => onColumnFilterChange([])}
-                >
-                    Clear Filters
-                </Button>
-            )}
-            {columnFilters.map((f) =>
-                f.id == "severity" || f.id == "tags" ? (
-                    (f.value as string[]).map((val) => (
-                        <FilterChip
-                            label={`${capitalize(f.id)}: ${val}`}
-                            onRemove={() => {
-                                if ((f.value as string[]).length > 1) {
-                                    onColumnFilterChange(
-                                        columnFilters.map((col) =>
-                                            col.id == f.id ? { id: col.id, value: (col.value as string[]).filter((c) => c != val) } : col,
-                                        ),
-                                    );
-                                } else {
-                                    onColumnFilterChange(columnFilters.filter((col) => col.id != f.id));
-                                }
-                            }}
-                            key={val}
-                        />
-                    ))
-                ) : (
+        <>
+            <FilterModal opened={opened} onClose={close} />
+            <Group
+                p="sm"
+                pb="5px"
+                wrap="nowrap"
+                style={{
+                    backgroundColor: theme.colors.green[0],
+                    borderRadius: "var(--mantine-radius-default)",
+                    borderBottomLeftRadius: 0,
+                    borderBottomRightRadius: 0,
+                    overflowX: "auto",
+                }}
+            >
+                <Tooltip label="Show Filters">
+                    <ActionIcon variant="transparent" color="var(--mantine-color-text)" onClick={open}>
+                        <IconFilter />
+                    </ActionIcon>
+                </Tooltip>
+                <TextInput
+                    leftSection={<IconSearch />}
+                    placeholder="Search..."
+                    value={nameFilter}
+                    onChange={(e) => setNameFilter(e.currentTarget.value)}
+                    miw={100}
+                />
+                {(filters?.length ?? 0) > 0 && (
+                    <Button
+                        variant="subtle"
+                        w="min-content"
+                        style={{ flexShrink: 0 }}
+                        leftSection={<IconX size={16} />}
+                        color={theme.colors.green[8]}
+                        onClick={() => nav({ search: (prev) => ({ ...prev, filters: undefined, keyword: undefined }) })}
+                    >
+                        Clear Filters
+                    </Button>
+                )}
+                {!!keyword && (
                     <FilterChip
-                        label={`${capitalize(f.id)}: ${f.value}`}
-                        onRemove={() => onColumnFilterChange(columnFilters.filter((col) => col.id != f.id))}
-                        key={f.value as string}
+                        label={`Keyword: ${keyword}`}
+                        onRemove={() =>
+                            nav({
+                                search: (prev) => ({
+                                    ...prev,
+                                    keyword: undefined,
+                                }),
+                            })
+                        }
                     />
-                ),
-            )}
-        </Group>
+                )}
+                {filters?.map((f) =>
+                    f.id == "severity" || f.id == "tags" ? (
+                        (f.value as string[]).map((val) => (
+                            <FilterChip
+                                label={`${capitalize(f.id)}: ${val}`}
+                                onRemove={() => {
+                                    nav({
+                                        search: (prev) => ({
+                                            ...prev,
+                                            filters:
+                                                (f.value as string[]).length > 1
+                                                    ? filters.map((col) =>
+                                                          col.id == f.id
+                                                              ? { id: col.id, value: (col.value as string[]).filter((c) => c != val) }
+                                                              : col,
+                                                      )
+                                                    : filters.filter((col) => col.id != f.id),
+                                        }),
+                                    });
+                                }}
+                                key={val}
+                            />
+                        ))
+                    ) : (
+                        <FilterChip
+                            label={`${capitalize(f.id)}: ${f.value}`}
+                            onRemove={() =>
+                                nav({
+                                    search: (prev) => ({
+                                        ...prev,
+                                        filters: filters.filter((col) => col.id != f.id),
+                                    }),
+                                })
+                            }
+                            key={f.value as string}
+                        />
+                    ),
+                )}
+            </Group>
+        </>
     );
 };
 
@@ -230,16 +311,14 @@ const CareerFairTable = () => {
     const tableContainerRef = useRef<HTMLDivElement>(null);
     const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null);
 
-    const nav = useNavigate({ from: Route.fullPath });
+    const nav = Route.useNavigate();
     const theme = useMantineTheme();
     const isMobile = useIsMobile();
-    const { filters: initialFilters, sorting: initialSorting, global: initialGlobal } = Route.useSearch();
+    const { filters, sorting: initialSorting, keyword } = Route.useSearch();
 
     const [company, setCompany] = useState<Company>();
     const [modalOpened, { close: closeModal, open: openModal }] = useDisclosure(false);
     const [sorting, setSorting] = useState<MRT_SortingState>(initialSorting ?? []);
-    const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(initialFilters ?? []);
-    const [globalFilter, setGlobalFilter] = useDebouncedState(initialGlobal ?? "", 500);
 
     const columns = useMemo<MRT_ColumnDef<Company>[]>(
         () => [
@@ -277,8 +356,9 @@ const CareerFairTable = () => {
     );
 
     const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
-        queryKey: ["table-data", columnFilters, sorting, globalFilter],
-        queryFn: ({ pageParam, signal }) => infiniteQueryFn({ pageParam, signal, columnFilters, sorting, globalFilter }),
+        queryKey: ["table-data", filters, sorting, keyword],
+        queryFn: ({ pageParam, signal }) =>
+            infiniteQueryFn({ pageParam, signal, columnFilters: filters ?? [], sorting, globalFilter: keyword }),
         getNextPageParam: (_lastGroup, groups) => groups.length,
         initialPageParam: 0,
         refetchOnWindowFocus: false,
@@ -312,11 +392,11 @@ const CareerFairTable = () => {
         nav({
             search: {
                 sorting: sorting.length > 0 ? sorting : undefined,
-                filters: columnFilters.length > 0 ? columnFilters : undefined,
-                global: globalFilter.length > 0 ? globalFilter : undefined,
+                filters: (filters?.length ?? 0) > 0 ? filters : undefined,
+                keyword: (keyword?.length ?? 0) > 0 ? keyword : undefined,
             },
         });
-    }, [nav, sorting, columnFilters, globalFilter]);
+    }, [nav, sorting, filters, keyword]);
 
     useEffect(() => {
         fetchMoreOnBottomReached(tableContainerRef.current);
@@ -385,12 +465,7 @@ const CareerFairTable = () => {
                         borderRadius: "var(--mantine-radius-default)",
                     }}
                 >
-                    <TableHeader
-                        columnFilters={columnFilters}
-                        initialGlobalFilter={initialGlobal ?? ""}
-                        onColumnFilterChange={setColumnFilters}
-                        onGlobalFilterChange={setGlobalFilter}
-                    />
+                    <TableHeader />
                     <MRT_TableContainer table={table} style={{ borderRadius: "var(--mantine-radius-default)" }} h="78vh" />
                 </Box>
             </Box>
@@ -401,7 +476,7 @@ const CareerFairTable = () => {
 type TableSearchParams = {
     filters?: MRT_ColumnFiltersState;
     sorting?: MRT_SortingState;
-    global?: string;
+    keyword?: string;
 };
 
 export const Route = createFileRoute("/guide/data")({
@@ -412,6 +487,6 @@ export const Route = createFileRoute("/guide/data")({
     validateSearch: (search: Record<string, unknown>): TableSearchParams => ({
         filters: (search.filters as MRT_ColumnFiltersState) || undefined,
         sorting: (search.sorting as MRT_SortingState) || undefined,
-        global: (search.global as string) || undefined,
+        keyword: (search.keyword as string) || undefined,
     }),
 });

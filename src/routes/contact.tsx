@@ -26,7 +26,6 @@ const ContactPage = () => {
     });
 
     const onSubmit = (data: ContributionsFormData) => {
-        console.log("onsubmit");
         fetch(`${import.meta.env.VITE_BASE_URL}/contact`, {
             method: "POST",
             body: JSON.stringify({ from: data.contact, message: data.message }),
