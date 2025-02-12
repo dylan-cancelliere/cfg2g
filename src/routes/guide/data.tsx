@@ -272,12 +272,6 @@ const CareerFairTable = () => {
                 enableSorting: false,
                 grow: true,
             },
-            {
-                accessorKey: "tags",
-                header: "Tags",
-                enableSorting: false,
-                Cell: ({ renderedCellValue }) => (renderedCellValue as string[]).join(", "),
-            },
         ],
         [isMobile],
     );
