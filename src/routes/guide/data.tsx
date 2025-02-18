@@ -57,7 +57,7 @@ const ErrorComponent = () => {
 
 const TABLE_HEIGHT = "calc(86vh - 0.5rem)";
 
-const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void }) => {
+const FilterModal = ({ opened, onClose, onNameChange }: { opened: boolean; onClose: () => void; onNameChange: (name: string) => void }) => {
     const nav = Route.useNavigate();
     const theme = useMantineTheme();
     const { filters, keyword } = Route.useSearch();
@@ -92,7 +92,7 @@ const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void
     );
 
     const { isDirty, getInputProps, onSubmit, setValues, setInitialValues } = useForm({
-        mode: "uncontrolled",
+        mode: "controlled",
         initialValues,
     });
 
@@ -104,9 +104,7 @@ const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void
     return (
         <Modal
             opened={opened}
-            onClose={() => {
-                onClose();
-            }}
+            onClose={onClose}
             withCloseButton={false}
             centered
             styles={{ body: { backgroundColor: theme.colors.green[0] } }}
@@ -115,7 +113,6 @@ const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void
                 onSubmit={onSubmit((data) => {
                     const returnFilters: MRT_ColumnFiltersState = [];
 
-                    if (data.name.length > 0) returnFilters.push({ id: "name", value: data.name });
                     if (data.severity.length > 0) returnFilters.push({ id: "severity", value: data.severity });
                     if (data.reason.length > 0) returnFilters.push({ id: "reason", value: data.reason });
                     if (data.tags.length > 0) returnFilters.push({ id: "tags", value: data.tags });
@@ -125,8 +122,10 @@ const FilterModal = ({ opened, onClose }: { opened: boolean; onClose: () => void
                             filters: returnFilters.length > 0 ? returnFilters : undefined,
                             keyword: data.keyword.length > 0 ? data.keyword : undefined,
                         }),
+                        replace: true,
                     });
                     onClose();
+                    if (data.name.length > 0) onNameChange(data.name);
                 })}
             >
                 <Stack>
@@ -194,14 +193,14 @@ const TableHeader = () => {
                 const newName = debouncedName.length ? debouncedName : undefined;
                 const hasNameFilter = prev.filters?.some((f) => f.id == "name");
                 const newFilters: MRT_ColumnFiltersState = [];
-                if (prev?.filters) newFilters.concat(prev.filters);
+                if (prev?.filters) newFilters.push(...prev.filters);
                 return {
                     ...prev,
                     filters: newName
                         ? hasNameFilter
                             ? newFilters.map((f) => (f.id == "name" ? { id: "name", value: newName } : f))
                             : newFilters.concat({ id: "name", value: newName })
-                        : newFilters.filter((f) => f.id == "name"),
+                        : newFilters.filter((f) => f.id != "name"),
                 };
             },
         });
@@ -214,7 +213,7 @@ const TableHeader = () => {
 
     return (
         <>
-            <FilterModal opened={opened} onClose={close} />
+            <FilterModal opened={opened} onClose={close} onNameChange={setNameFilter} />
             <Group
                 p="sm"
                 pb="5px"
@@ -290,14 +289,16 @@ const TableHeader = () => {
                     ) : (
                         <FilterChip
                             label={`${capitalize(f.id)}: ${f.value}`}
-                            onRemove={() =>
-                                nav({
-                                    search: (prev) => ({
-                                        ...prev,
-                                        filters: filters.filter((col) => col.id != f.id),
-                                    }),
-                                })
-                            }
+                            onRemove={() => {
+                                if (f.id == "name") setNameFilter("");
+                                else
+                                    nav({
+                                        search: (prev) => ({
+                                            ...prev,
+                                            filters: filters.filter((col) => col.id != f.id),
+                                        }),
+                                    });
+                            }}
                             key={f.value as string}
                         />
                     ),
@@ -395,6 +396,7 @@ const CareerFairTable = () => {
                 filters: (filters?.length ?? 0) > 0 ? filters : undefined,
                 keyword: (keyword?.length ?? 0) > 0 ? keyword : undefined,
             },
+            replace: true,
         });
     }, [nav, sorting, filters, keyword]);
 
