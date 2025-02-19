@@ -76,6 +76,7 @@ All data provided by this site is exclusively the opinion of its individual auth
     -   Integrations with Watermelon index, BDS, etc
     -   Per-company Changelog?
         -   Maybe overall would be easier?
+    -   Links to website or some other way to distinguish between companies with similar names
 -   Fancier landing page : )
 -   Data visualizations
     -   Mostly need proposals for what data visualizations we'd like to see
