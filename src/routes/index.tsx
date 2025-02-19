@@ -29,7 +29,10 @@ function LandingPage() {
 
     return (
         <Box style={{ display: "flex", flexDirection: "column", margin: "0.5rem" }}>
-            <Group style={{ textAlign: "right", paddingTop: "5rem", display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
+            <Group
+                mx="xs"
+                style={{ textAlign: "right", paddingTop: "5rem", display: "flex", flexDirection: "column", alignItems: "flex-end" }}
+            >
                 <Title
                     order={1}
                     style={{
