@@ -86,4 +86,4 @@ All data provided by this site is exclusively the opinion of its individual auth
 -   Discord bot command to force refreshing the server's cache of CFG sheet data
 -   Weekly(?) bot message that tests that the sheet data is up to date and that the submission functionality works correctly
 -   Setup a "Dev" server to facilitate testing API changes on Cloudflare branch preview
-    - Allows other people to help test changes before we go live with them
+    -   Allows other people to help test changes before we go live with them
