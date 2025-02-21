@@ -50,7 +50,7 @@ All code should conform to [Prettier](https://prettier.io/) style guidelines and
 There is likely a plugins for each tool in your editor, but you can also run the following in the root directory in your terminal:
 
 ```bash
-pnpm run pre-commit
+pnpm mr:check
 ```
 
 ## **Contributing**
