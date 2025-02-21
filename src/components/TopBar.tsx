@@ -47,7 +47,7 @@ export const TopBar = () => {
     const barHeight = isMobile ? undefined : "14vh";
 
     return (
-        <Box h={barHeight} mah={barHeight} p=".5rem" style={{ overflow: "visible" }}>
+        <Box h={barHeight} mah={barHeight} p=".5rem">
             <Group
                 w="100%"
                 mah="100%"
@@ -58,6 +58,7 @@ export const TopBar = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     overflowX: "auto",
+                    overflowY: "visible",
                 }}
             >
                 <Group wrap={isMobile ? "wrap" : "nowrap"} style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
