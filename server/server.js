@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const cron = require("cron");
 const process = require("process");
 const { google } = require("googleapis");
 const { Client, Events, GatewayIntentBits, EmbedBuilder } = require("discord.js");
@@ -9,7 +10,7 @@ const { Client, Events, GatewayIntentBits, EmbedBuilder } = require("discord.js"
 const CHANNEL_ID = "1329520448282689698";
 const GENERAL_CHANNEL_ID = "1241149456989028374";
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 const app = express();
 const port = process.env.PORT || 8007;
@@ -22,11 +23,9 @@ const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
 
 const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes", "tags"];
 
-const DEAD_SERVER_MESSAGE_DELAY_MS = 600000;
-
-const DEAD_SERVER_MESSAGE = "For safety and security reasons, much of the discussion on \
-    this server is hidden in private channels. To gain access, participate in conversation, \
-    and get involved, please attend an in person meeting!";
+const PRIVACY_AND_SECURITY_MESSAGE = "This is an automated reminder to avoid discussing sensitive " +
+    "information in public channels which may be monitored by RIT Public Safety. " +
+    "To access private channels, join the conversation, and get involved, attend an in person meeting!";
 
 let lastSheetsFetch = Date.now();
 
@@ -176,28 +175,28 @@ app.post("/contact", cors(corsOptions), (req, res) => {
     res.sendStatus(201);
 });
 
+let counter = 0;
+
 client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
-});
 
-let counter = 0;
-let last_sent = Date.now();
-client.on("message", () => {
-    if(++counter >= 10){
-        if(Date.now()-last_sent >= DEAD_SERVER_MESSAGE_DELAY_MS){
-            const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
-            try {
-                channel.send(DEAD_SERVER_MESSAGE);
-            } catch (e) {
-                console.error("ERROR", e, "CHANNEL INFO", channel);
-            }
-            counter = 0
-        }
-        else{
-            counter = 9
+    // cron job to send a message once a day at least
+    let scheduledMessage = new cron.CronJob('00 30 10 * * *', () => {
+        // This runs every day at 10:30:00
+        const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
+        // if there has been more than 10 messages since last we sent one, send it
+        // restart the counter as well
+        if(counter >= 10){
+            channel.send(PRIVACY_AND_SECURITY_MESSAGE);
+            counter = 0;
         }
         
-    }
+    });
+    scheduledMessage.start()
+});
+
+client.on("messageCreate", () => {
+    counter++
 })
 
 !!process.env.VITE_DISCORD_BOT_TOKEN && client.login(process.env.VITE_DISCORD_BOT_TOKEN);
