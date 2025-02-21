@@ -47,7 +47,7 @@ export const TopBar = () => {
     const barHeight = isMobile ? undefined : "14vh";
 
     return (
-        <Box h={barHeight} mah={barHeight} p=".5rem">
+        <Box h={barHeight} mah={barHeight} p=".5rem" style={{ overflow: "visible" }}>
             <Group
                 w="100%"
                 mah="100%"
