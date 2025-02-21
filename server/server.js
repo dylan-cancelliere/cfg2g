@@ -181,7 +181,7 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 
     // cron job to send a message once a day at least
-    let scheduledMessage = new cron.CronJob('00 30 10 * * *', () => {
+    let scheduledPrivacyMessage = new cron.CronJob('00 30 10 * * *', () => {
         // This runs every day at 10:30:00
         const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
         // if there has been more than 10 messages since last we sent one, send it
@@ -192,7 +192,7 @@ client.once(Events.ClientReady, (readyClient) => {
         }
         
     });
-    scheduledMessage.start()
+    scheduledPrivacyMessage.start()
 });
 
 client.on("messageCreate", () => {
