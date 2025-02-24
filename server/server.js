@@ -185,7 +185,7 @@ client.once(Events.ClientReady, (readyClient) => {
 
     // cron job to send a message once a day at least
     cron.schedule('00 00 17 * * *', () => {
-        // This runs every day at 10:30:00
+        // This runs every day at 5:00:00pm
         const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
         // if there has been more than 10 messages since last we sent one, send it
         // restart the counter as well
@@ -195,6 +195,7 @@ client.once(Events.ClientReady, (readyClient) => {
         }
         
     });
+    
 });
 
 client.on("messageCreate", () => {
