@@ -2,13 +2,15 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const cron = require("node-cron");
 const process = require("process");
 const { google } = require("googleapis");
 const { Client, Events, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 
 const CHANNEL_ID = "1329520448282689698";
+const GENERAL_CHANNEL_ID = "1241149456989028374";
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 const app = express();
 const port = process.env.PORT || 8007;
@@ -20,6 +22,13 @@ const corsOptions = {
 const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
 
 const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes", "tags"];
+
+const PRIVACY_AND_SECURITY_MESSAGE =
+    "This is an automated reminder to avoid discussing sensitive " +
+    "information (such as personal info, time and place of non-public events, or discussion about " +
+    "planning or strategy) in public channels as they may be monitored by RIT Public Safety. To " +
+    "access private channels, join the conversation, and get involved, keep an eye on #announcements " +
+    "to attend an in-person meeting!";
 
 let lastSheetsFetch = Date.now();
 
@@ -169,8 +178,26 @@ app.post("/contact", cors(corsOptions), (req, res) => {
     res.sendStatus(201);
 });
 
+let counter = 0;
+
 client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
+
+    // cron job to send a message once a day at least
+    cron.schedule("00 00 17 * * *", () => {
+        // This runs every day at 5:00:00pm
+        const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
+        // if there has been more than 10 messages since last we sent one, send it
+        // restart the counter as well
+        if (counter >= 10) {
+            channel.send(PRIVACY_AND_SECURITY_MESSAGE);
+            counter = 0;
+        }
+    });
+});
+
+client.on("messageCreate", () => {
+    counter++;
 });
 
 !!process.env.VITE_DISCORD_BOT_TOKEN && client.login(process.env.VITE_DISCORD_BOT_TOKEN);
