@@ -2,13 +2,14 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const cron = require("cron");
+const cron = require("node-cron");
 const process = require("process");
 const { google } = require("googleapis");
 const { Client, Events, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 
 const CHANNEL_ID = "1329520448282689698";
-const GENERAL_CHANNEL_ID = "1241149456989028374";
+const GENERAL_CHANNEL_ID = "1329520448282689698";
+// const GENERAL_CHANNEL_ID = "1241149456989028374";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
@@ -183,7 +184,7 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 
     // cron job to send a message once a day at least
-    let scheduledPrivacyMessage = new cron.CronJob('00 30 10 * * *', () => {
+    cron.schedule('00 00 17 * * *', () => {
         // This runs every day at 10:30:00
         const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
         // if there has been more than 10 messages since last we sent one, send it
@@ -194,7 +195,6 @@ client.once(Events.ClientReady, (readyClient) => {
         }
         
     });
-    scheduledPrivacyMessage.start()
 });
 
 client.on("messageCreate", () => {
