@@ -23,9 +23,11 @@ const SHEETS_CACHE_STALE_TIME = 1_800_000; // 30 mins
 
 const COLUMN_DEF = ["status", "name", "severity", "reason", "sources", "notes", "tags"];
 
-const PRIVACY_AND_SECURITY_MESSAGE = "This is an automated reminder to avoid discussing sensitive " +
-    "information in public channels which may be monitored by RIT Public Safety. " +
-    "To access private channels, join the conversation, and get involved, attend an in person meeting!";
+const PRIVACY_AND_SECURITY_MESSAGE = "This is an automated reminder to avoid discussing sensitive " + 
+    "information (such as personal info, time and place of non-public events, or discussion about " + 
+    "planning or strategy) in public channels as they may be monitored by RIT Public Safety. To " + 
+    "access private channels, join the conversation, and get involved, keep an eye on #announcements " + 
+    "to attend an in-person meeting!";
 
 let lastSheetsFetch = Date.now();
 
