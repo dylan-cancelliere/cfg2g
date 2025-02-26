@@ -184,25 +184,29 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 
     // cron job to send a message once a day at least
-    cron.schedule("00 19 * * *", () => {
-        // This runs every day at 5:00:00pm
-        const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
-        // if there has been more than 10 messages since last we sent one, send it
-        // restart the counter as well
-        if (counter >= 10) {
-            channel.send(PRIVACY_AND_SECURITY_MESSAGE);
-            counter = 0;
-            console.log("We should've just sent a security messages")
-        }
-    }, {
-        timezone: "America/New_York"
-    });
+    cron.schedule(
+        "00 19 * * *",
+        () => {
+            // This runs every day at 5:00:00pm
+            const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
+            // if there has been more than 10 messages since last we sent one, send it
+            // restart the counter as well
+            if (counter >= 10) {
+                channel.send(PRIVACY_AND_SECURITY_MESSAGE);
+                counter = 0;
+                console.log("We should've just sent a security messages");
+            }
+        },
+        {
+            timezone: "America/New_York",
+        },
+    );
 });
 
-client.on("messageCreate", msg => {
-    if(msg.channelId == GENERAL_CHANNEL_ID){
+client.on("messageCreate", (msg) => {
+    if (msg.channelId == GENERAL_CHANNEL_ID) {
         counter++;
-        console.log(`message sent, count: ${counter}`)
+        console.log(`message sent, count: ${counter}`);
     }
 });
 
