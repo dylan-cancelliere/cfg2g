@@ -192,12 +192,18 @@ client.once(Events.ClientReady, (readyClient) => {
         if (counter >= 10) {
             channel.send(PRIVACY_AND_SECURITY_MESSAGE);
             counter = 0;
+            console.log("We should've just sent a security messages")
         }
+    }, {
+        timezone: "America/New_York"
     });
 });
 
-client.on("messageCreate", () => {
-    counter++;
+client.on("messageCreate", msg => {
+    if(msg.channelId == GENERAL_CHANNEL_ID){
+        counter++;
+        console.log(`message sent, count: ${counter}`)
+    }
 });
 
 !!process.env.VITE_DISCORD_BOT_TOKEN && client.login(process.env.VITE_DISCORD_BOT_TOKEN);
