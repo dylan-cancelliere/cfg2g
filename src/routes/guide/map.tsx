@@ -1,8 +1,9 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/guide/map")({
-    beforeLoad: () => {
+    preload: false,
+    loader: () => {
         window.open("/spring-25-map.pdf");
-        throw redirect({ to: "/" });
+        window.history.back();
     },
 });
