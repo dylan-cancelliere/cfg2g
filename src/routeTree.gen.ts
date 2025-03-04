@@ -15,6 +15,7 @@ import { Route as ContactImport } from "./routes/contact";
 import { Route as AboutRouteImport } from "./routes/about/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as GuideIndexImport } from "./routes/guide/index";
+import { Route as GuideMapImport } from "./routes/guide/map";
 import { Route as GuideInfoImport } from "./routes/guide/info";
 import { Route as GuideDataImport } from "./routes/guide/data";
 
@@ -41,6 +42,12 @@ const IndexRoute = IndexImport.update({
 const GuideIndexRoute = GuideIndexImport.update({
     id: "/guide/",
     path: "/guide/",
+    getParentRoute: () => rootRoute,
+} as any);
+
+const GuideMapRoute = GuideMapImport.update({
+    id: "/guide/map",
+    path: "/guide/map",
     getParentRoute: () => rootRoute,
 } as any);
 
@@ -95,6 +102,13 @@ declare module "@tanstack/react-router" {
             preLoaderRoute: typeof GuideInfoImport;
             parentRoute: typeof rootRoute;
         };
+        "/guide/map": {
+            id: "/guide/map";
+            path: "/guide/map";
+            fullPath: "/guide/map";
+            preLoaderRoute: typeof GuideMapImport;
+            parentRoute: typeof rootRoute;
+        };
         "/guide/": {
             id: "/guide/";
             path: "/guide";
@@ -113,6 +127,7 @@ export interface FileRoutesByFullPath {
     "/contact": typeof ContactRoute;
     "/guide/data": typeof GuideDataRoute;
     "/guide/info": typeof GuideInfoRoute;
+    "/guide/map": typeof GuideMapRoute;
     "/guide": typeof GuideIndexRoute;
 }
 
@@ -122,6 +137,7 @@ export interface FileRoutesByTo {
     "/contact": typeof ContactRoute;
     "/guide/data": typeof GuideDataRoute;
     "/guide/info": typeof GuideInfoRoute;
+    "/guide/map": typeof GuideMapRoute;
     "/guide": typeof GuideIndexRoute;
 }
 
@@ -132,15 +148,16 @@ export interface FileRoutesById {
     "/contact": typeof ContactRoute;
     "/guide/data": typeof GuideDataRoute;
     "/guide/info": typeof GuideInfoRoute;
+    "/guide/map": typeof GuideMapRoute;
     "/guide/": typeof GuideIndexRoute;
 }
 
 export interface FileRouteTypes {
     fileRoutesByFullPath: FileRoutesByFullPath;
-    fullPaths: "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide";
+    fullPaths: "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide/map" | "/guide";
     fileRoutesByTo: FileRoutesByTo;
-    to: "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide";
-    id: "__root__" | "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide/";
+    to: "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide/map" | "/guide";
+    id: "__root__" | "/" | "/about" | "/contact" | "/guide/data" | "/guide/info" | "/guide/map" | "/guide/";
     fileRoutesById: FileRoutesById;
 }
 
@@ -150,6 +167,7 @@ export interface RootRouteChildren {
     ContactRoute: typeof ContactRoute;
     GuideDataRoute: typeof GuideDataRoute;
     GuideInfoRoute: typeof GuideInfoRoute;
+    GuideMapRoute: typeof GuideMapRoute;
     GuideIndexRoute: typeof GuideIndexRoute;
 }
 
@@ -159,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
     ContactRoute: ContactRoute,
     GuideDataRoute: GuideDataRoute,
     GuideInfoRoute: GuideInfoRoute,
+    GuideMapRoute: GuideMapRoute,
     GuideIndexRoute: GuideIndexRoute,
 };
 
@@ -177,6 +196,7 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/contact",
         "/guide/data",
         "/guide/info",
+        "/guide/map",
         "/guide/"
       ]
     },
@@ -194,6 +214,9 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     },
     "/guide/info": {
       "filePath": "guide/info.tsx"
+    },
+    "/guide/map": {
+      "filePath": "guide/map.tsx"
     },
     "/guide/": {
       "filePath": "guide/index.tsx"

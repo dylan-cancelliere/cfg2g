@@ -73,8 +73,11 @@ export const TopBar = () => {
                             <Link key="/guide/info" className="topBar" to="/guide/info">
                                 Info
                             </Link>,
-                            <Link key="/guide/" className="topBar" to="/guide">
+                            <Link key="/guide/data" className="topBar" to="/guide">
                                 Data
+                            </Link>,
+                            <Link key="/guide/map" className="topBar" to="/guide/map">
+                                Map
                             </Link>,
                         ]}
                     />
