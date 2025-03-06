@@ -67,8 +67,6 @@ All data provided by this site is exclusively the opinion of its individual auth
 
 ## Planned Features
 
--   Event view
-    -   some sort of filter that we preconfigure to select all companies at a specific career fair or curated list
 -   Space to advertise upcoming events
     -   Unsure if this is something people are actually asking for or if it would introduce safety concerns
     -   Mabye limit to recruiting events rather than mutual aid efforts?
