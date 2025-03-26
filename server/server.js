@@ -182,6 +182,8 @@ let counter = 0;
 
 client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
+    initCounter().catch((e) => console.error("Error initializing counter:", e));
+    updateCounter().catch((e) => console.error("Error updating counter:", e));
 
     // cron job to send a message once a day at least
     cron.schedule(
@@ -206,6 +208,7 @@ client.once(Events.ClientReady, (readyClient) => {
 client.on("messageCreate", (msg) => {
     if (msg.channelId == GENERAL_CHANNEL_ID) {
         counter++;
+        updateCounter();
         console.log(`message sent, count: ${counter}`);
     }
 });
@@ -215,6 +218,39 @@ client.on("messageCreate", (msg) => {
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
+
+async function initCounter() {
+    const range = "DO NOT MODIFY!G7:G7";
+    const spreadsheetId = process.env.VITE_SHEET_ID;
+    const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
+    console.log("Initializing automated server messages...");
+    await sheets.spreadsheets
+        .get({ ranges: range, spreadsheetId, includeGridData: true })
+        .then((data) => {
+            counter = parseInt(data.data.sheets[0].data[0].rowData[0].values[0].formattedValue);
+            console.log("Successfully initialized automated server messages counter!");
+        })
+        .catch((e) => {
+            console.error("Error fetching sheet data:", e);
+        });
+}
+
+async function updateCounter() {
+    const range = "DO NOT MODIFY!G7:G7";
+    const spreadsheetId = process.env.VITE_SHEET_ID;
+    const sheets = google.sheets({ version: "v4", auth: process.env.VITE_API_KEY });
+    console.log("Initializing automated server messages...");
+    await sheets.spreadsheets.values
+        .update({
+            spreadsheetId: spreadsheetId,
+            range: range,
+            resource: {
+                valueInputOption: "USER_ENTERED",
+                values: [[27]],
+            },
+        })
+        .then(() => console.log(`Updated counter to ${27}`));
+}
 
 function sortSeverity(a, b) {
     function rankSeverity(severity) {
