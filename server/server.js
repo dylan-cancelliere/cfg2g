@@ -184,7 +184,7 @@ client.once(Events.ClientReady, (readyClient) => {
     console.log(`${readyClient.user.tag} is online`);
 
     // cron job to send a message once a day at least
-    cron.schedule("00 19 * * *", () => {
+    cron.schedule("00 17 * * *", () => {
         // This runs every day at 5:00:00pm
         const channel = client.channels.cache.get(GENERAL_CHANNEL_ID);
         // if there has been more than 10 messages since last we sent one, send it
