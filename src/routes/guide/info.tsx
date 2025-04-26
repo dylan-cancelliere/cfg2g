@@ -1,6 +1,6 @@
 import { Divider, List, Stack, Title, Text } from "@mantine/core";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BodyTextWrapper } from "../about/route";
+import { BodyTextWrapper } from "../about/info";
 
 const TableOfContents = () => {
     return (

@@ -1,4 +1,4 @@
-import "./route.css";
+import "./info.css";
 import { Divider, Group, Image, List, MantineStyleProp, Stack, Text, Title } from "@mantine/core";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ReactNode } from "react";
@@ -197,7 +197,13 @@ const AboutComponent = () => {
                         About Students for Justice in Palestine at RIT
                     </Title>
                 </Group>
-                <Image src="/logo.png" mah="10rem" style={{ filter: "drop-shadow(0 0 0.75rem rgba(149, 157, 165, 0.2))" }} />
+                <Image
+                    src="/logo.png"
+                    mah="10rem"
+                    style={{
+                        filter: "drop-shadow(0 0 0.75rem rgba(149, 157, 165, 0.2))",
+                    }}
+                />
             </Group>
             <TableOfContents />
             <Divider style={{ borderColor: "var(--mantine-color-text)" }} />
@@ -208,6 +214,6 @@ const AboutComponent = () => {
     );
 };
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/about/info")({
     component: AboutComponent,
 });
