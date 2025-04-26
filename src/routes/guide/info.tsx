@@ -358,7 +358,6 @@ const SeverityGuidelines = () => {
                     For example, the NY State Police are bound by anti-boycott laws, but so is the NY State Office of Parks
                 </List.Item>
             </List>
-            <Divider m="xl" style={{ borderColor: "var(--mantine-color-text)" }} />
             <NoInvolvementText />
             <Divider m="xl" style={{ borderColor: "var(--mantine-color-text)" }} />
             <MinimalText />
