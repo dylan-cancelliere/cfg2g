@@ -110,7 +110,7 @@ const WhatYouCanDo = () => {
                     <a href="https://discord.gg/hVAYhyu326" target="_blank" className="bodyLink">
                         Discord
                     </a>{" "}
-                    and show up to a meeting next semester •
+                    and show up to a meeting next semester
                 </List.Item>
                 <List.Item>Spread the word</List.Item>
                 <List.Item>
