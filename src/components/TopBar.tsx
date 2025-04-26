@@ -1,7 +1,7 @@
 import "./TopBar.css";
 import { Tooltip, ActionIcon, Group, Menu, Box } from "@mantine/core";
 import { IconBrandInstagram, IconBrandDiscord, IconBrandLinktree, IconCaretDownFilled } from "@tabler/icons-react";
-import { Link } from "@tanstack/react-router";
+import { Link, LinkProps } from "@tanstack/react-router";
 import { ReactNode } from "react";
 import { useIsMobile } from "src/shared/hooks";
 
@@ -23,14 +23,14 @@ const SocialsIcon = ({ label, link, icon }: { label: string; link: string; icon:
     );
 };
 
-const TextDropdown = ({ label, items }: { label: string; items: ReactNode }) => {
+const TextDropdown = ({ label, items, to }: { label: string; to: LinkProps["to"]; items: ReactNode }) => {
     const isMobile = useIsMobile();
 
     return (
         <Menu shadow="md" width="min-content" trigger="hover">
             <Menu.Target>
                 <Group wrap={isMobile ? "wrap" : "nowrap"} className="textDropdown" style={{ gap: 0, cursor: "pointer" }}>
-                    <Link className="topBar" to="/guide" onClick={() => false}>
+                    <Link className="topBar" to={to} onClick={() => false}>
                         {label}
                     </Link>
                     <IconCaretDownFilled />
@@ -64,11 +64,21 @@ export const TopBar = () => {
                     <Link to="/" className="topBar">
                         Home
                     </Link>{" "}
-                    <Link to="/about" className="topBar">
-                        About
-                    </Link>{" "}
+                    <TextDropdown
+                        label="About"
+                        to="/about/info"
+                        items={[
+                            <Link key="/about/info" to="/about/info" className="topBar">
+                                About
+                            </Link>,
+                            <Link key="/about/imagine" to="/about/imagine" className="topBar">
+                                Imagine
+                            </Link>,
+                        ]}
+                    />
                     <TextDropdown
                         label="Guide"
+                        to="/guide"
                         items={[
                             <Link key="/guide/info" className="topBar" to="/guide/info">
                                 Info
