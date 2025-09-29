@@ -18,6 +18,7 @@ import { Route as GuideIndexImport } from './routes/guide/index'
 import { Route as GuideMapImport } from './routes/guide/map'
 import { Route as GuideInfoImport } from './routes/guide/info'
 import { Route as GuideDataImport } from './routes/guide/data'
+import { Route as DownloadsQuicksearchImport } from './routes/downloads/quicksearch'
 import { Route as AboutInfoImport } from './routes/about/info'
 import { Route as AboutImagineImport } from './routes/about/imagine'
 
@@ -62,6 +63,12 @@ const GuideInfoRoute = GuideInfoImport.update({
 const GuideDataRoute = GuideDataImport.update({
   id: '/guide/data',
   path: '/guide/data',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DownloadsQuicksearchRoute = DownloadsQuicksearchImport.update({
+  id: '/downloads/quicksearch',
+  path: '/downloads/quicksearch',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutInfoImport
       parentRoute: typeof rootRoute
     }
+    '/downloads/quicksearch': {
+      id: '/downloads/quicksearch'
+      path: '/downloads/quicksearch'
+      fullPath: '/downloads/quicksearch'
+      preLoaderRoute: typeof DownloadsQuicksearchImport
+      parentRoute: typeof rootRoute
+    }
     '/guide/data': {
       id: '/guide/data'
       path: '/guide/data'
@@ -155,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/imagine': typeof ImagineRoute
   '/about/imagine': typeof AboutImagineRoute
   '/about/info': typeof AboutInfoRoute
+  '/downloads/quicksearch': typeof DownloadsQuicksearchRoute
   '/guide/data': typeof GuideDataRoute
   '/guide/info': typeof GuideInfoRoute
   '/guide/map': typeof GuideMapRoute
@@ -167,6 +182,7 @@ export interface FileRoutesByTo {
   '/imagine': typeof ImagineRoute
   '/about/imagine': typeof AboutImagineRoute
   '/about/info': typeof AboutInfoRoute
+  '/downloads/quicksearch': typeof DownloadsQuicksearchRoute
   '/guide/data': typeof GuideDataRoute
   '/guide/info': typeof GuideInfoRoute
   '/guide/map': typeof GuideMapRoute
@@ -180,6 +196,7 @@ export interface FileRoutesById {
   '/imagine': typeof ImagineRoute
   '/about/imagine': typeof AboutImagineRoute
   '/about/info': typeof AboutInfoRoute
+  '/downloads/quicksearch': typeof DownloadsQuicksearchRoute
   '/guide/data': typeof GuideDataRoute
   '/guide/info': typeof GuideInfoRoute
   '/guide/map': typeof GuideMapRoute
@@ -194,6 +211,7 @@ export interface FileRouteTypes {
     | '/imagine'
     | '/about/imagine'
     | '/about/info'
+    | '/downloads/quicksearch'
     | '/guide/data'
     | '/guide/info'
     | '/guide/map'
@@ -205,6 +223,7 @@ export interface FileRouteTypes {
     | '/imagine'
     | '/about/imagine'
     | '/about/info'
+    | '/downloads/quicksearch'
     | '/guide/data'
     | '/guide/info'
     | '/guide/map'
@@ -216,6 +235,7 @@ export interface FileRouteTypes {
     | '/imagine'
     | '/about/imagine'
     | '/about/info'
+    | '/downloads/quicksearch'
     | '/guide/data'
     | '/guide/info'
     | '/guide/map'
@@ -229,6 +249,7 @@ export interface RootRouteChildren {
   ImagineRoute: typeof ImagineRoute
   AboutImagineRoute: typeof AboutImagineRoute
   AboutInfoRoute: typeof AboutInfoRoute
+  DownloadsQuicksearchRoute: typeof DownloadsQuicksearchRoute
   GuideDataRoute: typeof GuideDataRoute
   GuideInfoRoute: typeof GuideInfoRoute
   GuideMapRoute: typeof GuideMapRoute
@@ -241,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImagineRoute: ImagineRoute,
   AboutImagineRoute: AboutImagineRoute,
   AboutInfoRoute: AboutInfoRoute,
+  DownloadsQuicksearchRoute: DownloadsQuicksearchRoute,
   GuideDataRoute: GuideDataRoute,
   GuideInfoRoute: GuideInfoRoute,
   GuideMapRoute: GuideMapRoute,
@@ -264,6 +286,7 @@ export const routeTree = rootRoute
         "/imagine",
         "/about/imagine",
         "/about/info",
+        "/downloads/quicksearch",
         "/guide/data",
         "/guide/info",
         "/guide/map",
@@ -284,6 +307,9 @@ export const routeTree = rootRoute
     },
     "/about/info": {
       "filePath": "about/info.tsx"
+    },
+    "/downloads/quicksearch": {
+      "filePath": "downloads/quicksearch.tsx"
     },
     "/guide/data": {
       "filePath": "guide/data.tsx"

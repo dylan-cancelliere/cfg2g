@@ -15,7 +15,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const app = express();
 const port = process.env.PORT || 8007;
 const corsOptions = {
-    origin: ["https://sjprit.com", "http://localhost:8007"],
+    origin: ["https://sjprit.com"],
     optionsSuccessStatus: 200,
 };
 
@@ -158,6 +158,15 @@ app.get("/data", cors(corsOptions), async (req, res) => {
 app.get("/tags", cors(corsOptions), async (req, res) => {
     await fetchSheetsData();
     res.status(200).json({ tags: Array.from(tags) });
+});
+
+app.get("/refetch", cors(corsOptions), async (req, res) => {
+    try {
+        await refreshSheetsData();
+    } catch (e) {
+        res.status(500).send(e);
+    }
+    res.status(200).send("Refreshed cached data");
 });
 
 app.post("/contact", cors(corsOptions), (req, res) => {
