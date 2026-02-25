@@ -58,6 +58,7 @@ export const TopBar = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     overflowX: "auto",
+                    overflowY: "clip",
                 }}
             >
                 <Group wrap={isMobile ? "wrap" : "nowrap"} style={{ display: "flex", flexDirection: isMobile ? "column" : undefined }}>
