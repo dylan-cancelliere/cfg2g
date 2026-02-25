@@ -57,7 +57,7 @@ async function refreshSheetsData() {
         .then((data) => {
             sheetData = data.data.sheets[0].data[0].rowData;
             tags = new Set();
-            sheetData.forEach((row) => row.values[6].formattedValue.split(", ").forEach((tag) => tags.add(tag)));
+            sheetData.forEach((row) => row.values[6].formattedValue?.split(", ").forEach((tag) => tags.add(tag)));
             lastSheetsFetch = Date.now();
             console.log("Successfully fetched sheet data!");
         })
@@ -103,12 +103,12 @@ app.get("/data", cors(corsOptions), async (req, res) => {
                     if (columnId?.toLowerCase() == "severity") {
                         returnData = returnData.filter(({ values }) => {
                             const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
-                            return filterValue.map((f) => f.toLowerCase()).includes(rowValue);
+                            return filterValue.map((f) => f.toLowerCase())?.includes(rowValue);
                         });
                     } else if (columnId?.toLowerCase() == "tags") {
                         returnData = returnData.filter(({ values }) => {
                             const rowValue = values[COLUMN_DEF.indexOf(columnId)].formattedValue?.toLowerCase();
-                            return filterValue.map((f) => f.toLowerCase()).some((f) => rowValue.includes(f));
+                            return filterValue.map((f) => f.toLowerCase()).some((f) => rowValue?.includes(f));
                         });
                     } else {
                         returnData = returnData.filter(({ values }) => {
