@@ -9,7 +9,7 @@
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "mr:check": "pnpm exec prettier . --write --log-level warn && pnpm exec eslint"
+        "mr:check": "pnpm exec prettier . --write --log-level warn && pnpm exec eslint && tsc --noEmit"
     },
     "dependencies": {
         "@mantine/core": "^7.16.0",

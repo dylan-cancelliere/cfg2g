@@ -83,9 +83,9 @@ export function CompanyModal({ opened, onClose, company }: CompanyModalProps) {
                     <Group w="100%" justify="space-between">
                         <Title order={4}>Tags:</Title>
                         <TextContainer>
-                            {company.tags.length == 0
+                            {(company.tags?.length ?? 0) == 0
                                 ? "None"
-                                : company.tags.map((tag) => (
+                                : company.tags?.map((tag) => (
                                       <Badge color={theme.colors.green[0]} key={tag}>
                                           {tag}
                                       </Badge>

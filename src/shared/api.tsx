@@ -45,7 +45,7 @@ export function parseSheetData(data?: Cell[]) {
                     reason: raw.values[3].formattedValue,
                     sources: parseLink(raw.values[4]),
                     notes: raw.values[5].formattedValue,
-                    tags: raw.values[6].formattedValue.split(", "),
+                    tags: raw.values[6].formattedValue?.split(", "),
                 }) as Company,
         ) ?? []
     );
